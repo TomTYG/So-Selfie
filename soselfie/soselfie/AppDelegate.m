@@ -17,8 +17,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    NSLog (@"Should work now");
-    
     return YES;
 }
 
