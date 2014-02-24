@@ -19,6 +19,9 @@
 		89000EAE18B3594400C32CA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89000E9618B3594400C32CA8 /* UIKit.framework */; };
 		89000EB618B3594400C32CA8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89000EB418B3594400C32CA8 /* InfoPlist.strings */; };
 		89000EB818B3594400C32CA8 /* soselfieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89000EB718B3594400C32CA8 /* soselfieTests.m */; };
+		890E1DA218B618D400F2CFAE /* TYGURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1D9F18B618D400F2CFAE /* TYGURLLoader.m */; };
+		890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1DA118B618D400F2CFAE /* TYGURLManager.m */; };
+		89200EEB18B7985F00EB75E5 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89200EEA18B7985F00EB75E5 /* Base64.m */; };
 		8968798818B36C3800C48085 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8968798718B36C3800C48085 /* FacebookSDK.framework */; };
 		8968798B18B36E4400C48085 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798A18B36E4400C48085 /* RootViewController.m */; };
 		8968798F18B3B7B400C48085 /* SSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798E18B3B7B400C48085 /* SSAPI.m */; };
@@ -51,6 +54,13 @@
 		89000EB318B3594400C32CA8 /* soselfieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "soselfieTests-Info.plist"; sourceTree = "<group>"; };
 		89000EB518B3594400C32CA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		89000EB718B3594400C32CA8 /* soselfieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = soselfieTests.m; sourceTree = "<group>"; };
+		890E1D9D18B618D400F2CFAE /* TYGURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TYGURL.h; path = API/TYGURL.h; sourceTree = "<group>"; };
+		890E1D9E18B618D400F2CFAE /* TYGURLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TYGURLLoader.h; path = API/TYGURLLoader.h; sourceTree = "<group>"; };
+		890E1D9F18B618D400F2CFAE /* TYGURLLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TYGURLLoader.m; path = API/TYGURLLoader.m; sourceTree = "<group>"; };
+		890E1DA018B618D400F2CFAE /* TYGURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TYGURLManager.h; path = API/TYGURLManager.h; sourceTree = "<group>"; };
+		890E1DA118B618D400F2CFAE /* TYGURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TYGURLManager.m; path = API/TYGURLManager.m; sourceTree = "<group>"; };
+		89200EE918B7985F00EB75E5 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = API/Base64.h; sourceTree = "<group>"; };
+		89200EEA18B7985F00EB75E5 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = API/Base64.m; sourceTree = "<group>"; };
 		8968798718B36C3800C48085 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = soselfie/Facebook/FacebookSDK.framework; sourceTree = "<group>"; };
 		8968798918B36E4400C48085 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = View/RootViewController.h; sourceTree = "<group>"; };
 		8968798A18B36E4400C48085 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = View/RootViewController.m; sourceTree = "<group>"; };
@@ -161,6 +171,13 @@
 			children = (
 				8968798D18B3B7B400C48085 /* SSAPI.h */,
 				8968798E18B3B7B400C48085 /* SSAPI.m */,
+				890E1D9D18B618D400F2CFAE /* TYGURL.h */,
+				890E1D9E18B618D400F2CFAE /* TYGURLLoader.h */,
+				890E1D9F18B618D400F2CFAE /* TYGURLLoader.m */,
+				890E1DA018B618D400F2CFAE /* TYGURLManager.h */,
+				890E1DA118B618D400F2CFAE /* TYGURLManager.m */,
+				89200EE918B7985F00EB75E5 /* Base64.h */,
+				89200EEA18B7985F00EB75E5 /* Base64.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -269,9 +286,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89200EEB18B7985F00EB75E5 /* Base64.m in Sources */,
+				890E1DA218B618D400F2CFAE /* TYGURLLoader.m in Sources */,
 				89000EA318B3594400C32CA8 /* AppDelegate.m in Sources */,
 				89000E9F18B3594400C32CA8 /* main.m in Sources */,
 				8968798F18B3B7B400C48085 /* SSAPI.m in Sources */,
+				890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */,
 				8968798B18B36E4400C48085 /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

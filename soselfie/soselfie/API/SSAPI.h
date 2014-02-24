@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#define SSAPI_BASEURL @"https://so-selfie.com/api"
 
 typedef NS_ENUM(int, SSUserGender) {
     SSUserGenderUnknown = 0,
@@ -43,7 +44,7 @@ typedef NS_ENUM(int, SSVoteType) {
 
 //LOGIN VIEW FUNCTIONS
 
-//you can call this function even when logged in. It will just return immediately.
+//you can call this function even when logged in. It will just return immediately in that case.
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveAge, NSError *error))onComplete;
 
 +(void)setUserAge:(int)age;

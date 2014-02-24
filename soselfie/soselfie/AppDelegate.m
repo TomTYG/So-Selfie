@@ -14,6 +14,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:8 * 1024 * 1024 diskCapacity:90 * 1024 * 1024 diskPath:nil];
+    [NSURLCache setSharedURLCache:cache];
+    //temp code. todo: remove before release.
+    //[cache removeAllCachedResponses];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.window.backgroundColor = [UIColor whiteColor];
