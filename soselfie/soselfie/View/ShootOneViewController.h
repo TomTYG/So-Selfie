@@ -10,8 +10,21 @@
 #import "TabBarView.h"
 #import "KeepItOrTryAgainViewController.h"
 #import "SSMacros.h"
+#import "ShootOneCameraView.h"
 
-@interface ShootOneViewController : UIViewController
+
+@class ShootOneViewController;
+@protocol ShootOneViewControllerDelegate <NSObject>
+
+@required
+-(void)shootOneViewControllerCameraSuccesfull:(ShootOneViewController*)viewcontroller;
+
+@end
+
+@interface ShootOneViewController : UIViewController<ShootOneCameraViewDelegate, KeepItOrTryAgainViewControllerDelegate>
+
+
+@property (weak) id<ShootOneViewControllerDelegate>delegate;
 
 @property (strong, nonatomic) TabBarView *tabBarView;
 @property (strong, nonatomic) UIButton *pressShootButton;

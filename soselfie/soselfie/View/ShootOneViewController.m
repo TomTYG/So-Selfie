@@ -7,25 +7,21 @@
 //
 
 #import "ShootOneViewController.h"
+#import "SSAPI.h"
+
 
 @interface ShootOneViewController (){
     
     UIImage *pressShootButtonImage;
-    UIImage *pressShootButtonImageHover; 
+    UIImage *pressShootButtonImageHover;
+    UIImage *currentPicture;
 }
+@property ShootOneCameraView *cameraView;
 
 @end
 
 @implementation ShootOneViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -41,7 +37,10 @@
     UIImageView *selfieImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 60, 320, 320)];
     selfieImageView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:selfieImageView];
-    
+
+    self.cameraView = [[ShootOneCameraView alloc] initWithFrame:selfieImageView.frame];
+    self.cameraView.delegate = self;
+    [self.view addSubview:self.cameraView];
     
     //setting up the bottom view
     float bottomViewHeight;
@@ -94,22 +93,50 @@
     self.keepOrTryAgainViewController = [[KeepItOrTryAgainViewController alloc] initWithNibName:nil bundle:nil];
     self.keepOrTryAgainViewController.view.backgroundColor = [UIColor clearColor];
     self.keepOrTryAgainViewController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 184);
-    [self addChildViewController:self.keepOrTryAgainViewController];
+    self.keepOrTryAgainViewController.delegate = self;
     [self.view addSubview:self.keepOrTryAgainViewController.view];
-    [self.view bringSubviewToFront:self.keepOrTryAgainViewController.view];
+    //[self.view bringSubviewToFront:self.keepOrTryAgainViewController.view];
     
 }
 
-- (void) shootButtonWasPressed {
+- (void)shootButtonWasPressed {
     
+    [self.cameraView takePicture];
     [self.keepOrTryAgainViewController slideUp];
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)cameraView:(ShootOneCameraView *)cameraView hasPreparedImage:(UIImage *)image {
+    currentPicture = image;
+}
+
+-(void)keepItOrTryAgainViewControllerClickedNo:(KeepItOrTryAgainViewController *)viewcontroller {
+    [self.cameraView removePicture];
+}
+-(void)keepItOrTryAgainViewControllerClickedYes:(KeepItOrTryAgainViewController *)viewcontroller {
+    
+    NSLog(@"uploading image %@", currentPicture);
+    
+    if (currentPicture == nil) return;
+    
+    [SSAPI uploadSelfieWith768x768Image:currentPicture onComplete:^(NSString *newSelfieID, NSString *newSelfieURL, NSString *newSelfieThumbURL, NSError *error) {
+        
+        currentPicture = nil;
+        
+        [self.cameraView removePicture];
+        [self.keepOrTryAgainViewController slideDown];
+        
+        
+        if (error != nil) {
+            NSLog(@"image upload error %@", error);
+            
+            UIAlertView *v = [[UIAlertView alloc] initWithTitle:error.domain message:error.userInfo[@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [v show];
+        }
+        
+        [self.delegate shootOneViewControllerCameraSuccesfull:self];
+        
+    }];
 }
 
 @end

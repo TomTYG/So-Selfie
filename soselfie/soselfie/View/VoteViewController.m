@@ -63,7 +63,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSLog(@"cell for index %i", indexPath.item);
 
     VoteCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyCell" forIndexPath:indexPath];
     cell.delegate = self;
@@ -87,7 +86,8 @@ static CGSize indexSize;
     
     [self.mainVoteCollectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:1 inSection:0]]];
     
-    [UIView animateWithDuration:0.4 delay:0 options:0 animations:^() {
+    [UIView animateWithDuration:0.25 delay:0 options:0 animations:^() {
+        //this is -1 because if it's exactly the length of the other cell, the collectionview will already remove the cell's content (it will treat it as invisible), even though it is still visibly being animated.
         self.mainVoteCollectionView.contentOffset = CGPointMake(self.view.frame.size.width - 1, 0);
     } completion:^(BOOL finished) {
         collectioncellcounter = 1;

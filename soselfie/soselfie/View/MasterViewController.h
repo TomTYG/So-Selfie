@@ -15,7 +15,7 @@
 #import "ConnectToFacebookViewController.h"
 #import "SSMacros.h"
 
-@interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate>
+@interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate, ShootOneViewControllerDelegate>
 
 @property (strong, nonatomic) ViewController *topChartViewController;
 @property (strong, nonatomic) MainSwipeMenuController *mainSwipeViewController;
