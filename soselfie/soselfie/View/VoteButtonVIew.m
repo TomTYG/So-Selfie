@@ -24,7 +24,17 @@
     [self.soFunnyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.soFunnyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
-    self.soFunnyButton.frame = CGRectMake(0, 0, 160, 95);
+    //iphone 4 or 5
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+        self.soFunnyButton.frame = CGRectMake(0, 0, 160, 95);
+    }
+    
+    else{
+        NSLog (@"now this one is the frame");
+        self.soFunnyButton.frame = CGRectMake(0, 0, 160, 60);
+    }
+    
     [self.soFunnyButton addTarget:self
                            action:@selector(soFunnyButtonWasPressed:)
                  forControlEvents:UIControlEventTouchUpInside];
@@ -42,7 +52,18 @@
     [self.soHotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     [self.soHotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.soHotButton.frame = CGRectMake(160, 0, 160, 95);
+    
+    //iphone 4 or 5
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+        self.soHotButton.frame = CGRectMake(160, 0, 160, 95);
+    }
+    
+    else{
+        NSLog (@"now this one is the frame");
+        self.soHotButton.frame = CGRectMake(160, 0, 160, 60);
+    }
+    
     [self.soHotButton addTarget:self
                          action:@selector(soHotButtonWasPressed:)
                forControlEvents:UIControlEventTouchUpInside];
@@ -60,7 +81,18 @@
     [self.soLameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     [self.soLameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.soLameButton.frame = CGRectMake(0, 95, 160, 95);
+    
+    //iphone 4 or 5
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+        self.soLameButton.frame = CGRectMake(0, 95, 160, 95);
+    }
+    
+    else{
+        NSLog (@"now this one is the frame");
+        self.soLameButton.frame = CGRectMake(0, 60, 160, 60);
+    }
+    
     [self.soLameButton addTarget:self
                           action:@selector(soLameButtonWasPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
@@ -78,7 +110,17 @@
     [self.tryAgain setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     [self.tryAgain setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.tryAgain.frame = CGRectMake(160, 95, 160, 95);
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+        self.tryAgain.frame = CGRectMake(160, 95, 160, 95);
+    }
+    
+    else{
+        NSLog (@"now this one is the frame");
+        self.tryAgain.frame = CGRectMake(160, 60, 160, 60);
+    }
+    
+    
     [self.tryAgain addTarget:self
                       action:@selector(tryAgainButtonWasPressed:)
             forControlEvents:UIControlEventTouchUpInside];

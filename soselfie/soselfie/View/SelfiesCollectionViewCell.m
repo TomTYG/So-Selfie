@@ -125,10 +125,8 @@
         bottomBorderLine.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
         [self addSubview:bottomBorderLine];
         
-        self.eraseSelfieButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
+        self.eraseSelfieButton = [[UIButton alloc] initWithFrame:CGRectMake(223, 88, 93, 32)];
         self.eraseSelfieButton.backgroundColor = [UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1];
-        self.eraseSelfieButton.frame = CGRectMake(223, 88, 93, 32);
         [self.eraseSelfieButton setTitle:@"erase selfie" forState:UIControlStateNormal];
         self.eraseSelfieButton.titleLabel.font =  [UIFont fontWithName:myriadBoldFont size:15];
         [self.eraseSelfieButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

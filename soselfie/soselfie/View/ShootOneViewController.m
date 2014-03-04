@@ -8,7 +8,11 @@
 
 #import "ShootOneViewController.h"
 
-@interface ShootOneViewController ()
+@interface ShootOneViewController (){
+    
+    UIImage *pressShootButtonImage;
+    UIImage *pressShootButtonImageHover; 
+}
 
 @end
 
@@ -28,7 +32,6 @@
     [super viewDidLoad];
 	
     self.tabBarView = [[TabBarView alloc] init];
-    //self.tabBarView.headerLabel.frame = CGRectMake(50, 10, 140, 60);
     self.tabBarView.headerLabel.text = @"shoot";
     self.tabBarView.voteButton.hidden = NO;
     [self.view addSubview:self.tabBarView];
@@ -39,9 +42,30 @@
     selfieImageView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:selfieImageView];
     
-    //setting up the bottom view
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 380, 320,184)];
+    //setting up the bottom view
+    float bottomViewHeight;
+    float bottomButtonHeight;
+    int imageSize = 82;
+    
+     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+         bottomViewHeight = 184;
+         bottomButtonHeight = 50;
+         imageSize = 114;
+         pressShootButtonImage = [UIImage imageNamed:@"iphone5_shootbutton"];
+         pressShootButtonImageHover = [UIImage imageNamed:@"iphone5_shootbuttonHOVER"];
+     }
+    
+     else {
+         bottomViewHeight = 120;
+         bottomButtonHeight = 27;
+         imageSize = 82;
+         pressShootButtonImage = [UIImage imageNamed:@"iphone4_shootbutton"];
+         pressShootButtonImageHover = [UIImage imageNamed:@"iphone4_shootButton_HOVER"];
+     }
+    
+    
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - bottomViewHeight, 320,bottomViewHeight)];
     bottomView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
     [self.view addSubview:bottomView];
     
@@ -49,27 +73,27 @@
     topPinkBar.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [bottomView addSubview:topPinkBar];
     
-    self.shootYourSelfieBottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.shootYourSelfieBottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.shootYourSelfieBottomButton setTitle:@"Shoot your selfie!" forState:UIControlStateNormal];
     self.shootYourSelfieBottomButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:23];
     [self.shootYourSelfieBottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.shootYourSelfieBottomButton.frame = CGRectMake(0, 134, 320, 50);
+    self.shootYourSelfieBottomButton.frame = CGRectMake(0, 134, 320, bottomButtonHeight);
     self.shootYourSelfieBottomButton.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [bottomView addSubview:self.shootYourSelfieBottomButton];
     
     [self.shootYourSelfieBottomButton addTarget:self action:@selector(shootButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     
     self.pressShootButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.pressShootButton setImage:[UIImage imageNamed:@"iphone5_shootbutton"] forState:UIControlStateNormal];
-    [self.pressShootButton setImage:[UIImage imageNamed:@"iphone5_shootbuttonHOVER"] forState:UIControlStateHighlighted];
-    self.pressShootButton.frame = CGRectMake(103, 15, 114, 114);
+    [self.pressShootButton setImage:pressShootButtonImage forState:UIControlStateNormal];
+    [self.pressShootButton setImage:pressShootButtonImageHover forState:UIControlStateHighlighted];
+    self.pressShootButton.frame = CGRectMake(103, 15, imageSize, imageSize);
     [bottomView addSubview:self.pressShootButton];
     
     [self.pressShootButton addTarget:self action:@selector(shootButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     
     self.keepOrTryAgainViewController = [[KeepItOrTryAgainViewController alloc] initWithNibName:nil bundle:nil];
     self.keepOrTryAgainViewController.view.backgroundColor = [UIColor clearColor];
-    self.keepOrTryAgainViewController.view.frame = CGRectMake(0, 568, 320, 184);
+    self.keepOrTryAgainViewController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 184);
     [self addChildViewController:self.keepOrTryAgainViewController];
     [self.view addSubview:self.keepOrTryAgainViewController.view];
     [self.view bringSubviewToFront:self.keepOrTryAgainViewController.view];

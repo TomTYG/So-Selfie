@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TabBarView.h"
 #import "KeepItOrTryAgainViewController.h"
+#import "SSMacros.h"
 
 @interface ShootOneViewController : UIViewController
 

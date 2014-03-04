@@ -25,6 +25,9 @@
     
     voteStatus = 0;
     
+    int tabBarHeight = 60;
+    float facebookInfoY;
+    
     self.backgroundColor = [UIColor colorWithWhite:(float)0xf7/255.0 alpha:1];
     self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
     self.photoImageView.backgroundColor = [UIColor clearColor];
@@ -34,18 +37,30 @@
     ratingButtonsController = [[VoteButtonView alloc] init];
     ratingButtonsController.delegate = self;
     ratingButtonsController.backgroundColor = [UIColor clearColor];
-    ratingButtonsController.frame = CGRectMake(0, 320, 320, 248);
+    
+    
+     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+         ratingButtonsController.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - ratingButtonsController.soFunnyButton.frame.size.height*2 - tabBarHeight, 320, ratingButtonsController.soFunnyButton.frame.size.height*2);
+         facebookInfoY = 270;
+     }
+     else {
+         ratingButtonsController.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - ratingButtonsController.soFunnyButton.frame.size.height*2 - tabBarHeight - [UIApplication sharedApplication].statusBarFrame.size.height , 320, ratingButtonsController.soFunnyButton.frame.size.height*2);
+         facebookInfoY = 230;
+     }
+    
     [self addSubview:ratingButtonsController];
     
-    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
+    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
     self.facebookProfilePicture.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [self addSubview:self.facebookProfilePicture];
     
     float x = 58;
-    self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 270, self.frame.size.width - x, 38)];
+    
+    self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, facebookInfoY, self.frame.size.width - x, 38)];
     self.facebookNameLabel.text = @"";
     self.facebookNameLabel.textAlignment = NSTextAlignmentLeft;
     self.facebookNameLabel.textColor = [UIColor blackColor];
+    self.facebookNameLabel.backgroundColor = [UIColor clearColor];
     [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
     [self addSubview:self.facebookNameLabel];
     
