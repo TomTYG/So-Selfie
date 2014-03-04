@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "SSAPI.h"
+#import "MasterViewController.h"
 
 @implementation AppDelegate
 
@@ -29,7 +30,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    RootViewController *r = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+    MasterViewController *r = [[MasterViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = r;
     
     
