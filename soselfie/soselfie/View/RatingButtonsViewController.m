@@ -14,20 +14,12 @@
 
 @implementation RatingButtonsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-    self.view.backgroundColor = [UIColor clearColor];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+    self.view.backgroundColor = [UIColor clearColor];
     //sofunnybutton
     self.soFunnyButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.soFunnyButton setTitle:@"SO funny!" forState:UIControlStateNormal];

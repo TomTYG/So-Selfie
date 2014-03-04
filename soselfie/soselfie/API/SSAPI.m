@@ -64,7 +64,12 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 
 #pragma mark - LOGIN
 
-
++(BOOL)canLoginToFacebookWithoutPromptingUser {
+    if ([FBSession activeSession] == nil) return NO;
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) return YES;
+    if (FBSession.activeSession.state & FB_SESSIONSTATEOPENBIT) return YES;
+    return NO;
+}
 
 
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete {
@@ -178,6 +183,61 @@ static SSUserGender GENDER = SSUserGenderUnknown;
     } onFail:nil];
 }
 
+
+
+
+
+
++(void)getProfilePictureOfUser:(NSString *)fbid withSize:(CGSize)size onComplete:(void (^)(UIImage *image, NSError *error))onComplete {
+    
+    NSString *accesstoken = [[[FBSession activeSession] accessTokenData] accessToken];
+    
+    //size has both its values cast to int because the FB graph API requires ints.
+    NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=%i&height=%i", fbid, (int)size.width, (int)size.height];
+    
+    if (accesstoken != nil) url = [url stringByAppendingString:[NSString stringWithFormat:@"&accesstoken=%@", accesstoken]];
+    
+    NSDictionary *options = @{@"options": [NSNumber numberWithInt:TYGURLPriorityNormalBack],
+                              @"forcereload": [NSNumber numberWithBool:true]};
+    
+    [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
+        
+        UIImage *image = [UIImage imageWithData:data[@"data"]];
+        
+        if (image != nil) {
+            onComplete(image, nil);
+        } else {
+            NSDictionary *d = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
+            onComplete(nil, [NSError errorWithDomain:d[@"error"][@"type"] code:[d[@"error"][@"code"] intValue] userInfo:@{@"message" : d[@"error"][@"message"]}]);
+        }
+        
+        
+    } onFail:nil];
+    
+}
+
+
++(void)getUserFullName:(NSString *)fbid onComplete:(void (^)(NSString *name, NSError *error))onComplete {
+    NSString *accesstoken = [[[FBSession activeSession] accessTokenData] accessToken];
+    
+    NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@", fbid];
+    
+    if (accesstoken != nil) url = [url stringByAppendingString:[NSString stringWithFormat:@"?accesstoken=%@", accesstoken]];
+    
+    NSDictionary *options = @{@"options": [NSNumber numberWithInt:TYGURLPriorityNormalBack],
+                              @"forcereload": [NSNumber numberWithBool:true]};
+    
+    [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
+        NSDictionary *d = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
+        
+        if (d[@"error"] != nil) {
+            onComplete(nil, [NSError errorWithDomain:d[@"error"][@"type"] code:[d[@"error"][@"code"] intValue] userInfo:@{@"message" : d[@"error"][@"message"]}]);
+        } else {
+            onComplete(d[@"name"], nil);
+        }
+        
+    } onFail:nil];
+}
 
 
 
@@ -354,11 +414,12 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 
 #pragma mark - VOTE SELFIE
 
-+(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders onComplete:(void(^)(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete {
+//+(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders onComplete:(void(^)(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete {
++(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders onComplete:(void (^)(NSDictionary *, NSError *))onComplete {
     
     if ([self hasFBCredentials] == false) {
         NSError *error = [NSError errorWithDomain:@"FB Login error" code:0 userInfo:@{@"message": @"You are not currently logged in."}];
-        onComplete(nil, nil, nil, nil, nil, nil, error);
+        onComplete(nil, error);
         return;
     }
     
@@ -375,28 +436,30 @@ static SSUserGender GENDER = SSUserGenderUnknown;
         
         
         if (result == nil) {
-            onComplete(nil, nil, nil, nil, nil, nil, [NSError errorWithDomain:@"DataBaseError" code:0 userInfo:@{@"message": @"There was an unknown error."}]);
+            onComplete(nil, [NSError errorWithDomain:@"DataBaseError" code:0 userInfo:@{@"message": @"There was an unknown error."}]);
             return;
         }
         if (result[@"error"] != nil) {
-            onComplete(nil, nil, nil, nil, nil, nil, [NSError errorWithDomain:result[@"error"][@"type"] code:0 userInfo:@{@"message": result[@"error"][@"message"]}]);
+            onComplete(nil, [NSError errorWithDomain:result[@"error"][@"type"] code:0 userInfo:@{@"message": result[@"error"][@"message"]}]);
             return;
         }
         
         //NSLog(@"result %@", result);
         
         if ([result[@"data"][@"total"] intValue] == 0) {
-            onComplete(nil, nil, nil, nil, nil, nil, [NSError errorWithDomain:@"No more images" code:0 userInfo:@{@"message": @"No more images to show."}]);
+            onComplete(nil, [NSError errorWithDomain:@"No more images" code:0 userInfo:@{@"message": @"No more images to show."}]);
             return;
         }
         
         NSDictionary *d = result[@"data"][@"image"];
+        /*
         NSDictionary *votes = @{@"funny" : d[@"votes_funny"],
                                 @"hot" : d[@"votes_hot"],
                                 @"lame" : d[@"votes_lame"],
                                 @"weird" : d[@"votes_weird"],};
+        */
         
-        onComplete(d[@"id"], d[@"user"][@"fbid"], d[@"url"], d[@"url_small"], d[@"accesstoken"], votes, nil);
+        onComplete(d, nil);
         
         
     } onFail:nil];

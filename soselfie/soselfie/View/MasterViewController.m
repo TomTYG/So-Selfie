@@ -7,11 +7,12 @@
 //
 
 #import "MasterViewController.h"
-#import <QuartzCore/QuartzCore.h>
+//#import <QuartzCore/QuartzCore.h>
 
 @interface MasterViewController () {
     CGPoint positionAtStartOfGesture;
     float swipeMenuMax;
+    UIViewController *activeViewController;
 }
 
 @end
@@ -21,9 +22,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.view.backgroundColor = [UIColor clearColor];
-    }
+    self.view.backgroundColor = [UIColor clearColor];
     return self;
 }
 
@@ -41,51 +40,44 @@
     [self.panRecognizer setMinimumNumberOfTouches:1];
     [self.panRecognizer setMaximumNumberOfTouches:1];
   
-    //generic central view
     
-    self.genericCentralVIew = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.genericCentralVIew.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.genericCentralVIew];
+    //generic central view
+    self.genericCentralView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.genericCentralView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.genericCentralView];
     [self.view addGestureRecognizer:self.panRecognizer];
-    [self.genericCentralVIew addGestureRecognizer:self.tapRecognizer];
+    [self.genericCentralView addGestureRecognizer:self.tapRecognizer];
     
     //your selfies view controller
-    
     self.yourSelfiesViewController = [[YourSelfiesController alloc] init];
-    [self addChildViewController:self.yourSelfiesViewController];
-    [self.view addSubview:self.yourSelfiesViewController.view];
-    [self.genericCentralVIew addSubview:self.yourSelfiesViewController.view];
+    self.yourSelfiesViewController.view.alpha = 0;
+    [self.genericCentralView addSubview:self.yourSelfiesViewController.view];
     
     //shoot view controller
-    
     self.shootOneViewController = [[ShootOneViewController alloc] init];
-    [self addChildViewController:self.shootOneViewController];
-    [self.view addSubview:self.shootOneViewController.view];
-    [self.genericCentralVIew addSubview:self.shootOneViewController.view];
-    //top selfies controller
+    self.shootOneViewController.view.alpha = 0;
+    [self.genericCentralView addSubview:self.shootOneViewController.view];
     
+    //top selfies controller
     self.topChartViewController = [[ViewController alloc] init];
-    [self addChildViewController:self.topChartViewController];
-    [self.view addSubview:self.topChartViewController.view];
-    [self.genericCentralVIew addSubview:self.topChartViewController.view];
+    self.topChartViewController.view.alpha = 0;
+    [self.genericCentralView addSubview:self.topChartViewController.view];
     
     //main vote view controller
-    
     self.voteViewController = [[VoteViewController alloc] init];
-    [self addChildViewController:self.voteViewController];
-    [self.view addSubview:self.voteViewController.view];
-    [self.genericCentralVIew addSubview:self.voteViewController.view];
+    self.voteViewController.view.alpha = 0;
+    [self.genericCentralView addSubview:self.voteViewController.view];
     
     
     
-    /*
+    
     //create connect to facebook controller
     self.connectToFacebookContoller = [[ConnectToFacebookViewController alloc] init];
-    [self addChildViewController:self.connectToFacebookContoller];
-    [self.view addSubview:self.connectToFacebookContoller.view];
-    [self.genericCentralVIew addSubview:self.connectToFacebookContoller.view];
-    */
-     
+    self.connectToFacebookContoller.delegate = self;
+    self.connectToFacebookContoller.view.alpha = 0;
+    [self.genericCentralView addSubview:self.connectToFacebookContoller.view];
+    
+    
     
     //main menu view controller
     
@@ -140,22 +132,48 @@
                                                  name: sliderHasStoppedBeingTouched
                                                object: nil];
     
+    [self gotoNewViewController:self.connectToFacebookContoller animated:NO];
+    
     
 }
 
 - (void) enablePanGestureRecognizer:(id)sender {
     
-    NSLog (@"YESH");
+    //NSLog (@"YESH");
     self.panRecognizer.enabled = NO;
     
 }
 
 - (void) disablePanGestureRecognizer:(id)sender {
     
-    NSLog (@"JUST ENOUGH");
+    //NSLog (@"JUST ENOUGH");
     
     self.panRecognizer.enabled = YES;
 }
+
+
+-(void)gotoNewViewController:(UIViewController*)newViewController animated:(BOOL)animated {
+    
+    //do nothing if the new view controller is already the active view controller.
+    if (activeViewController == newViewController) return;
+    
+    [self swipeMenuBack];
+    
+    [activeViewController.view.superview bringSubviewToFront:activeViewController.view];
+    newViewController.view.alpha = 1;
+    
+    NSTimeInterval duration = animated == true ? 0.4 : 0;
+    
+    
+    [UIView animateWithDuration:duration animations:^() {
+        activeViewController.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    activeViewController = newViewController;
+}
+
 
 -(void)showVoteViewController:(id)sender {
     NSLog (@"1");
@@ -242,15 +260,15 @@
     
     self.swipeMenuIsVisible = NO; 
  
-CGRect newCurrentViewControllerFrame = self.genericCentralVIew.frame;
-newCurrentViewControllerFrame.origin.x = 0;
+    CGRect newCurrentViewControllerFrame = self.genericCentralView.frame;
+    newCurrentViewControllerFrame.origin.x = 0;
     
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          
-self.genericCentralVIew.frame = newCurrentViewControllerFrame;
+                        self.genericCentralView.frame = newCurrentViewControllerFrame;
                       
                      }
                      completion:nil];
@@ -265,7 +283,7 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
     
     self.mainSwipeViewController.view.alpha = 1.0;
     
-    CGRect newCurrentViewControllerFrame = self.genericCentralVIew.frame;
+    CGRect newCurrentViewControllerFrame = self.genericCentralView.frame;
     
     if(self.swipeMenuIsVisible == NO){
         newCurrentViewControllerFrame.origin.x = swipeMenuMax;
@@ -282,7 +300,7 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.genericCentralVIew.frame = newCurrentViewControllerFrame;
+                         self.genericCentralView.frame = newCurrentViewControllerFrame;
                      }
                      completion:nil];
     [self changeStatusBarColor];
@@ -297,12 +315,12 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
     CGPoint velocity = [(UIPanGestureRecognizer*)sender velocityInView:[sender view]];
     
     //finger position
-    CGPoint translatedPoint = [(UIPanGestureRecognizer*)sender translationInView:self.genericCentralVIew];
+    CGPoint translatedPoint = [(UIPanGestureRecognizer*)sender translationInView:self.genericCentralView];
     //NSLog(@"translated point %@", NSStringFromCGPoint(translatedPoint));
-    CGRect newSwipedViewFrame = self.genericCentralVIew.frame;
+    CGRect newSwipedViewFrame = self.genericCentralView.frame;
     
     int coeff = 40;
-    float alphaPercent = self.genericCentralVIew.frame.origin.x / swipeMenuMax;
+    float alphaPercent = self.genericCentralView.frame.origin.x / swipeMenuMax;
     
     
     
@@ -322,16 +340,16 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
         self.mainSwipeViewController.view.alpha = alphaPercent;
         
         newSwipedViewFrame.origin.x = translatedPoint.x + positionAtStartOfGesture.x;
-        self.genericCentralVIew.frame = newSwipedViewFrame;
+        self.genericCentralView.frame = newSwipedViewFrame;
         
-        if(self.genericCentralVIew.frame.origin.x < 0){
+        if(self.genericCentralView.frame.origin.x < 0){
         newSwipedViewFrame.origin.x = 0;
-        self.genericCentralVIew.frame = newSwipedViewFrame;
+        self.genericCentralView.frame = newSwipedViewFrame;
         }
         
-        else if(self.genericCentralVIew.frame.origin.x  > swipeMenuMax) {
+        else if(self.genericCentralView.frame.origin.x  > swipeMenuMax) {
         newSwipedViewFrame.origin.x = swipeMenuMax;
-        self.genericCentralVIew.frame = newSwipedViewFrame;
+        self.genericCentralView.frame = newSwipedViewFrame;
         }
         
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
@@ -390,7 +408,7 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
         else {
                 // if central view has crossed masterview center
             
-                if(self.genericCentralVIew.frame.origin.x <= self.view.center.x){
+                if(self.genericCentralView.frame.origin.x <= self.view.center.x){
                         newSwipedViewFrame.origin.x = 0;
                         alphaPercent = 0.0;
                         self.swipeMenuIsVisible = NO;
@@ -422,7 +440,7 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              self.mainSwipeViewController.view.alpha = alphaPercent;
-                             self.genericCentralVIew.frame = newSwipedViewFrame;
+                             self.genericCentralView.frame = newSwipedViewFrame;
                          }
                          completion:nil];
         
@@ -445,10 +463,16 @@ self.genericCentralVIew.frame = newCurrentViewControllerFrame;
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - CONNECT TO FACEBOOK DELEGATE
+
+-(void)connectToFacebookControllerLoginSuccessful:(ConnectToFacebookViewController *)viewcontroller wasUserInitiated:(BOOL)userInitiated {
+    
+    //consider whether you want to animate based on the login call was made by the app instead of by the user.
+    [self gotoNewViewController:self.voteViewController animated:YES];
+    
+    [self.voteViewController.mainVoteCollectionView reloadData];
 }
+
 
 @end

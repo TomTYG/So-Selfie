@@ -11,6 +11,7 @@
 @interface RankingButtonWithSubtitle : UIButton
 
 @property (strong, nonatomic) UILabel *subtitleLabel;
-@property int numberOfVotes;
+-(void)setNumberOfVotes:(int)numberOfVotes;
+
 
 @end

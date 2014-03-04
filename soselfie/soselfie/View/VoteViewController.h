@@ -12,12 +12,11 @@
 #import "TabBarView.h"
 
 
-@interface VoteViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate>
+@interface VoteViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, VoteCollectionViewCellDelegate>
 
 @property (strong, nonatomic) UICollectionView *mainVoteCollectionView;
-@property (strong , nonatomic) NSArray *testArray;
-@property (strong ,nonatomic) UIPageViewController *singlePhotoPageViewController;
-@property (strong, nonatomic) TabBarView *tabBarView; 
+//@property (strong , nonatomic) NSArray *testArray;
+@property (strong, nonatomic) TabBarView *tabBarView;
 
 
 @end

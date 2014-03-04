@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class ConnectToFacebookViewController;
+
+@protocol ConnectoToFacebookViewControllerDelegate <NSObject>
+
+@required
+-(void)connectToFacebookControllerLoginSuccessful:(ConnectToFacebookViewController*)viewcontroller wasUserInitiated:(BOOL)userInitiated;
+
+@end
+
 @interface ConnectToFacebookViewController : UIViewController
+
+@property (weak) id<ConnectoToFacebookViewControllerDelegate>delegate;
 
 @end

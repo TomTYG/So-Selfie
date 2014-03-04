@@ -8,12 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "RankingButtonWithSubtitle.h"
+#import "SSAPI.h"
 
-@interface VoteButtonVIew : UIView
+@class VoteButtonView;
+@protocol VoteButtonViewDelegate <NSObject>
 
-@property (strong, nonatomic) UIButton *soFunnyButton;
-@property (strong, nonatomic) UIButton *soHotButton;
-@property (strong, nonatomic) UIButton *soLameButton;
-@property (strong, nonatomic) UIButton *tryAgain;
+@required
+-(void)voteButtonView:(VoteButtonView*)voteButtonView pressedButton:(UIButton*)button vote:(SSVoteType)vote;
 
+@end
+
+@interface VoteButtonView : UIView
+
+@property (strong, nonatomic) RankingButtonWithSubtitle *soFunnyButton;
+@property (strong, nonatomic) RankingButtonWithSubtitle *soHotButton;
+@property (strong, nonatomic) RankingButtonWithSubtitle *soLameButton;
+@property (strong, nonatomic) RankingButtonWithSubtitle *tryAgain;
+
+@property (weak) id<VoteButtonViewDelegate>delegate;
+
+-(void)startWithVotesDictionary:(NSDictionary*)dictionary;
+-(void)prepareForReuse;
 @end

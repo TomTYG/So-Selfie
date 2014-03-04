@@ -14,11 +14,11 @@
 #import "ShootOneViewController.h"
 #import "ConnectToFacebookViewController.h"
 
-@interface MasterViewController : UIViewController 
+@interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate>
 
 @property (strong, nonatomic) ViewController *topChartViewController;
 @property (strong, nonatomic) MainSwipeMenuController *mainSwipeViewController;
-@property (strong , nonatomic) UIView *genericCentralVIew;
+@property (strong , nonatomic) UIView *genericCentralView;
 @property (strong, nonatomic) VoteViewController *voteViewController;
 @property (strong, nonatomic) TabBarView *tabBarView;
 @property (strong, nonatomic) DropDownMenu *dropDownMenu;

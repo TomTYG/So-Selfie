@@ -42,8 +42,8 @@ typedef NS_ENUM(int, SSVoteType) {
 
 //LOGIN VIEW FUNCTIONS
 
-
-
++(NSString*)fbid;
++(BOOL)canLoginToFacebookWithoutPromptingUser;
 //you can call this function even when logged in. It will just return immediately in that case.
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete;
 
@@ -57,6 +57,8 @@ typedef NS_ENUM(int, SSVoteType) {
 +(void)sendProfileInfoToServerWithonComplete:(void(^)(BOOL success,  NSError *possibleError))onComplete;
 
 
++(void)getProfilePictureOfUser:(NSString*)fbid withSize:(CGSize)size onComplete:(void(^)(UIImage *image, NSError *error))onComplete;
++(void)getUserFullName:(NSString*)fbid onComplete:(void(^)(NSString *fullName, NSError *error))onComplete;
 
 
 //VOTE VIEW
@@ -65,7 +67,13 @@ typedef NS_ENUM(int, SSVoteType) {
 +(void)getRandomSelfieForMinimumAge:(int)minimumAge
                       andMaximumAge:(int)maximumAge
                          andGenders:(SSUserGender)genders
+                         onComplete:(void(^)(NSDictionary *imageData, NSError *error))onComplete;
+/*
++(void)getRandomSelfieForMinimumAge:(int)minimumAge
+                      andMaximumAge:(int)maximumAge
+                         andGenders:(SSUserGender)genders
                          onComplete:(void(^)(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete;
+ */
 
 +(void)voteForSelfieID:(NSString*)selfieID
    andImageAccessToken:(NSString*)imageAccessToken

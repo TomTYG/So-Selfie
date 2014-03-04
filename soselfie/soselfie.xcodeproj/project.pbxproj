@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08ECE31B18C5D03800650753 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ECE31A18C5D03800650753 /* FacebookSDK.framework */; };
 		08ECE36218C5D22700650753 /* ConnectToFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */; };
 		08ECE36318C5D22700650753 /* DropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32018C5D22700650753 /* DropDownMenu.m */; };
 		08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32218C5D22700650753 /* KeepItOrTryAgainViewController.m */; };
@@ -26,7 +25,6 @@
 		08ECE38918C5D22700650753 /* TabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35518C5D22700650753 /* TabBarView.m */; };
 		08ECE38A18C5D22700650753 /* TopChartCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35718C5D22700650753 /* TopChartCollectionViewCell.m */; };
 		08ECE38B18C5D22700650753 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35918C5D22700650753 /* ViewController.m */; };
-		08ECE38C18C5D22700650753 /* VoteButtonVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35B18C5D22700650753 /* VoteButtonVIew.m */; };
 		08ECE38D18C5D22700650753 /* VoteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35D18C5D22700650753 /* VoteCollectionViewCell.m */; };
 		08ECE38E18C5D22700650753 /* VoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE35F18C5D22700650753 /* VoteViewController.m */; };
 		08ECE38F18C5D22700650753 /* YourSelfiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE36118C5D22700650753 /* YourSelfiesController.m */; };
@@ -62,8 +60,12 @@
 		890E1DA218B618D400F2CFAE /* TYGURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1D9F18B618D400F2CFAE /* TYGURLLoader.m */; };
 		890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1DA118B618D400F2CFAE /* TYGURLManager.m */; };
 		89200EEB18B7985F00EB75E5 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89200EEA18B7985F00EB75E5 /* Base64.m */; };
+		8956F80918C5D6A500322D6C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956F80818C5D6A500322D6C /* FacebookSDK.framework */; };
+		8956F80C18C5E74300322D6C /* VoteButtonVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 8956F80B18C5E74300322D6C /* VoteButtonVIew.m */; };
 		8968798B18B36E4400C48085 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798A18B36E4400C48085 /* RootViewController.m */; };
 		8968798F18B3B7B400C48085 /* SSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798E18B3B7B400C48085 /* SSAPI.m */; };
+		89786F3718C615070058A156 /* VoteCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89786F3618C615070058A156 /* VoteCollectionViewFlowLayout.m */; };
+		89786F3918C61D030058A156 /* universalselfiepreview_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 89786F3818C61D030058A156 /* universalselfiepreview_shadow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +79,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		08ECE31A18C5D03800650753 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = soselfie/Facebook/FacebookSDK.framework; sourceTree = "<group>"; };
 		08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectToFacebookViewController.h; path = View/ConnectToFacebookViewController.h; sourceTree = "<group>"; };
 		08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectToFacebookViewController.m; path = View/ConnectToFacebookViewController.m; sourceTree = "<group>"; };
 		08ECE31F18C5D22700650753 /* DropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropDownMenu.h; path = View/DropDownMenu.h; sourceTree = "<group>"; };
@@ -111,8 +112,6 @@
 		08ECE35718C5D22700650753 /* TopChartCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopChartCollectionViewCell.m; path = View/TopChartCollectionViewCell.m; sourceTree = "<group>"; };
 		08ECE35818C5D22700650753 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = View/ViewController.h; sourceTree = "<group>"; };
 		08ECE35918C5D22700650753 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = View/ViewController.m; sourceTree = "<group>"; };
-		08ECE35A18C5D22700650753 /* VoteButtonVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteButtonVIew.h; path = View/VoteButtonVIew.h; sourceTree = "<group>"; };
-		08ECE35B18C5D22700650753 /* VoteButtonVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteButtonVIew.m; path = View/VoteButtonVIew.m; sourceTree = "<group>"; };
 		08ECE35C18C5D22700650753 /* VoteCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteCollectionViewCell.h; path = View/VoteCollectionViewCell.h; sourceTree = "<group>"; };
 		08ECE35D18C5D22700650753 /* VoteCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteCollectionViewCell.m; path = View/VoteCollectionViewCell.m; sourceTree = "<group>"; };
 		08ECE35E18C5D22700650753 /* VoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteViewController.h; path = View/VoteViewController.h; sourceTree = "<group>"; };
@@ -165,10 +164,16 @@
 		890E1DA118B618D400F2CFAE /* TYGURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TYGURLManager.m; path = API/TYGURLManager.m; sourceTree = "<group>"; };
 		89200EE918B7985F00EB75E5 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = API/Base64.h; sourceTree = "<group>"; };
 		89200EEA18B7985F00EB75E5 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = API/Base64.m; sourceTree = "<group>"; };
+		8956F80818C5D6A500322D6C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = soselfie/Facebook/FacebookSDK.framework; sourceTree = "<group>"; };
+		8956F80A18C5E74300322D6C /* VoteButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteButtonView.h; path = View/VoteButtonView.h; sourceTree = "<group>"; };
+		8956F80B18C5E74300322D6C /* VoteButtonVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteButtonVIew.m; path = View/VoteButtonVIew.m; sourceTree = "<group>"; };
 		8968798918B36E4400C48085 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = View/RootViewController.h; sourceTree = "<group>"; };
 		8968798A18B36E4400C48085 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = View/RootViewController.m; sourceTree = "<group>"; };
 		8968798D18B3B7B400C48085 /* SSAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSAPI.h; path = API/SSAPI.h; sourceTree = "<group>"; };
 		8968798E18B3B7B400C48085 /* SSAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSAPI.m; path = API/SSAPI.m; sourceTree = "<group>"; };
+		89786F3518C615070058A156 /* VoteCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteCollectionViewFlowLayout.h; path = View/VoteCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		89786F3618C615070058A156 /* VoteCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteCollectionViewFlowLayout.m; path = View/VoteCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		89786F3818C61D030058A156 /* universalselfiepreview_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = universalselfiepreview_shadow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +186,7 @@
 				890CC65218C0E67D00F0072F /* CoreVideo.framework in Frameworks */,
 				890CC65318C0E67D00F0072F /* QuartzCore.framework in Frameworks */,
 				89000E9518B3594400C32CA8 /* CoreGraphics.framework in Frameworks */,
-				08ECE31B18C5D03800650753 /* FacebookSDK.framework in Frameworks */,
+				8956F80918C5D6A500322D6C /* FacebookSDK.framework in Frameworks */,
 				89000E9718B3594400C32CA8 /* UIKit.framework in Frameworks */,
 				89000E9318B3594400C32CA8 /* Foundation.framework in Frameworks */,
 			);
@@ -245,6 +250,7 @@
 		08ECE39018C5D23800650753 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				89786F3818C61D030058A156 /* universalselfiepreview_shadow.png */,
 				08ECE39118C5D23800650753 /* iphone5_shootbutton@2x.png */,
 				08ECE39218C5D23800650753 /* iphone5_shootbuttonHOVER@2x.png */,
 				08ECE39318C5D23800650753 /* logo@2x.png */,
@@ -278,7 +284,7 @@
 		89000E9118B3594400C32CA8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				08ECE31A18C5D03800650753 /* FacebookSDK.framework */,
+				8956F80818C5D6A500322D6C /* FacebookSDK.framework */,
 				890CC64C18C0E67D00F0072F /* AVFoundation.framework */,
 				890CC64D18C0E67D00F0072F /* CoreMedia.framework */,
 				890CC64E18C0E67D00F0072F /* CoreVideo.framework */,
@@ -382,12 +388,14 @@
 				08ECE35718C5D22700650753 /* TopChartCollectionViewCell.m */,
 				08ECE35818C5D22700650753 /* ViewController.h */,
 				08ECE35918C5D22700650753 /* ViewController.m */,
-				08ECE35A18C5D22700650753 /* VoteButtonVIew.h */,
-				08ECE35B18C5D22700650753 /* VoteButtonVIew.m */,
-				08ECE35C18C5D22700650753 /* VoteCollectionViewCell.h */,
-				08ECE35D18C5D22700650753 /* VoteCollectionViewCell.m */,
 				08ECE35E18C5D22700650753 /* VoteViewController.h */,
 				08ECE35F18C5D22700650753 /* VoteViewController.m */,
+				89786F3518C615070058A156 /* VoteCollectionViewFlowLayout.h */,
+				89786F3618C615070058A156 /* VoteCollectionViewFlowLayout.m */,
+				08ECE35C18C5D22700650753 /* VoteCollectionViewCell.h */,
+				08ECE35D18C5D22700650753 /* VoteCollectionViewCell.m */,
+				8956F80A18C5E74300322D6C /* VoteButtonView.h */,
+				8956F80B18C5E74300322D6C /* VoteButtonVIew.m */,
 				08ECE36018C5D22700650753 /* YourSelfiesController.h */,
 				08ECE36118C5D22700650753 /* YourSelfiesController.m */,
 				08ECE31C18C5D07E00650753 /* temp */,
@@ -470,6 +478,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89786F3918C61D030058A156 /* universalselfiepreview_shadow.png in Resources */,
 				08ECE39D18C5D23800650753 /* slidebutton@2x.png in Resources */,
 				08ECE39918C5D23800650753 /* iphone5_shootbuttonHOVER@2x.png in Resources */,
 				08ECE39A18C5D23800650753 /* logo@2x.png in Resources */,
@@ -521,10 +530,11 @@
 				8909BDA118BCE7CD00A08963 /* RootOwnSelfiesView.m in Sources */,
 				08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */,
 				08ECE36218C5D22700650753 /* ConnectToFacebookViewController.m in Sources */,
+				89786F3718C615070058A156 /* VoteCollectionViewFlowLayout.m in Sources */,
 				08ECE38718C5D22700650753 /* ShootOneViewController.m in Sources */,
+				8956F80C18C5E74300322D6C /* VoteButtonVIew.m in Sources */,
 				08ECE36518C5D22700650753 /* MainSwipeMenuController.m in Sources */,
 				890CC64818C0BFEC00F0072F /* RootAgesPickerView.m in Sources */,
-				08ECE38C18C5D22700650753 /* VoteButtonVIew.m in Sources */,
 				08ECE36318C5D22700650753 /* DropDownMenu.m in Sources */,
 				890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */,
 				890CC64518C0A87200F0072F /* RootVoteSelfieView.m in Sources */,
@@ -655,7 +665,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/tomvankruijsbergen/Desktop/Tom/SVN\\ Projects/So\\ Selfie/So\\ Selfie/soselfie/soselfie/Facebook",
-					"/Users/tyg/Desktop/TYG/So-Selfie/soselfie/soselfie/Facebook",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "soselfie/soselfie-Prefix.pch";
@@ -675,7 +684,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/tomvankruijsbergen/Desktop/Tom/SVN\\ Projects/So\\ Selfie/So\\ Selfie/soselfie/soselfie/Facebook",
-					"/Users/tyg/Desktop/TYG/So-Selfie/soselfie/soselfie/Facebook",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "soselfie/soselfie-Prefix.pch";
