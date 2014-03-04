@@ -12,6 +12,7 @@
 #import "DropDownMenu.h"
 #import "MainSwipeMenuController.h"
 #import "TopChartCollectionViewCell.h"
+#import "SSMacros.h"
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate>
 

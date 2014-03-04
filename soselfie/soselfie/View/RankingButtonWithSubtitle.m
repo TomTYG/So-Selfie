@@ -16,9 +16,20 @@
     if (self) {
         self.numberOfVotes = 0;
         
-        self.subtitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, 160, 30)];
+        self.subtitleLabel = [[UILabel alloc] init];
+        
+        if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+            
+            self.subtitleLabel.frame = CGRectMake(0, 50, 160, 30);
+        }
+        else {
+            
+            self.subtitleLabel.frame = CGRectMake(0, 33, 160, 30);
+        }
+        
+        
         [self.subtitleLabel setBackgroundColor:[UIColor clearColor]];
-        self.subtitleLabel.textAlignment = NSTextAlignmentCenter; 
+        self.subtitleLabel.textAlignment = NSTextAlignmentCenter;
         [self.subtitleLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:13]];
         self.subtitleLabel.text= [NSString stringWithFormat:@"%d voted this",self.numberOfVotes];
         [self.subtitleLabel setTextColor:[UIColor blackColor]];
@@ -26,6 +37,21 @@
         
     }
     return self;
+}
+
++ (UIImage *)imageWithColor:(UIColor *)color {
+    
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 /*

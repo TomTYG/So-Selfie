@@ -13,6 +13,7 @@
 #import "YourSelfiesController.h"
 #import "ShootOneViewController.h"
 #import "ConnectToFacebookViewController.h"
+#import "SSMacros.h"
 
 @interface MasterViewController : UIViewController 
 

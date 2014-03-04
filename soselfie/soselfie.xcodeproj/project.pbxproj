@@ -37,6 +37,7 @@
 		08ECE39C18C5D23800650753 /* scottish@2x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE39518C5D23800650753 /* scottish@2x.jpeg */; };
 		08ECE39D18C5D23800650753 /* slidebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE39618C5D23800650753 /* slidebutton@2x.png */; };
 		08ECE39E18C5D23800650753 /* Tondu_Beta.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE39718C5D23800650753 /* Tondu_Beta.otf */; };
+		08ECE3A118C607CF00650753 /* SSMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE3A018C607CF00650753 /* SSMacros.m */; };
 		89000E9318B3594400C32CA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89000E9218B3594400C32CA8 /* Foundation.framework */; };
 		89000E9518B3594400C32CA8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89000E9418B3594400C32CA8 /* CoreGraphics.framework */; };
 		89000E9718B3594400C32CA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89000E9618B3594400C32CA8 /* UIKit.framework */; };
@@ -126,6 +127,8 @@
 		08ECE39518C5D23800650753 /* scottish@2x.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scottish@2x.jpeg"; sourceTree = "<group>"; };
 		08ECE39618C5D23800650753 /* slidebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slidebutton@2x.png"; sourceTree = "<group>"; };
 		08ECE39718C5D23800650753 /* Tondu_Beta.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tondu_Beta.otf; sourceTree = "<group>"; };
+		08ECE39F18C607CF00650753 /* SSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSMacros.h; path = View/SSMacros.h; sourceTree = "<group>"; };
+		08ECE3A018C607CF00650753 /* SSMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSMacros.m; path = View/SSMacros.m; sourceTree = "<group>"; };
 		89000E8F18B3594400C32CA8 /* soselfie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = soselfie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89000E9218B3594400C32CA8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89000E9418B3594400C32CA8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -296,6 +299,8 @@
 			children = (
 				08ECE39018C5D23800650753 /* images */,
 				89000EA118B3594400C32CA8 /* AppDelegate.h */,
+				08ECE39F18C607CF00650753 /* SSMacros.h */,
+				08ECE3A018C607CF00650753 /* SSMacros.m */,
 				89000EA218B3594400C32CA8 /* AppDelegate.m */,
 				8968798C18B36E4900C48085 /* View */,
 				8968798618B36A8800C48085 /* API */,
@@ -517,6 +522,7 @@
 				89000EA318B3594400C32CA8 /* AppDelegate.m in Sources */,
 				89000E9F18B3594400C32CA8 /* main.m in Sources */,
 				890CC65618C0EE0200F0072F /* UIImageExtras.m in Sources */,
+				08ECE3A118C607CF00650753 /* SSMacros.m in Sources */,
 				8968798F18B3B7B400C48085 /* SSAPI.m in Sources */,
 				8909BDA118BCE7CD00A08963 /* RootOwnSelfiesView.m in Sources */,
 				08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */,

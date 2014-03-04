@@ -31,6 +31,7 @@
        
         self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(58, 270, 100, 38)];
         self.facebookNameLabel.text = @"Facebook Name";
+        self.facebookNameLabel.backgroundColor = [UIColor clearColor];
         self.facebookNameLabel.textAlignment = NSTextAlignmentCenter;
         self.facebookNameLabel.textColor = [UIColor blackColor];
         [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];

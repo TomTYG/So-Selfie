@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     
-    swipeMenuMax = 240;
+    swipeMenuMax = 278;
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenuBack)];
     self.tapRecognizer.numberOfTapsRequired = 1;
@@ -43,7 +43,22 @@
   
     //generic central view
     
-    self.genericCentralVIew = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.genericCentralVIew = [[UIView alloc] init];
+    
+    
+    //iphone 4 or 5
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+     
+    self.genericCentralVIew.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        
+    }
+    else {
+        
+    self.genericCentralVIew.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        
+    }
+    
     self.genericCentralVIew.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.genericCentralVIew];
     [self.view addGestureRecognizer:self.panRecognizer];

@@ -33,7 +33,6 @@
     MasterViewController *r = [[MasterViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = r;
     
-    
     return YES;
 }
 
@@ -82,8 +81,6 @@
     
     return wasHandled;
 }
-
-
 
 
 //orientation / inspiration point for handling FBSessions. Taken from https://developers.facebook.com/docs/ios/login-tutorial

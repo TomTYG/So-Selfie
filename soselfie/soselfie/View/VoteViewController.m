@@ -39,7 +39,6 @@
         //setting up the tabbarview
         
         self.tabBarView = [[TabBarView alloc] init];
-        self.tabBarView.frame = CGRectMake(0, 0, 320, 60);
         self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
         self.tabBarView.headerLabel.text = @"vote";
         self.tabBarView.shootButton.hidden = NO;

@@ -57,17 +57,19 @@
     
     UILabel *settingHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,282,200,30)];
     settingHeader.text = @"Settings";
-    settingHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:24];
+    settingHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:18];
     settingHeader.textColor = [UIColor whiteColor];
+    settingHeader.backgroundColor = [UIColor clearColor];
     [self.view addSubview:settingHeader];
     
     UILabel *genderHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 330, 100, 20)];
     genderHeader.text = @"Gender";
-    genderHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:17];
+    genderHeader.backgroundColor = [UIColor clearColor];
+    genderHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     genderHeader.textColor = [UIColor whiteColor];
     [self.view addSubview:genderHeader];
     
-    self.boysFilterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.boysFilterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.boysFilterButton setTitle:@"BOYS" forState:UIControlStateNormal];
     self.boysFilterButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:17];
     [self.boysFilterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -80,7 +82,7 @@
     
    
     
-    self.girlsFilterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.girlsFilterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.girlsFilterButton setTitle:@"GIRLS" forState:UIControlStateNormal];
     self.girlsFilterButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:17];
     [self.girlsFilterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -100,7 +102,8 @@
     
     UILabel *ageHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 402, 100, 20)];
     ageHeader.text = @"Age";
-    ageHeader.font = [UIFont fontWithName:@"Tondu-Beta" size:17];
+    ageHeader.backgroundColor = [UIColor clearColor];
+    ageHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     ageHeader.textColor = [UIColor whiteColor];
     [self.view addSubview:ageHeader];
     
@@ -113,14 +116,14 @@
     [self.view addSubview:self.ageSlider];
     
     self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(26, 460, 50, 50)];
-    self.ageSlider.lowerLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:24];
+    self.ageSlider.lowerLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.lowerLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.ageSlider.lowerLabel];
     self.ageSlider.lowerLabel.text = [NSString stringWithFormat:@"%d",(int)self.ageSlider.lowerValue];
     
     
     self.ageSlider.upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(180, 460, 50, 50)];
-    self.ageSlider.upperLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:24];
+    self.ageSlider.upperLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.upperLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.ageSlider.upperLabel];
     self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d",(int)self.ageSlider.upperValue];
@@ -129,7 +132,7 @@
     
     UIButton *eraseAccountButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [eraseAccountButton setTitle:@"Erase account" forState:UIControlStateNormal];
-    eraseAccountButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:17];
+    eraseAccountButton.titleLabel.font =  [UIFont fontWithName:@"MyriadPro-Bold" size:17];
     [eraseAccountButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     eraseAccountButton.frame = CGRectMake(15,500,210,35);
     /*[girlsFilterButton addTarget:self

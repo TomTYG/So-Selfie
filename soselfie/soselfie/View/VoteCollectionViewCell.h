@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RatingButtonsViewController.h"
 #import "VoteButtonVIew.h"
+#import "SSMacros.h"
 
 @interface VoteCollectionViewCell : UICollectionViewCell
 
