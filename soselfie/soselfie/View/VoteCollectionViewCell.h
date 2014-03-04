@@ -8,12 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "RatingButtonsViewController.h"
-<<<<<<< HEAD
 #import "VoteButtonView.h"
-=======
-#import "VoteButtonVIew.h"
 #import "SSMacros.h"
->>>>>>> FETCH_HEAD
 
 @class VoteCollectionViewCell;
 

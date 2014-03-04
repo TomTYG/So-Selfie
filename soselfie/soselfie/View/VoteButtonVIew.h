@@ -29,4 +29,7 @@
 
 -(void)startWithVotesDictionary:(NSDictionary*)dictionary;
 -(void)prepareForReuse;
+
+-(void)disableButtons;
+-(void)enableButtons;
 @end

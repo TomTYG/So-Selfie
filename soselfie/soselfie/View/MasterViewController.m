@@ -40,32 +40,25 @@
     [self.panRecognizer setMinimumNumberOfTouches:1];
     [self.panRecognizer setMaximumNumberOfTouches:1];
   
-    
-<<<<<<< HEAD
-    //generic central view
-    self.genericCentralView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.genericCentralView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.genericCentralView];
-=======
-    self.genericCentralVIew = [[UIView alloc] init];
+
+    self.genericCentralView = [[UIView alloc] init];
     
     
     //iphone 4 or 5
     
     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
      
-    self.genericCentralVIew.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.genericCentralView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         
     }
     else {
         
-    self.genericCentralVIew.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+    self.genericCentralView.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
         
     }
     
-    self.genericCentralVIew.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.genericCentralVIew];
->>>>>>> FETCH_HEAD
+    self.genericCentralView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.genericCentralView];
     [self.view addGestureRecognizer:self.panRecognizer];
     [self.genericCentralView addGestureRecognizer:self.tapRecognizer];
     
