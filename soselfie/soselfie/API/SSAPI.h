@@ -10,6 +10,7 @@
 
 #define SSAPI_BASEURL @"https://so-selfie.com/api"
 
+//SSUserGender is a bitmask. This means a single SSUserGender can include both male and female.
 typedef NS_ENUM(int, SSUserGender) {
     SSUserGenderUnknown = 0,
     SSUserGenderMale = 1 << 1,
@@ -29,11 +30,6 @@ typedef NS_ENUM(int, SSVoteType) {
 @interface SSAPI : NSObject
 
 
-/*  
-    TODO: 
-    - each function now requires a NSString *fbid and NSString *fbAccessToken. This can be instead called from the function in question.
- 
- */
 
 
 
@@ -42,80 +38,85 @@ typedef NS_ENUM(int, SSVoteType) {
                  onComplete:(void(^)(UIImage *image, NSError *error))onComplete;
 
 
+
+
 //LOGIN VIEW FUNCTIONS
 
-//you can call this function even when logged in. It will just return immediately in that case.
-+(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveAge, NSError *error))onComplete;
 
-+(void)setUserAge:(int)age;
+
+//you can call this function even when logged in. It will just return immediately in that case.
++(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete;
+
++(void)setUserBirthday:(NSString*)day month:(NSString*)month year:(NSString*)year;
 +(void)setUserGender:(SSUserGender)gender;
 
-//if everything worked, the resulting NSError is nil.
-+(void)sendProfileInfoToServerWithFBid:(NSString*)fbid
-                        andAccessToken:(NSString*)accessToken
-                                andAge:(int)age
-                             andGender:(SSUserGender)gender
-                            onComplete:(void(^)(NSError *possibleError))onComplete;
+//this returns an array with string elements for each variable missing.
++(NSArray*)isProfileInfoReadyToBeSentToServer;
+
+//if everything worked, success is true and possibleError is nil. If success is false, possibleError contains information about the nature of the error.
++(void)sendProfileInfoToServerWithonComplete:(void(^)(BOOL success,  NSError *possibleError))onComplete;
+
+
 
 
 //VOTE VIEW
 
 //the NSDictionary returned has keys of SSAPIVotesKeys. Each element is either an NSNumber, or possibly an object with ( NSNumber *votes, NSNumber *rank ).
-+(void)getRandomSelfieForFBid:(NSString*)fbid
-               andAccessToken:(NSString*)accessToken
-                andMinimumAge:(int)minimumAge
-                andMaximumAge:(int)maximumAge
-                   andGenders:(SSUserGender)genders
-                   onComplete:(void(^)(NSString *selfieID, NSString *imageURL, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete;
++(void)getRandomSelfieForMinimumAge:(int)minimumAge
+                      andMaximumAge:(int)maximumAge
+                         andGenders:(SSUserGender)genders
+                         onComplete:(void(^)(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete;
 
-+(void)voteForSelfieAsFBid:(NSString*)fbid
-            andAccessToken:(NSString*)accessToken
-               andSelfieID:(NSString*)selfieID
-       andImageAccessToken:(NSString*)imageAccessToken
-                   andVote:(SSVoteType)vote
-                onComplete:(void(^)(BOOL success))onComplete;
++(void)voteForSelfieID:(NSString*)selfieID
+   andImageAccessToken:(NSString*)imageAccessToken
+               andVote:(SSVoteType)vote
+            onComplete:(void(^)(BOOL success, NSError *possibleError))onComplete;
+
+
+
 
 
 
 //OWN SELFIES VIEW
 
+
 //the NSArray returns, sorted by date, newest first, a NSDictionary with ( NSString* selfieID, NSString* selfieURL, NSDictionary *votes)
-+(void)getOwnSelfiesForFBid:(NSString*)fbid
-             andAccessToken:(NSString*)accessToken
-          startingFromIndex:(int)index
-                 onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete;
+
++(void)getOwnSelfiesStartingFromIndex:(int)index
+                           onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete;
 
 //if the function was a success, the NSError returned is nil.
-+(void)eraseSelfieForFBid:(NSString*)fbid
-           andAccessToken:(NSString*)accessToken
-              andSelfieID:(NSString*)selfieID
-               onComplete:(void(^)(NSError *possibleError))onComplete;
++(void)eraseSelfieID:(NSString*)selfieID
+          onComplete:(void(^)(BOOL success, NSError *possibleError))onComplete;
+
+
+
+
 
 
 //TOP SELFIES VIEW
 
 //the NSArray returns, sorted by date, newest first, a NSDictionary with ( NSString* selfieID, NSString* selfieURL, NSDictionary *votes)
-+(void)getTopSelfiesForFBid:(NSString*)fbid
-             andAccessToken:(NSString*)accessToken
-            andVoteCategory:(SSVoteType)category
-          startingFromIndex:(int)index
-                 onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete;
++(void)getTopSelfiesForMinimumAge:(int)minimumAge
+                    andMaximumAge:(int)maximumAge
+                       andGenders:(SSUserGender)genders
+                  andVoteCategory:(SSVoteType)category
+                startingFromIndex:(int)index
+                       onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete;
 
 //if the returned accessToken is null, then that means this user cannot vote on it. You should only call this function if you intend to vote on an image.
-+(void)getImageAccessTokenForFBid:(NSString*)fbid
+/*+(void)getImageAccessTokenForFBid:(NSString*)fbid
                    andAccessToken:(NSString*)accessToken
                       andSelfieID:(NSString*)selfieID
-                       onComplete:(void(^)(NSString *accessToken, NSError *error))onComplete;
+                       onComplete:(void(^)(NSString *accessToken, NSError *error))onComplete;*/
+
 
 
 
 
 //SHOOT SELFIE VIEW
-
-+(void)uploadSelfieForFBid:(NSString*)fbid
-            andAccessToken:(NSString*)accessToken
-                  andImage:(UIImage*)image
-                onComplete:(void(^)(NSString *newSelfieID, NSString* newSelfieURL, NSError *error))onComplete;
++(void)uploadSelfieWith768x768Image:(UIImage*)image
+                onComplete:(void(^)(NSString *newSelfieID, NSString* newSelfieURL, NSString *newSelfieThumbURL, NSError *error))onComplete;
 
 
 

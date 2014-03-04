@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RootVoteSelfieView.h"
+#import "RootPictureTakerView.h"
 
-@interface RootViewController : UIViewController
+@interface RootViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, RootVoteSelfieViewDelegate, RootPictureTakerViewDelegate
+>
 
 @end

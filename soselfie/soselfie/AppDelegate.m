@@ -9,11 +9,15 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "SSAPI.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    //temp code. todo: remove before release. this clears tokens, which seems to be necessary when you want the fb sdk to explicitly change who is logged in. you could probably bypass the trouble by just explicitly creating an active session every time.
+    //[[FBSession activeSession] closeAndClearTokenInformation];
     
     NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:8 * 1024 * 1024 diskCapacity:90 * 1024 * 1024 diskPath:nil];
     [NSURLCache setSharedURLCache:cache];
@@ -71,10 +75,9 @@
      }];
      */
     
+    
     // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
     BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    
-    // You can add your app-specific url handling code here if needed
     
     return wasHandled;
 }

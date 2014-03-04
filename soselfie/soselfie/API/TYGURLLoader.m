@@ -359,6 +359,14 @@
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     
+    NSHTTPURLResponse *h = (NSHTTPURLResponse*)response;
+    if (h.statusCode >= 400) {
+        //NSLog(@"connection failed %i", h.statusCode);
+        [self connection:urlconnection didFailWithError:[NSError errorWithDomain:@"TYG URL Loader Error" code:h.statusCode userInfo:nil]];
+        [self stopAndRemove:true];
+        return;
+    }
+    
     expectedContentLength = 1;
     if (response.expectedContentLength) expectedContentLength = response.expectedContentLength;
     
