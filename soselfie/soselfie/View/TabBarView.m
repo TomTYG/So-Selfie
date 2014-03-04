@@ -17,7 +17,16 @@
         
         //add header label
         
+        //iphone 4 or 5
+        
+        if ([SSMacros deviceType] == SSDeviceTypeiPhone5){
         self.frame = CGRectMake(0, 0, 320, 60);
+        }
+        else{
+            
+        self.frame = CGRectMake(0, 0, 320, 60);
+        }
+        
         self.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
         
         self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 7, 320,60)];
@@ -30,11 +39,10 @@
         
         //add filter button
         
-        self.filterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.filterButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:20];
+        self.filterButton = [[UIButton alloc] initWithFrame:CGRectMake (215, 20, 100, 32)];
+        self.filterButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
         [self.filterButton setTitle:@"so funny" forState:UIControlStateNormal];
         [self.filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.filterButton setFrame:CGRectMake(215, 20, 100, 32)];
         self.filterButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
         [self addSubview:self.filterButton];
         
@@ -42,11 +50,10 @@
         
         //add shoot button
         
-        self.shootButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.shootButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:20];
+        self.shootButton = [[UIButton alloc] initWithFrame:CGRectMake(248, 20, 67, 32)];
+        self.shootButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
         [self.shootButton setTitle:@"shoot" forState:UIControlStateNormal];
         [self.shootButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.shootButton setFrame:CGRectMake(248, 20, 67, 32)];
         self.shootButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
         
         [self.shootButton addTarget:self action:@selector(shootButtonIsPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,15 +64,12 @@
         
         // add vote button
         
-        self.voteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.voteButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:20];
+        self.voteButton = [[UIButton alloc] initWithFrame:CGRectMake(248, 20, 67, 32)];
+        self.voteButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
         [self.voteButton setTitle:@"vote" forState:UIControlStateNormal];
         [self.voteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.voteButton setFrame:CGRectMake(248, 20, 67, 32)];
         self.voteButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
-        
         [self.voteButton addTarget:self action:@selector(voteButtonIsPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
         [self addSubview:self.voteButton];
         
         self.voteButton.hidden = YES;

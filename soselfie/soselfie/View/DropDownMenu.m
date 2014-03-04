@@ -69,7 +69,7 @@
     }
     // Configure the cell...
     
-    cell.textLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:20];
+    cell.textLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -90,7 +90,7 @@
     
     else if (indexPath.row == 3){
             [cell setBackgroundColor:[UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1]];
-            cell.textLabel.text = @"so wierd";
+            cell.textLabel.text = @"so weird";
     }
     
     return cell;

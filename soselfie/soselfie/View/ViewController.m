@@ -47,7 +47,6 @@
     //setting up tabBarView
     
     self.tabBarView = [[TabBarView alloc] init];
-    self.tabBarView.frame = CGRectMake(0, 0, 320, 60);
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
     self.tabBarView.headerLabel.text = @"Top";
     self.tabBarView.filterButton.hidden = NO;
@@ -81,7 +80,7 @@
     
     self.ratingButtonsController = [[RatingButtonsViewController alloc] init];
     self.ratingButtonsController.view.backgroundColor = [UIColor clearColor];
-    self.ratingButtonsController.view.frame = CGRectMake(0, 568, 320, 248);
+    self.ratingButtonsController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 248);
     [self addChildViewController:self.ratingButtonsController];
     [self.view addSubview:self.ratingButtonsController.view];
     [self.view bringSubviewToFront:self.ratingButtonsController.view];

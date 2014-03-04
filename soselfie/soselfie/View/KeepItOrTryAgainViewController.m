@@ -22,6 +22,7 @@
         [wowKeepItButton setTitle:@"Wow! Let's keep it" forState:UIControlStateNormal];
         wowKeepItButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:28];
         wowKeepItButton.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
+        [wowKeepItButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         wowKeepItButton.frame = CGRectMake(0, 0, 320, 92);
         [self.view addSubview:wowKeepItButton];
         
@@ -30,6 +31,7 @@
         [tryAgainButton setTitle:@"Hmm... try again" forState:UIControlStateNormal];
         tryAgainButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:28];
         tryAgainButton.backgroundColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
+        [tryAgainButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         tryAgainButton.frame = CGRectMake(0, 92, 320, 92);
         [self.view addSubview:tryAgainButton];
         

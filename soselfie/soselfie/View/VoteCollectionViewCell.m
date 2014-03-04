@@ -67,7 +67,16 @@
             return;
         }
         
+<<<<<<< HEAD
         currentImageData = imageData;
+=======
+        VoteButtonVIew *ratingButtonsController = [[VoteButtonVIew alloc] init];
+        ratingButtonsController.backgroundColor = [UIColor clearColor];
+        
+        //iphone 4 or 5
+        ratingButtonsController.frame = CGRectMake(0, 320, 320, 248);
+        [self addSubview:ratingButtonsController];
+>>>>>>> FETCH_HEAD
         
         NSString *userfbid = imageData[@"user"][@"fbid"];
         
@@ -77,11 +86,21 @@
             self.facebookProfilePicture.image = image;
         }];
         
+<<<<<<< HEAD
         [SSAPI getUserFullName:userfbid onComplete:^(NSString *fullName, NSError *error){
             if (imageData != currentImageData) return;
             
             self.facebookNameLabel.text = fullName;
         }];
+=======
+        self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(58, 270, 100, 38)];
+        self.facebookNameLabel.text = @"Facebook Name";
+        self.facebookNameLabel.textAlignment = NSTextAlignmentCenter;
+        self.facebookNameLabel.backgroundColor = [UIColor clearColor];
+        self.facebookNameLabel.textColor = [UIColor blackColor];
+        [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
+        [self addSubview:self.facebookNameLabel];
+>>>>>>> FETCH_HEAD
         
         
         

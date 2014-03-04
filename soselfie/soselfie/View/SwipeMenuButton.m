@@ -14,10 +14,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:24];
+        self.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:18];
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         self.contentEdgeInsets = UIEdgeInsetsMake (0, 10, 0, 0);
-        self.backgroundColor = [UIColor colorWithRed:(48/255.0) green:(48/255.0) blue:(48/255.0) alpha:1];
+        self.backgroundColor = [UIColor clearColor];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1] forState:UIControlStateSelected];

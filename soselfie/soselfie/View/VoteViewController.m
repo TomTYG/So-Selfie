@@ -22,6 +22,55 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+<<<<<<< HEAD
+=======
+    if (self) {
+      
+        
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        [layout setSectionInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        self.mainVoteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake
+                                       (0, 60, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
+        self.mainVoteCollectionView.delegate = self;
+        self.mainVoteCollectionView.dataSource = self;
+        [self.mainVoteCollectionView registerClass:[VoteCollectionViewCell class] forCellWithReuseIdentifier:@"MyCell"];
+        self.mainVoteCollectionView.pagingEnabled = NO;
+        self.mainVoteCollectionView.scrollEnabled = NO;
+        [self.view addSubview:self.mainVoteCollectionView];
+        
+         
+        
+        //setting up the tabbarview
+        
+        self.tabBarView = [[TabBarView alloc] init];
+        self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
+        self.tabBarView.headerLabel.text = @"vote";
+        self.tabBarView.shootButton.hidden = NO;
+        [self.view addSubview:self.tabBarView];
+        [self.view bringSubviewToFront:self.tabBarView];
+        
+        
+        /*
+        self.singlePhotoPageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+        self.singlePhotoPageViewController.delegate = self;
+        self.singlePhotoPageViewController.dataSource = self;
+        
+        CGRect pageViewRect = self.view.bounds;
+        pageViewRect = CGRectInset(pageViewRect, 40.0, 40.0);
+        self.singlePhotoPageViewController.view.frame = pageViewRect;
+        */
+        
+        
+        
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+>>>>>>> FETCH_HEAD
     
     collectioncellcounter = 1;
     

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DropDownMenu.h"
+#import "SSMacros.h"
 
 @interface TabBarView : UIView
 
