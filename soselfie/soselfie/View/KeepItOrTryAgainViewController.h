@@ -8,8 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class KeepItOrTryAgainViewController;
+
+@protocol KeepItOrTryAgainViewControllerDelegate <NSObject>
+
+@required
+-(void)keepItOrTryAgainViewControllerClickedYes:(KeepItOrTryAgainViewController*)viewcontroller;
+-(void)keepItOrTryAgainViewControllerClickedNo:(KeepItOrTryAgainViewController*)viewcontroller;
+
+@end
+
 @interface KeepItOrTryAgainViewController : UIViewController
 
-- (void) slideUp; 
+@property (weak) id<KeepItOrTryAgainViewControllerDelegate>delegate;
+
+-(void)slideUp;
+-(void)slideDown;
 
 @end

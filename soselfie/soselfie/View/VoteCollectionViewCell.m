@@ -13,6 +13,10 @@
     VoteButtonView *ratingButtonsController;
     NSDictionary *currentImageData;
     int voteStatus;
+    
+    
+    UIImageView *facebookProfileBackground;
+    UIImageView *shadowOverImagesView;
 }
 
 @end
@@ -31,22 +35,38 @@
     [self addSubview:self.photoImageView];
     
     
+    shadowOverImagesView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"universalselfiepreview_shadow.png"]];
+    shadowOverImagesView.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect cr = shadowOverImagesView.frame;
+    cr.size.width *= 0.5;
+    cr.size.height *= 0.5;
+    cr.origin.y = self.photoImageView.frame.size.height + self.photoImageView.frame.origin.y - cr.size.height;
+    shadowOverImagesView.frame = cr;
+    [self addSubview:shadowOverImagesView];
+    
     ratingButtonsController = [[VoteButtonView alloc] init];
     ratingButtonsController.delegate = self;
     ratingButtonsController.backgroundColor = [UIColor clearColor];
     ratingButtonsController.frame = CGRectMake(0, 320, 320, 248);
     [self addSubview:ratingButtonsController];
     
+    facebookProfileBackground = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
+    facebookProfileBackground.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
+    [self addSubview:facebookProfileBackground];
+    
+    
     self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
-    self.facebookProfilePicture.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
+    self.facebookProfilePicture.backgroundColor = [UIColor clearColor];
+    self.facebookProfilePicture.alpha = 0;
     [self addSubview:self.facebookProfilePicture];
     
     float x = 58;
     self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 270, self.frame.size.width - x, 38)];
     self.facebookNameLabel.text = @"";
     self.facebookNameLabel.textAlignment = NSTextAlignmentLeft;
-    self.facebookNameLabel.textColor = [UIColor blackColor];
+    self.facebookNameLabel.textColor = [UIColor whiteColor];
     [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
+    self.facebookNameLabel.alpha = 0;
     [self addSubview:self.facebookNameLabel];
     
     
@@ -65,20 +85,28 @@
     voteStatus = 1;
     [SSAPI getRandomSelfieForMinimumAge:13 andMaximumAge:34 andGenders:(SSUserGenderMale | SSUserGenderFemale) onComplete:^(NSDictionary *imageData, NSError *error){
         
+        //todo: this line enables the buttons to be used again even when there is an image error of some kind (like no access token, or like no more images available. consider what a good fallback might be instead of this solution.
         [ratingButtonsController enableButtons];
         
         currentImageData = imageData;
         if (error != nil) {
-            NSLog(@"error getting random image %@", error);
+            //NSLog(@"error getting random image %@", error.domain);
+            if ([error.domain isEqualToString:@"No more images"]) {
+                //todo: spawn the "no images screen";
+                NSLog(@"no more images!");
+            }
             return;
         }
         
-        [self addSubview:ratingButtonsController];
         
         NSString *userfbid = imageData[@"user"][@"fbid"];
         
         [SSAPI getProfilePictureOfUser:userfbid withSize:self.facebookProfilePicture.frame.size onComplete:^(UIImage *image, NSError *error){
             if (imageData != currentImageData) return;
+            
+            [UIView animateWithDuration:0.2 animations:^() {
+                self.facebookProfilePicture.alpha = 1;
+            }];
             
             self.facebookProfilePicture.image = image;
         }];
@@ -86,12 +114,14 @@
             if (imageData != currentImageData) return;
             
             self.facebookNameLabel.text = fullName;
+            [UIView animateWithDuration:0.2 animations:^() {
+                self.facebookNameLabel.alpha = 1;
+            }];
         }];
         
         
         
         [SSAPI getImageWithImageURL:imageData[@"url_small"] onComplete:^(UIImage *image, NSError *error){
-            NSLog(@"image done loading %@", image);
             if (imageData != currentImageData) return;
             
             self.photoImageView.image = image;
@@ -107,6 +137,7 @@
 
 
 -(void)voteButtonView:(VoteButtonView *)voteButtonView pressedButton:(UIButton *)button vote:(SSVoteType)vote {
+    
     [SSAPI voteForSelfieID:currentImageData[@"id"] andImageAccessToken:currentImageData[@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
         
         voteStatus = 2;
@@ -123,6 +154,7 @@
         self.facebookProfilePicture.image = nil;
         self.photoImageView.image = nil;
         self.facebookNameLabel.text = @"";
+        self.facebookNameLabel.alpha = 0;
         self.delegate = nil;
         
         [ratingButtonsController prepareForReuse];
@@ -130,6 +162,7 @@
         [super prepareForReuse];
         voteStatus = 0;
     }
+    
     
 }
 

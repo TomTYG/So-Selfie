@@ -70,6 +70,7 @@
     //shoot view controller
     self.shootOneViewController = [[ShootOneViewController alloc] init];
     self.shootOneViewController.view.alpha = 0;
+    self.shootOneViewController.delegate = self;
     [self.genericCentralView addSubview:self.shootOneViewController.view];
     
     //top selfies controller
@@ -176,12 +177,22 @@
     [activeViewController.view.superview bringSubviewToFront:activeViewController.view];
     newViewController.view.alpha = 1;
     
-    NSTimeInterval duration = animated == true ? 0.4 : 0;
+    UIView *tempwhiteview = [[UIView alloc] initWithFrame:newViewController.view.bounds];
+    tempwhiteview.alpha = 1;
+    tempwhiteview.backgroundColor = [UIColor whiteColor];
+    [newViewController.view addSubview:tempwhiteview];
+    
+    NSTimeInterval duration = animated == true ? 0.1 : 0;
     
     
     [UIView animateWithDuration:duration animations:^() {
         activeViewController.view.alpha = 0;
     } completion:^(BOOL finished) {
+        [UIView animateWithDuration:duration delay:0.1 options:0 animations:^() {
+            tempwhiteview.alpha = 0;
+        } completion:^(BOOL finished){
+            [tempwhiteview removeFromSuperview];
+        }];
         
     }];
     
@@ -190,7 +201,8 @@
 
 
 -(void)showVoteViewController:(id)sender {
-    NSLog (@"1");
+    [self gotoNewViewController:self.voteViewController animated:YES];
+    return;
     
     self.voteViewController.view.alpha = 0.0;
     
@@ -212,7 +224,9 @@
 }
 
 -(void)showTopChartViewController:(id)sender {
-    NSLog (@"2");
+    
+    [self gotoNewViewController:self.topChartViewController animated:YES];
+    return;
     
     self.topChartViewController.view.alpha = 0.0;
     
@@ -231,7 +245,9 @@
 }
 
 -(void)showYourSelfiesViewController:(id)sender {
-    NSLog (@"3");
+    
+    [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
+    return;
     
     self.yourSelfiesViewController.view.alpha = 0.0;
     
@@ -250,7 +266,8 @@
 }
 
 -(void)showShootOneViewController:(id)sender {
-    NSLog (@"4");
+    [self gotoNewViewController:self.shootOneViewController animated:YES];
+    return;
     
     self.shootOneViewController.view.alpha = 0.0;
     
@@ -486,6 +503,12 @@
     [self gotoNewViewController:self.voteViewController animated:YES];
     
     [self.voteViewController.mainVoteCollectionView reloadData];
+}
+
+#pragma mark - SHOOT ONE DELEGATE
+
+-(void)shootOneViewControllerCameraSuccesfull:(ShootOneViewController *)viewcontroller {
+    [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
 }
 
 
