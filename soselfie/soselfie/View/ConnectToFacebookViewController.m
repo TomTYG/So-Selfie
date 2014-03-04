@@ -20,13 +20,13 @@
     if (self) {
         self.view.backgroundColor = [UIColor colorWithRed:232/255.0 green:232/255.0 blue:232/255.0 alpha:1.0];
         
-        UIButton *connectToFacebokButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        connectToFacebokButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
-        [connectToFacebokButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        connectToFacebokButton.backgroundColor = [UIColor colorWithRed:87/255.0 green:117/255.0 blue:174/255.0 alpha:1.0];
-        [connectToFacebokButton setTitle:@"Connect with Facebook" forState:UIControlStateNormal];
-        connectToFacebokButton.frame = CGRectMake(0, 457, 320, 111);
-        [self.view addSubview:connectToFacebokButton];
+        UIButton *connectToFacebookButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        connectToFacebookButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
+        [connectToFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        connectToFacebookButton.backgroundColor = [UIColor colorWithRed:87/255.0 green:117/255.0 blue:174/255.0 alpha:1.0];
+        [connectToFacebookButton setTitle:@"Connect with Facebook" forState:UIControlStateNormal];
+        connectToFacebookButton.frame = CGRectMake(0, 457, 320, 111);
+        [self.view addSubview:connectToFacebookButton];
         
         UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(83, 201, 154, 167)];
         logoImageView.image = [UIImage imageNamed:@"logo"];
@@ -45,16 +45,5 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

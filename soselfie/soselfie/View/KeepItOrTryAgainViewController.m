@@ -38,10 +38,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
 
 -(void) slideUp {
     CGRect newFrame = self.view.frame;
@@ -58,7 +54,7 @@
 
 - (void) slideDown {
     CGRect newFrame = self.view.frame;
-    newFrame.origin.y = 568;
+    newFrame.origin.y = 584;//self.view.frame.size.height;
     
     [UIView animateWithDuration:0.4
                           delay:0.0

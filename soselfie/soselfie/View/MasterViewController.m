@@ -77,16 +77,15 @@
     [self.genericCentralVIew addSubview:self.voteViewController.view];
     
     
-    /*
-     
-    //create connect to facebook controller
     
+    /*
+    //create connect to facebook controller
     self.connectToFacebookContoller = [[ConnectToFacebookViewController alloc] init];
     [self addChildViewController:self.connectToFacebookContoller];
     [self.view addSubview:self.connectToFacebookContoller.view];
     [self.genericCentralVIew addSubview:self.connectToFacebookContoller.view];
+    */
      
-     */
     
     //main menu view controller
     
