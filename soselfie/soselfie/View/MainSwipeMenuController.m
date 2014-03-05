@@ -27,71 +27,101 @@
 {
     [super viewDidLoad];
 	
+    int spaceBetweenButtons;
+    int buttonHeight;
+    int firstGap;
+    int secondGap;
+    
+    // iphone 4 or 5
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+    
+    spaceBetweenButtons = 18;
+    buttonHeight = 30;
+    firstGap = 96;
+    secondGap = 218;
+    }
+    
+    else {
+        
+    spaceBetweenButtons = 12;
+    buttonHeight = 25;
+    firstGap = 58;
+    secondGap = 202;
+        
+    }
+    
     //vote Button
     
-    self.voteButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, 42,200,30)];
+    self.voteButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, 42,200,buttonHeight)];
     [self.voteButton setTitle:@"Vote!" forState:UIControlStateNormal];
     [self.view addSubview:self.voteButton];
     
     //Top selfies button
     
-    self.topSelfies= [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, 90,200,30)];
+    self.topSelfies= [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.voteButton.frame.origin.y, 200,buttonHeight)];
     [self.topSelfies setTitle:@"Top Selfies" forState:UIControlStateNormal];
     [self.view addSubview:self.topSelfies];
     
     //Shoot one! button
     
-    self.shootOne = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, 138,200,30)];
+    self.shootOne = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.topSelfies.frame.origin.y,200,buttonHeight)];
     [self.shootOne setTitle:@"Shoot one!" forState:UIControlStateNormal];
     [self.view addSubview:self.shootOne];
     
     //Your selfies
     
-    self.yourSelfiesButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, 186,200,30)];
+    self.yourSelfiesButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.shootOne.frame.origin.y,200,buttonHeight)];
     [self.yourSelfiesButton setTitle:@"Your selfies" forState:UIControlStateNormal];
     [self.view addSubview:self.yourSelfiesButton];
     
+    NSLog (@"ORIGIN Y IS %f",self.yourSelfiesButton.frame.origin.y);
     
     
     //Settings block
     
-    UILabel *settingHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,282,200,30)];
-    settingHeader.text = @"Settings";
-    settingHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:18];
-    settingHeader.textColor = [UIColor whiteColor];
-    settingHeader.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:settingHeader];
     
-    UILabel *genderHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 330, 100, 20)];
+    UIView *settingsBlockView = [[UIView alloc] initWithFrame:CGRectMake(0, self.yourSelfiesButton.frame.origin.y + firstGap, self.view.frame.size.width, 178)];
+    settingsBlockView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:settingsBlockView];
+    
+    SwipeMenuButton *settingHeader = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5,0,200,30)];
+    [settingHeader setTitle:@"Filter your selfies!" forState:UIControlStateNormal];
+    settingHeader.userInteractionEnabled = NO;
+    [settingsBlockView addSubview:settingHeader];
+
+    UILabel *genderHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 48, 100, 20)];
     genderHeader.text = @"Gender";
     genderHeader.backgroundColor = [UIColor clearColor];
     genderHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     genderHeader.textColor = [UIColor whiteColor];
-    [self.view addSubview:genderHeader];
+    [settingsBlockView addSubview:genderHeader];
     
     self.boysFilterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.boysFilterButton setTitle:@"BOYS" forState:UIControlStateNormal];
+    [self.boysFilterButton setTitleEdgeInsets:UIEdgeInsetsMake(3, 0, 0, 0)];
     self.boysFilterButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:17];
     [self.boysFilterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.boysFilterButton.frame = CGRectMake(15, 353,105,35);
+    self.boysFilterButton.frame = CGRectMake(15, 71,122.5,35);
     [self.boysFilterButton addTarget:self
                          action:@selector(showOnlyBoysSelfies:)
                forControlEvents:UIControlEventTouchUpInside];
     self.boysFilterButton.backgroundColor = [UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1];
-    [self.view addSubview:self.boysFilterButton];
+    [settingsBlockView addSubview:self.boysFilterButton];
     
    
     
     self.girlsFilterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.girlsFilterButton setTitle:@"GIRLS" forState:UIControlStateNormal];
+    [self.girlsFilterButton setTitleEdgeInsets:UIEdgeInsetsMake(3, 0, 0, 0)];
     self.girlsFilterButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:17];
     [self.girlsFilterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.girlsFilterButton.frame = CGRectMake(120,353,105,35);
+    self.girlsFilterButton.frame = CGRectMake(137.5,71,122.5,35);
     [self.girlsFilterButton addTarget:self
                           action:@selector(showOnlyGirlsSelfies:)
                 forControlEvents:UIControlEventTouchUpInside];
     self.girlsFilterButton.backgroundColor = [UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1];
-    [self.view addSubview:self.girlsFilterButton];
+    [settingsBlockView addSubview:self.girlsFilterButton];
     
     
     [self showOnlyBoysSelfies:self.boysFilterButton];
@@ -100,45 +130,39 @@
     
      //genderButtons
     
-    UILabel *ageHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 402, 100, 20)];
+    UILabel *ageHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 112, 100, 20)];
     ageHeader.text = @"Age";
     ageHeader.backgroundColor = [UIColor clearColor];
     ageHeader.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     ageHeader.textColor = [UIColor whiteColor];
-    [self.view addSubview:ageHeader];
-    
-    [self.view addSubview:ageHeader];
+    [settingsBlockView addSubview:ageHeader];
     
     //ageSlider
     
-    self.ageSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(15, 410, 210, 70)];
+    self.ageSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(15, 120, 245, 70)];
     [self.ageSlider addTarget:self action:@selector(updateSliderLabels:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:self.ageSlider];
+    [settingsBlockView addSubview:self.ageSlider];
     
-    self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(26, 460, 50, 50)];
+    self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 170, 50, 50)];
     self.ageSlider.lowerLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.lowerLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:self.ageSlider.lowerLabel];
+    self.ageSlider.lowerLabel.backgroundColor = [UIColor clearColor];
+    [settingsBlockView addSubview:self.ageSlider.lowerLabel];
     self.ageSlider.lowerLabel.text = [NSString stringWithFormat:@"%d",(int)self.ageSlider.lowerValue];
     
     
-    self.ageSlider.upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(180, 460, 50, 50)];
+    self.ageSlider.upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 170, 50, 50)];
     self.ageSlider.upperLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.upperLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:self.ageSlider.upperLabel];
+    self.ageSlider.upperLabel.backgroundColor = [UIColor clearColor];
+    [settingsBlockView addSubview:self.ageSlider.upperLabel];
     self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d",(int)self.ageSlider.upperValue];
+    
     
     //Erase account Button
     
-    UIButton *eraseAccountButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [eraseAccountButton setTitle:@"Erase account" forState:UIControlStateNormal];
-    eraseAccountButton.titleLabel.font =  [UIFont fontWithName:@"MyriadPro-Bold" size:17];
-    [eraseAccountButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    eraseAccountButton.frame = CGRectMake(15,500,210,35);
-    /*[girlsFilterButton addTarget:self
-                          action:@selector(showOnlyGirlsSelfies:)
-                forControlEvents:UIControlEventTouchUpInside];*/
-    eraseAccountButton.backgroundColor = [UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1];
+    GenericSoSelfieButtonWithOptionalSubtitle *eraseAccountButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(15,settingsBlockView.frame.origin.y + secondGap,245,35) withBackgroundColor:[UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(96/255.0) green:(96/255.0) blue:(96/255.0) alpha:1] titleLabel:@"Erase account" withFontSize:17];
+    
     [self.view addSubview:eraseAccountButton];
     
 }

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SwipeMenuButton.h"
 #import "NMRangeSlider.h"
+#import "SSMacros.h"
+#import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 
 @interface MainSwipeMenuController : UIViewController
 

@@ -48,7 +48,7 @@
     
     self.tabBarView = [[TabBarView alloc] init];
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    self.tabBarView.headerLabel.text = @"Top";
+    self.tabBarView.headerLabel.text = @"top selfies";
     self.tabBarView.filterButton.hidden = NO;
     [self.tabBarView.filterButton addTarget:self
                                      action:@selector(showOrHideDropDownMenu:) forControlEvents:UIControlEventTouchUpInside];

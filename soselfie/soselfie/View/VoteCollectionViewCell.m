@@ -62,20 +62,15 @@
      }
     
     [self addSubview:ratingButtonsController];
-    
-<<<<<<< HEAD
-    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
-    self.facebookProfilePicture.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
-=======
-    facebookProfileBackground = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
+
+    facebookProfileBackground = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
     facebookProfileBackground.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [self addSubview:facebookProfileBackground];
     
     
-    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
+    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
     self.facebookProfilePicture.backgroundColor = [UIColor clearColor];
     self.facebookProfilePicture.alpha = 0;
->>>>>>> 9f814dac2d324285805f52d9eac46db79cbd5b89
     [self addSubview:self.facebookProfilePicture];
     
     float x = 58;
@@ -83,12 +78,8 @@
     self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, facebookInfoY, self.frame.size.width - x, 38)];
     self.facebookNameLabel.text = @"";
     self.facebookNameLabel.textAlignment = NSTextAlignmentLeft;
-<<<<<<< HEAD
-    self.facebookNameLabel.textColor = [UIColor blackColor];
     self.facebookNameLabel.backgroundColor = [UIColor clearColor];
-=======
     self.facebookNameLabel.textColor = [UIColor whiteColor];
->>>>>>> 9f814dac2d324285805f52d9eac46db79cbd5b89
     [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
     self.facebookNameLabel.alpha = 0;
     [self addSubview:self.facebookNameLabel];

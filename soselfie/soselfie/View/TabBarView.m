@@ -39,39 +39,23 @@
         
         //add filter button
         
-        self.filterButton = [[UIButton alloc] initWithFrame:CGRectMake (215, 20, 100, 32)];
-        self.filterButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
-        [self.filterButton setTitle:@"so funny" forState:UIControlStateNormal];
-        [self.filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.filterButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
+        self.filterButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(248, 20, 67, 32) withBackgroundColor:[UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"so funny" withFontSize:15];
         [self addSubview:self.filterButton];
-        
         self.filterButton.hidden = YES;
         
         //add shoot button
         
-        self.shootButton = [[UIButton alloc] initWithFrame:CGRectMake(248, 20, 67, 32)];
-        self.shootButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
-        [self.shootButton setTitle:@"shoot" forState:UIControlStateNormal];
-        [self.shootButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.shootButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
         
+        self.shootButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(248, 20, 67, 32) withBackgroundColor:[UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"shoot" withFontSize:15];
         [self.shootButton addTarget:self action:@selector(shootButtonIsPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
         [self addSubview:self.shootButton];
-        
         self.shootButton.hidden = YES;
         
         // add vote button
-        
-        self.voteButton = [[UIButton alloc] initWithFrame:CGRectMake(248, 20, 67, 32)];
-        self.voteButton.titleLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:15];
-        [self.voteButton setTitle:@"vote" forState:UIControlStateNormal];
-        [self.voteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.voteButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
+     
+        self.voteButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(248, 20, 67, 32) withBackgroundColor:[UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"vote" withFontSize:15];
         [self.voteButton addTarget:self action:@selector(voteButtonIsPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.voteButton];
-        
         self.voteButton.hidden = YES;
         
         //add main slidebutton

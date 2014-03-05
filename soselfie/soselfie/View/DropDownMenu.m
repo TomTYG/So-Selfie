@@ -19,8 +19,9 @@
     self = [super initWithStyle:style];
     if (self) {
         self.menuIsHidden = YES;
-        self.view.backgroundColor = [UIColor clearColor];
+        self.view.backgroundColor = [UIColor whiteColor];
         self.tableView.separatorColor = [UIColor clearColor];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return self;
 }
@@ -74,22 +75,26 @@
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     if (indexPath.row == 0){
-            [cell setBackgroundColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1]];
+            cell.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
+            cell.contentView.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
             cell.textLabel.text = @"so funny";
     }
     
     else if (indexPath.row == 1){
-            [cell setBackgroundColor:[UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1]];
+            cell.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
+            cell.contentView.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
             cell.textLabel.text = @"so hot";
     }
     
     else if (indexPath.row == 2){
-            [cell setBackgroundColor:[UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1]];
+            cell.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
+            cell.contentView.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
             cell.textLabel.text = @"so lame";
     }
     
     else if (indexPath.row == 3){
-            [cell setBackgroundColor:[UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1]];
+            cell.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
+            cell.contentView.backgroundColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
             cell.textLabel.text = @"so weird";
     }
     

@@ -45,7 +45,7 @@
     self.tabBarView = [[TabBarView alloc] init];
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
     //self.tabBarView.headerLabel.frame = CGRectMake(50, 10, 140, 60);
-    self.tabBarView.headerLabel.text = @"your selfie";
+    self.tabBarView.headerLabel.text = @"your selfies";
     self.tabBarView.shootButton.hidden = NO;
     [self.view addSubview:self.tabBarView];
     [self.view bringSubviewToFront:self.tabBarView];
@@ -57,12 +57,14 @@
     UILabel *voteHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 0, 50, 20)];
     voteHeaderLabel.text = @"votes";
     voteHeaderLabel.textColor = [UIColor whiteColor];
+    voteHeaderLabel.backgroundColor = [UIColor clearColor];
     voteHeaderLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:12];
     [topPinkHeader addSubview:voteHeaderLabel];
     
     UILabel *rankHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, 0, 50, 20)];
     rankHeaderLabel.text = @"rank";
     rankHeaderLabel.textColor = [UIColor whiteColor];
+    rankHeaderLabel.backgroundColor = [UIColor clearColor];
     rankHeaderLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:12];
     [topPinkHeader addSubview:rankHeaderLabel];
     
@@ -98,7 +100,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return 9;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

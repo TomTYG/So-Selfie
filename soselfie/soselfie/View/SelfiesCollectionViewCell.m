@@ -25,7 +25,7 @@
         //Labels
         
         int textsize = 15;
-        int labelheight = 16;
+        int labelheight = 17;
         NSString *myriadBoldFont = @"MyriadPro-Bold";
         
         //soFunnyLine
@@ -125,14 +125,10 @@
         bottomBorderLine.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
         [self addSubview:bottomBorderLine];
         
-        self.eraseSelfieButton = [[UIButton alloc] initWithFrame:CGRectMake(223, 88, 93, 32)];
-        self.eraseSelfieButton.backgroundColor = [UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1];
-        [self.eraseSelfieButton setTitle:@"erase selfie" forState:UIControlStateNormal];
-        self.eraseSelfieButton.titleLabel.font =  [UIFont fontWithName:myriadBoldFont size:15];
-        [self.eraseSelfieButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+        self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(223, 88, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"erase selfie" withFontSize:15];
         
         [self addSubview:self.eraseSelfieButton];
-        
         
         //setting soHotLine
         

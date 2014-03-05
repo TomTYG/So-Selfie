@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 
 @interface SelfiesCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageThumbView;
-@property (strong ,nonatomic) UIButton *eraseSelfieButton;
+@property (strong ,nonatomic) GenericSoSelfieButtonWithOptionalSubtitle *eraseSelfieButton;
 
 //variables for the lines
 

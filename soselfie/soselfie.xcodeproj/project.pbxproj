@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08683E6018C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 08683E5F18C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m */; };
+		08683E6318C77F4D0088B665 /* track_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E6118C77F4D0088B665 /* track_background@2x.png */; };
+		08683E6418C77F4D0088B665 /* track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E6218C77F4D0088B665 /* track@2x.png */; };
+		08683E7618C787FA0088B665 /* slider_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E7518C787FA0088B665 /* slider_square@2x.png */; };
 		08ECE36218C5D22700650753 /* ConnectToFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */; };
 		08ECE36318C5D22700650753 /* DropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32018C5D22700650753 /* DropDownMenu.m */; };
 		08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32218C5D22700650753 /* KeepItOrTryAgainViewController.m */; };
 		08ECE36518C5D22700650753 /* MainSwipeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32418C5D22700650753 /* MainSwipeMenuController.m */; };
 		08ECE36618C5D22700650753 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32618C5D22700650753 /* MasterViewController.m */; };
 		08ECE36F18C5D22700650753 /* slider_square_test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE33218C5D22700650753 /* slider_square_test@2x.png */; };
-		08ECE37018C5D22700650753 /* track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE33318C5D22700650753 /* track@2x.png */; };
-		08ECE37118C5D22700650753 /* track_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE33418C5D22700650753 /* track_background@2x.png */; };
-		08ECE37218C5D22700650753 /* track_test2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ECE33518C5D22700650753 /* track_test2@2x.png */; };
 		08ECE38318C5D22700650753 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE34918C5D22700650753 /* NMRangeSlider.m */; };
 		08ECE38418C5D22700650753 /* RankingButtonWithSubtitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE34B18C5D22700650753 /* RankingButtonWithSubtitle.m */; };
 		08ECE38518C5D22700650753 /* RatingButtonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE34D18C5D22700650753 /* RatingButtonsViewController.m */; };
@@ -64,12 +65,7 @@
 		890E1DA218B618D400F2CFAE /* TYGURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1D9F18B618D400F2CFAE /* TYGURLLoader.m */; };
 		890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1DA118B618D400F2CFAE /* TYGURLManager.m */; };
 		89200EEB18B7985F00EB75E5 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89200EEA18B7985F00EB75E5 /* Base64.m */; };
-<<<<<<< HEAD
-=======
-		894FDDB018C62B1900C2AD26 /* nomoreselfie_shootarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 894FDDAF18C62B1900C2AD26 /* nomoreselfie_shootarrow.png */; };
 		894FDDB318C635B900C2AD26 /* ShootOneCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 894FDDB218C635B900C2AD26 /* ShootOneCameraView.m */; };
-		8956F80918C5D6A500322D6C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956F80818C5D6A500322D6C /* FacebookSDK.framework */; };
->>>>>>> 9f814dac2d324285805f52d9eac46db79cbd5b89
 		8956F80C18C5E74300322D6C /* VoteButtonVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 8956F80B18C5E74300322D6C /* VoteButtonVIew.m */; };
 		8968798B18B36E4400C48085 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798A18B36E4400C48085 /* RootViewController.m */; };
 		8968798F18B3B7B400C48085 /* SSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798E18B3B7B400C48085 /* SSAPI.m */; };
@@ -88,6 +84,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08683E5E18C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericSoSelfieButtonWithOptionalSubtitle.h; path = View/GenericSoSelfieButtonWithOptionalSubtitle.h; sourceTree = "<group>"; };
+		08683E5F18C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericSoSelfieButtonWithOptionalSubtitle.m; path = View/GenericSoSelfieButtonWithOptionalSubtitle.m; sourceTree = "<group>"; };
+		08683E6118C77F4D0088B665 /* track_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track_background@2x.png"; sourceTree = "<group>"; };
+		08683E6218C77F4D0088B665 /* track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track@2x.png"; sourceTree = "<group>"; };
+		08683E7518C787FA0088B665 /* slider_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider_square@2x.png"; sourceTree = "<group>"; };
 		08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectToFacebookViewController.h; path = View/ConnectToFacebookViewController.h; sourceTree = "<group>"; };
 		08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectToFacebookViewController.m; path = View/ConnectToFacebookViewController.m; sourceTree = "<group>"; };
 		08ECE31F18C5D22700650753 /* DropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropDownMenu.h; path = View/DropDownMenu.h; sourceTree = "<group>"; };
@@ -98,11 +99,7 @@
 		08ECE32418C5D22700650753 /* MainSwipeMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainSwipeMenuController.m; path = View/MainSwipeMenuController.m; sourceTree = "<group>"; };
 		08ECE32518C5D22700650753 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MasterViewController.h; path = View/MasterViewController.h; sourceTree = "<group>"; };
 		08ECE32618C5D22700650753 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MasterViewController.m; path = View/MasterViewController.m; sourceTree = "<group>"; };
-		08ECE32918C5D22700650753 /* RangedAgeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangedAgeSlider.h; sourceTree = "<group>"; };
 		08ECE33218C5D22700650753 /* slider_square_test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider_square_test@2x.png"; sourceTree = "<group>"; };
-		08ECE33318C5D22700650753 /* track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track@2x.png"; sourceTree = "<group>"; };
-		08ECE33418C5D22700650753 /* track_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track_background@2x.png"; sourceTree = "<group>"; };
-		08ECE33518C5D22700650753 /* track_test2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track_test2@2x.png"; sourceTree = "<group>"; };
 		08ECE34818C5D22700650753 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
 		08ECE34918C5D22700650753 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
 		08ECE34A18C5D22700650753 /* RankingButtonWithSubtitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RankingButtonWithSubtitle.h; path = View/RankingButtonWithSubtitle.h; sourceTree = "<group>"; };
@@ -178,13 +175,8 @@
 		890E1DA118B618D400F2CFAE /* TYGURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TYGURLManager.m; path = API/TYGURLManager.m; sourceTree = "<group>"; };
 		89200EE918B7985F00EB75E5 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = API/Base64.h; sourceTree = "<group>"; };
 		89200EEA18B7985F00EB75E5 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = API/Base64.m; sourceTree = "<group>"; };
-<<<<<<< HEAD
-=======
-		894FDDAF18C62B1900C2AD26 /* nomoreselfie_shootarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nomoreselfie_shootarrow.png; path = ../../../../../../../../Downloads/nomoreselfie_shootarrow.png; sourceTree = "<group>"; };
 		894FDDB118C635B900C2AD26 /* ShootOneCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShootOneCameraView.h; path = View/ShootOneCameraView.h; sourceTree = "<group>"; };
 		894FDDB218C635B900C2AD26 /* ShootOneCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShootOneCameraView.m; path = View/ShootOneCameraView.m; sourceTree = "<group>"; };
-		8956F80818C5D6A500322D6C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = soselfie/Facebook/FacebookSDK.framework; sourceTree = "<group>"; };
->>>>>>> 9f814dac2d324285805f52d9eac46db79cbd5b89
 		8956F80A18C5E74300322D6C /* VoteButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteButtonView.h; path = View/VoteButtonView.h; sourceTree = "<group>"; };
 		8956F80B18C5E74300322D6C /* VoteButtonVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteButtonVIew.m; path = View/VoteButtonVIew.m; sourceTree = "<group>"; };
 		8968798918B36E4400C48085 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = View/RootViewController.h; sourceTree = "<group>"; };
@@ -258,11 +250,10 @@
 		08ECE32818C5D22700650753 /* DefaultTheme */ = {
 			isa = PBXGroup;
 			children = (
-				08ECE32918C5D22700650753 /* RangedAgeSlider.h */,
+				08683E7518C787FA0088B665 /* slider_square@2x.png */,
+				08683E6118C77F4D0088B665 /* track_background@2x.png */,
+				08683E6218C77F4D0088B665 /* track@2x.png */,
 				08ECE33218C5D22700650753 /* slider_square_test@2x.png */,
-				08ECE33318C5D22700650753 /* track@2x.png */,
-				08ECE33418C5D22700650753 /* track_background@2x.png */,
-				08ECE33518C5D22700650753 /* track_test2@2x.png */,
 			);
 			path = DefaultTheme;
 			sourceTree = "<group>";
@@ -273,7 +264,6 @@
 				08ECE3A418C63B6F00650753 /* iphone4_shootButton_HOVER@x.png */,
 				08ECE3A518C63B6F00650753 /* iphone4_shootbutton@2x.png */,
 				89786F3818C61D030058A156 /* universalselfiepreview_shadow.png */,
-				894FDDAF18C62B1900C2AD26 /* nomoreselfie_shootarrow.png */,
 				08ECE39118C5D23800650753 /* iphone5_shootbutton@2x.png */,
 				08ECE39218C5D23800650753 /* iphone5_shootbuttonHOVER@2x.png */,
 				08ECE39318C5D23800650753 /* logo@2x.png */,
@@ -399,6 +389,8 @@
 				08ECE32718C5D22700650753 /* NMRangeSlider */,
 				08ECE34A18C5D22700650753 /* RankingButtonWithSubtitle.h */,
 				08ECE34B18C5D22700650753 /* RankingButtonWithSubtitle.m */,
+				08683E5E18C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.h */,
+				08683E5F18C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m */,
 				08ECE34C18C5D22700650753 /* RatingButtonsViewController.h */,
 				08ECE34D18C5D22700650753 /* RatingButtonsViewController.m */,
 				08ECE34E18C5D22700650753 /* SelfiesCollectionViewCell.h */,
@@ -509,18 +501,17 @@
 				08ECE39D18C5D23800650753 /* slidebutton@2x.png in Resources */,
 				08ECE39918C5D23800650753 /* iphone5_shootbuttonHOVER@2x.png in Resources */,
 				08ECE39A18C5D23800650753 /* logo@2x.png in Resources */,
+				08683E7618C787FA0088B665 /* slider_square@2x.png in Resources */,
 				08ECE39B18C5D23800650753 /* MyriadPro-Bold.otf in Resources */,
-				08ECE37218C5D22700650753 /* track_test2@2x.png in Resources */,
 				08ECE3A718C63B6F00650753 /* iphone4_shootbutton@2x.png in Resources */,
-				08ECE37018C5D22700650753 /* track@2x.png in Resources */,
 				08ECE39E18C5D23800650753 /* Tondu_Beta.otf in Resources */,
 				08ECE3A618C63B6F00650753 /* iphone4_shootButton_HOVER@x.png in Resources */,
 				08ECE36F18C5D22700650753 /* slider_square_test@2x.png in Resources */,
-				894FDDB018C62B1900C2AD26 /* nomoreselfie_shootarrow.png in Resources */,
 				89000E9D18B3594400C32CA8 /* InfoPlist.strings in Resources */,
 				08ECE39C18C5D23800650753 /* scottish@2x.jpeg in Resources */,
+				08683E6418C77F4D0088B665 /* track@2x.png in Resources */,
 				89000EA518B3594400C32CA8 /* Images.xcassets in Resources */,
-				08ECE37118C5D22700650753 /* track_background@2x.png in Resources */,
+				08683E6318C77F4D0088B665 /* track_background@2x.png in Resources */,
 				08ECE39818C5D23800650753 /* iphone5_shootbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,6 +550,7 @@
 				894FDDB318C635B900C2AD26 /* ShootOneCameraView.m in Sources */,
 				08ECE3A118C607CF00650753 /* SSMacros.m in Sources */,
 				8968798F18B3B7B400C48085 /* SSAPI.m in Sources */,
+				08683E6018C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m in Sources */,
 				8909BDA118BCE7CD00A08963 /* RootOwnSelfiesView.m in Sources */,
 				08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */,
 				08ECE36218C5D22700650753 /* ConnectToFacebookViewController.m in Sources */,

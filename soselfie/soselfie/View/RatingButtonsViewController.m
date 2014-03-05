@@ -20,6 +20,18 @@
 {
     [super viewDidLoad];
     
+    //iphone 4 or 5
+    
+    
+    
+    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+    
+    }
+    
+    else {
+        
+    }
+    
 	
     self.view.backgroundColor = [UIColor clearColor];
     //sofunnybutton

@@ -11,6 +11,7 @@
 @interface KeepItOrTryAgainViewController () {
     UIButton *wowKeepItButton;
     UIButton *tryAgainButton;
+    int newFrameY;
 }
 
 @end
@@ -21,22 +22,42 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        wowKeepItButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        
+        int buttonHieght;
+        int fontSize;
+        
+         if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
+             
+             buttonHieght = 92;
+             fontSize = 28;
+             newFrameY = [[UIScreen mainScreen] bounds].size.height - buttonHieght*2;
+             
+             
+         }
+         else {
+             
+             buttonHieght = 60;
+             fontSize = 24;
+             newFrameY = [[UIScreen mainScreen] bounds].size.height - buttonHieght*2 - [UIApplication sharedApplication].statusBarFrame.size.height ;
+             
+         }
+        
+        wowKeepItButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [wowKeepItButton setTitle:@"Wow! Let's keep it" forState:UIControlStateNormal];
-        wowKeepItButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:28];
+        wowKeepItButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:fontSize];
         wowKeepItButton.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
         [wowKeepItButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        wowKeepItButton.frame = CGRectMake(0, 0, 320, 92);
+        wowKeepItButton.frame = CGRectMake(0, 0, 320, buttonHieght);
         [wowKeepItButton addTarget:self action:@selector(takePhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:wowKeepItButton];
         
         
-        tryAgainButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        tryAgainButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [tryAgainButton setTitle:@"Hmm... try again" forState:UIControlStateNormal];
-        tryAgainButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:28];
+        tryAgainButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:fontSize];
         tryAgainButton.backgroundColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
         [tryAgainButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        tryAgainButton.frame = CGRectMake(0, 92, 320, 92);
+        tryAgainButton.frame = CGRectMake(0, buttonHieght, 320, buttonHieght);
         [self.view addSubview:tryAgainButton];
         
         [tryAgainButton addTarget:self action:@selector(tryAgainButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -56,7 +77,7 @@
 
 -(void) slideUp {
     CGRect newFrame = self.view.frame;
-    newFrame.origin.y = 384;
+    newFrame.origin.y =newFrameY ;
     
     [UIView animateWithDuration:0.25
                           delay:0.0

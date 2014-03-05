@@ -105,7 +105,7 @@
     //setting up swipe menu buttons
     
     [self.mainSwipeViewController.voteButton addTarget:self action:@selector(showVoteViewController:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [self.mainSwipeViewController.topSelfies addTarget:self action:@selector(showTopChartViewController:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.mainSwipeViewController.yourSelfiesButton addTarget:self action:@selector(showYourSelfiesViewController:) forControlEvents:UIControlEventTouchUpInside];
@@ -150,6 +150,16 @@
     [self gotoNewViewController:self.connectToFacebookContoller animated:NO];
     
     
+}
+
+- (void)flipButton {
+    if ( self.mainSwipeViewController.voteButton.selected ) {
+        self.mainSwipeViewController.voteButton.highlighted = NO;
+        self.mainSwipeViewController.voteButton.selected = NO;
+    } else {
+        self.mainSwipeViewController.voteButton.highlighted = YES;
+        self.mainSwipeViewController.voteButton.selected = YES;
+    }
 }
 
 - (void) enablePanGestureRecognizer:(id)sender {
@@ -206,6 +216,9 @@
     
     self.voteViewController.view.alpha = 0.0;
     
+    self.mainSwipeViewController.voteButton.selected = YES;
+    self.mainSwipeViewController.voteButton.highlighted = YES;
+    
     [self swipeMenuBack];
     
     [UIView animateWithDuration:0.4
@@ -228,6 +241,9 @@
     [self gotoNewViewController:self.topChartViewController animated:YES];
     return;
     
+    self.mainSwipeViewController.voteButton.selected = YES;
+    self.mainSwipeViewController.voteButton.highlighted = YES;
+    
     self.topChartViewController.view.alpha = 0.0;
     
     [self swipeMenuBack];
@@ -249,6 +265,9 @@
     [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
     return;
     
+     self.mainSwipeViewController.yourSelfiesButton.selected = YES;
+    self.mainSwipeViewController.yourSelfiesButton.highlighted = YES;
+    
     self.yourSelfiesViewController.view.alpha = 0.0;
     
     [self swipeMenuBack];
@@ -268,6 +287,9 @@
 -(void)showShootOneViewController:(id)sender {
     [self gotoNewViewController:self.shootOneViewController animated:YES];
     return;
+    
+    self.mainSwipeViewController.shootOne.selected = YES;
+    self.mainSwipeViewController.shootOne.highlighted = YES;
     
     self.shootOneViewController.view.alpha = 0.0;
     

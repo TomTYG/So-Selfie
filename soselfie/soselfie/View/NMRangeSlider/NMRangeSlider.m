@@ -296,12 +296,12 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _lowerHandleImageNormal = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _lowerHandleImageNormal = image;
         }
 
@@ -316,12 +316,12 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _lowerHandleImageHighlighted = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _lowerHandleImageNormal = image;
         }
     }
@@ -335,12 +335,12 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _upperHandleImageNormal = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _upperHandleImageNormal = image;
         }
     }
@@ -354,12 +354,12 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _upperHandleImageHighlighted = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square_test"];
+            UIImage* image = [UIImage imageNamed:@"slider_square"];
             _upperHandleImageNormal = image;
         }
     }
@@ -504,6 +504,7 @@ NSUInteger DeviceSystemMajorVersion() {
     self.lowerHandle = [[UIImageView alloc] initWithImage:self.lowerHandleImageNormal highlightedImage:self.lowerHandleImageHighlighted];
     self.lowerHandle.frame = [self thumbRectForValue:_lowerValue image:self.lowerHandleImageNormal];
     
+    
     //------------------------------
     // Upper Handle Handle
     self.upperHandle = [[UIImageView alloc] initWithImage:self.upperHandleImageNormal highlightedImage:self.upperHandleImageHighlighted];
@@ -519,8 +520,8 @@ NSUInteger DeviceSystemMajorVersion() {
     
     //those handles are just commented out
     
-    //[self addSubview:self.lowerHandle];
-    //[self addSubview:self.upperHandle];
+    [self addSubview:self.lowerHandle];
+    [self addSubview:self.upperHandle];
     
     //adding labels
     
@@ -551,16 +552,32 @@ NSUInteger DeviceSystemMajorVersion() {
 
     // Layout the lower handle
     self.lowerHandle.frame = [self thumbRectForValue:_lowerValue image:self.lowerHandleImageNormal];
+    
+    CGRect newLowerHandleFrame = self.lowerHandle.frame;
+    newLowerHandleFrame.size = CGSizeMake(35, 35);
+    newLowerHandleFrame.origin.y = self.lowerHandle.frame.origin.y + 0.5;
+    self.lowerHandle.frame = newLowerHandleFrame;
+    self.lowerHandle.contentMode = UIViewContentModeScaleAspectFit;
+    
     self.lowerHandle.image = self.lowerHandleImageNormal;
     self.lowerHandle.highlightedImage = self.lowerHandleImageHighlighted;
     self.lowerHandle.hidden = self.lowerHandleHidden;
     
     // Layoput the upper handle
     self.upperHandle.frame = [self thumbRectForValue:_upperValue image:self.upperHandleImageNormal];
+    
+    CGRect newUpperHandleFrame = self.upperHandle.frame;
+    newUpperHandleFrame.size = CGSizeMake(35, 35);
+    newUpperHandleFrame.origin.y = self.upperHandle.frame.origin.y + 0.5;
+    self.upperHandle.frame =newUpperHandleFrame;
+    self.upperHandle.contentMode = UIViewContentModeScaleAspectFit;
+    
     self.upperHandle.image = self.upperHandleImageNormal;
     self.upperHandle.highlightedImage = self.upperHandleImageHighlighted;
     self.upperHandle.hidden= self.upperHandleHidden;
     
+    
+
 }
 
 - (CGSize)intrinsicContentSize

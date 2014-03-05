@@ -45,26 +45,33 @@
     //setting up the bottom view
     float bottomViewHeight;
     float bottomButtonHeight;
-    int imageSize = 82;
+    int imageSize;
+    int buttonMarginY;
+    int bottomViewYOrigin;
     
      if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
          bottomViewHeight = 184;
          bottomButtonHeight = 50;
          imageSize = 114;
+         buttonMarginY = 15;
          pressShootButtonImage = [UIImage imageNamed:@"iphone5_shootbutton"];
          pressShootButtonImageHover = [UIImage imageNamed:@"iphone5_shootbuttonHOVER"];
+         bottomViewYOrigin = [[UIScreen mainScreen] bounds].size.height - bottomViewHeight -6; //WHAT IS THIS 6?????
      }
     
      else {
          bottomViewHeight = 120;
          bottomButtonHeight = 27;
          imageSize = 82;
+         buttonMarginY = 8;
          pressShootButtonImage = [UIImage imageNamed:@"iphone4_shootbutton"];
          pressShootButtonImageHover = [UIImage imageNamed:@"iphone4_shootButton_HOVER"];
+         bottomViewYOrigin = [[UIScreen mainScreen] bounds].size.height - bottomViewHeight - [UIApplication sharedApplication].statusBarFrame.size.height;
+         
      }
     
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - bottomViewHeight, 320,bottomViewHeight)];
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewYOrigin, 320,bottomViewHeight)];
     bottomView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
     [self.view addSubview:bottomView];
     
@@ -76,7 +83,7 @@
     [self.shootYourSelfieBottomButton setTitle:@"Shoot your selfie!" forState:UIControlStateNormal];
     self.shootYourSelfieBottomButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:23];
     [self.shootYourSelfieBottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.shootYourSelfieBottomButton.frame = CGRectMake(0, 134, 320, bottomButtonHeight);
+    self.shootYourSelfieBottomButton.frame = CGRectMake(0, bottomViewHeight - bottomButtonHeight, 320, bottomButtonHeight);
     self.shootYourSelfieBottomButton.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [bottomView addSubview:self.shootYourSelfieBottomButton];
     
@@ -85,14 +92,14 @@
     self.pressShootButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pressShootButton setImage:pressShootButtonImage forState:UIControlStateNormal];
     [self.pressShootButton setImage:pressShootButtonImageHover forState:UIControlStateHighlighted];
-    self.pressShootButton.frame = CGRectMake(103, 15, imageSize, imageSize);
+    self.pressShootButton.frame = CGRectMake((self.view.frame.size.width - imageSize)/2, buttonMarginY, imageSize, imageSize);
     [bottomView addSubview:self.pressShootButton];
     
     [self.pressShootButton addTarget:self action:@selector(shootButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     
     self.keepOrTryAgainViewController = [[KeepItOrTryAgainViewController alloc] initWithNibName:nil bundle:nil];
     self.keepOrTryAgainViewController.view.backgroundColor = [UIColor clearColor];
-    self.keepOrTryAgainViewController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 184);
+    self.keepOrTryAgainViewController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, bottomViewHeight);
     self.keepOrTryAgainViewController.delegate = self;
     [self.view addSubview:self.keepOrTryAgainViewController.view];
     //[self.view bringSubviewToFront:self.keepOrTryAgainViewController.view];

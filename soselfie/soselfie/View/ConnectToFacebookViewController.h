@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RankingButtonWithSubtitle.h"
+#import "SSMacros.h"
 
 @class ConnectToFacebookViewController;
 

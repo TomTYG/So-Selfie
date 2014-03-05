@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DropDownMenu.h"
 #import "SSMacros.h"
+#import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 
 @interface TabBarView : UIView
 
@@ -18,5 +19,6 @@
 @property (strong ,nonatomic) UIButton *shootButton;
 @property (strong, nonatomic) UIButton *voteButton;
 @property (strong, nonatomic) DropDownMenu *dropDownMenu;
+
 
 @end
