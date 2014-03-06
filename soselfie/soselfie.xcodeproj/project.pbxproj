@@ -11,6 +11,8 @@
 		08683E6318C77F4D0088B665 /* track_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E6118C77F4D0088B665 /* track_background@2x.png */; };
 		08683E6418C77F4D0088B665 /* track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E6218C77F4D0088B665 /* track@2x.png */; };
 		08683E7618C787FA0088B665 /* slider_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08683E7518C787FA0088B665 /* slider_square@2x.png */; };
+		08A2D60918C876E300E5A8D7 /* PopUpSelectGenderAgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08A2D60818C876E300E5A8D7 /* PopUpSelectGenderAgeController.m */; };
+		08A2D60F18C887E200E5A8D7 /* iphone5_textless_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A2D60E18C887E200E5A8D7 /* iphone5_textless_logo@2x.png */; };
 		08ECE36218C5D22700650753 /* ConnectToFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */; };
 		08ECE36318C5D22700650753 /* DropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32018C5D22700650753 /* DropDownMenu.m */; };
 		08ECE36418C5D22700650753 /* KeepItOrTryAgainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08ECE32218C5D22700650753 /* KeepItOrTryAgainViewController.m */; };
@@ -89,6 +91,9 @@
 		08683E6118C77F4D0088B665 /* track_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track_background@2x.png"; sourceTree = "<group>"; };
 		08683E6218C77F4D0088B665 /* track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track@2x.png"; sourceTree = "<group>"; };
 		08683E7518C787FA0088B665 /* slider_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider_square@2x.png"; sourceTree = "<group>"; };
+		08A2D60718C876E300E5A8D7 /* PopUpSelectGenderAgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopUpSelectGenderAgeController.h; path = View/PopUpSelectGenderAgeController.h; sourceTree = "<group>"; };
+		08A2D60818C876E300E5A8D7 /* PopUpSelectGenderAgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopUpSelectGenderAgeController.m; path = View/PopUpSelectGenderAgeController.m; sourceTree = "<group>"; };
+		08A2D60E18C887E200E5A8D7 /* iphone5_textless_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone5_textless_logo@2x.png"; sourceTree = "<group>"; };
 		08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectToFacebookViewController.h; path = View/ConnectToFacebookViewController.h; sourceTree = "<group>"; };
 		08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectToFacebookViewController.m; path = View/ConnectToFacebookViewController.m; sourceTree = "<group>"; };
 		08ECE31F18C5D22700650753 /* DropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropDownMenu.h; path = View/DropDownMenu.h; sourceTree = "<group>"; };
@@ -261,6 +266,7 @@
 		08ECE39018C5D23800650753 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				08A2D60E18C887E200E5A8D7 /* iphone5_textless_logo@2x.png */,
 				08ECE3A418C63B6F00650753 /* iphone4_shootButton_HOVER@x.png */,
 				08ECE3A518C63B6F00650753 /* iphone4_shootbutton@2x.png */,
 				89786F3818C61D030058A156 /* universalselfiepreview_shadow.png */,
@@ -376,6 +382,8 @@
 		8968798C18B36E4900C48085 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				08A2D60718C876E300E5A8D7 /* PopUpSelectGenderAgeController.h */,
+				08A2D60818C876E300E5A8D7 /* PopUpSelectGenderAgeController.m */,
 				08ECE32518C5D22700650753 /* MasterViewController.h */,
 				08ECE32618C5D22700650753 /* MasterViewController.m */,
 				08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */,
@@ -497,6 +505,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08A2D60F18C887E200E5A8D7 /* iphone5_textless_logo@2x.png in Resources */,
 				89786F3918C61D030058A156 /* universalselfiepreview_shadow.png in Resources */,
 				08ECE39D18C5D23800650753 /* slidebutton@2x.png in Resources */,
 				08ECE39918C5D23800650753 /* iphone5_shootbuttonHOVER@2x.png in Resources */,
@@ -533,6 +542,7 @@
 			files = (
 				08ECE38618C5D22700650753 /* SelfiesCollectionViewCell.m in Sources */,
 				89200EEB18B7985F00EB75E5 /* Base64.m in Sources */,
+				08A2D60918C876E300E5A8D7 /* PopUpSelectGenderAgeController.m in Sources */,
 				8909BDA418BCE9C000A08963 /* RootOwnSelfiesViewCell.m in Sources */,
 				890E1DA218B618D400F2CFAE /* TYGURLLoader.m in Sources */,
 				08ECE38318C5D22700650753 /* NMRangeSlider.m in Sources */,

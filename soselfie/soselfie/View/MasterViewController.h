@@ -14,6 +14,7 @@
 #import "ShootOneViewController.h"
 #import "ConnectToFacebookViewController.h"
 #import "SSMacros.h"
+#import "PopUpSelectGenderAgeController.h"
 
 
 @interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate, ShootOneViewControllerDelegate>

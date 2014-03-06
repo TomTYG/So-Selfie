@@ -555,7 +555,7 @@ NSUInteger DeviceSystemMajorVersion() {
     
     CGRect newLowerHandleFrame = self.lowerHandle.frame;
     newLowerHandleFrame.size = CGSizeMake(35, 35);
-    newLowerHandleFrame.origin.y = self.lowerHandle.frame.origin.y + 0.5;
+    newLowerHandleFrame.origin.y = self.lowerHandle.frame.origin.y;
     self.lowerHandle.frame = newLowerHandleFrame;
     self.lowerHandle.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -568,7 +568,7 @@ NSUInteger DeviceSystemMajorVersion() {
     
     CGRect newUpperHandleFrame = self.upperHandle.frame;
     newUpperHandleFrame.size = CGSizeMake(35, 35);
-    newUpperHandleFrame.origin.y = self.upperHandle.frame.origin.y + 0.5;
+    newUpperHandleFrame.origin.y = self.upperHandle.frame.origin.y;
     self.upperHandle.frame =newUpperHandleFrame;
     self.upperHandle.contentMode = UIViewContentModeScaleAspectFit;
     

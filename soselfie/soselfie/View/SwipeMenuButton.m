@@ -45,17 +45,9 @@
     return self;
 }
 
-/*
-- (void)flipButton {
-    if ( self.selected ) {
-        self.highlighted = NO;
-        self.selected = NO;
-    } else {
-        self.highlighted = YES;
-        self.selected = YES;
-    }
-}
-*/
+
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.
