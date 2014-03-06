@@ -13,7 +13,7 @@
     CGPoint positionAtStartOfGesture;
     float swipeMenuMax;
     UIViewController *activeViewController;
-    
+    UIButton *previouslySelectedButton;
 }
 
 @end
@@ -84,7 +84,7 @@
     self.voteViewController.view.alpha = 0;
     [self.genericCentralView addSubview:self.voteViewController.view];
     
-    
+    //pop up select age/gender veiw controller
     
     
     //create connect to facebook controller
@@ -153,16 +153,6 @@
     
 }
 
-- (void)flipButton {
-    if ( self.mainSwipeViewController.voteButton.selected ) {
-        self.mainSwipeViewController.voteButton.highlighted = NO;
-        self.mainSwipeViewController.voteButton.selected = NO;
-    } else {
-        self.mainSwipeViewController.voteButton.highlighted = YES;
-        self.mainSwipeViewController.voteButton.selected = YES;
-    }
-}
-
 - (void) enablePanGestureRecognizer:(id)sender {
     
     //NSLog (@"YESH");
@@ -216,100 +206,48 @@
 
 
 -(void)showVoteViewController:(id)sender {
+    
+    [self flipButton:self.mainSwipeViewController.voteButton];
     [self gotoNewViewController:self.voteViewController animated:YES];
     return;
-    
-    self.voteViewController.view.alpha = 0.0;
-    
-    self.mainSwipeViewController.voteButton.selected = YES;
-    self.mainSwipeViewController.voteButton.highlighted = YES;
-    
-    [self swipeMenuBack];
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.voteViewController.view.alpha = 1.0;
-                         self.topChartViewController.view.alpha = 0.0;
-                         self.yourSelfiesViewController.view.alpha = 0.0;
-                         self.shootOneViewController.view.alpha = 0.0;
-                         
-                     }
-                     completion:nil];
-    
-    
 }
 
 -(void)showTopChartViewController:(id)sender {
     
+    [self flipButton:self.mainSwipeViewController.topSelfies];
     [self gotoNewViewController:self.topChartViewController animated:YES];
     return;
-    
-    self.mainSwipeViewController.voteButton.selected = YES;
-    self.mainSwipeViewController.voteButton.highlighted = YES;
-    
-    self.topChartViewController.view.alpha = 0.0;
-    
-    [self swipeMenuBack];
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.topChartViewController.view.alpha = 1.0;
-                         self.voteViewController.view.alpha = 0.0;
-                         self.yourSelfiesViewController.view.alpha = 0.0;
-                         self.shootOneViewController.view.alpha = 0.0;
-                     }
-                     completion:nil];
 }
 
 -(void)showYourSelfiesViewController:(id)sender {
     
+    [self flipButton:self.mainSwipeViewController.yourSelfiesButton];
     [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
     return;
-    
-     self.mainSwipeViewController.yourSelfiesButton.selected = YES;
-    self.mainSwipeViewController.yourSelfiesButton.highlighted = YES;
-    
-    self.yourSelfiesViewController.view.alpha = 0.0;
-    
-    [self swipeMenuBack];
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.yourSelfiesViewController.view.alpha = 1.0;
-                         self.voteViewController.view.alpha = 0.0;
-                         self.topChartViewController.view.alpha = 0.0;
-                         self.shootOneViewController.view.alpha = 0.0;
-                     }
-                     completion:nil];
 }
 
 -(void)showShootOneViewController:(id)sender {
+    
+    [self flipButton:self.mainSwipeViewController.shootOne];
     [self gotoNewViewController:self.shootOneViewController animated:YES];
     return;
+}
+
+- (void)flipButton:(UIButton *)button{
     
-    self.mainSwipeViewController.shootOne.selected = YES;
-    self.mainSwipeViewController.shootOne.highlighted = YES;
+   
     
-    self.shootOneViewController.view.alpha = 0.0;
+    if ( button.selected ) {
+        button.highlighted = NO;
+        button.selected = NO;
+    } else {
+        button.highlighted = YES;
+        button.selected = YES;
+        previouslySelectedButton.highlighted = NO;
+        previouslySelectedButton.selected = NO;
+    }
     
-    [self swipeMenuBack];
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.shootOneViewController.view.alpha = 1.0;
-                         self.yourSelfiesViewController.view.alpha = 0.0;
-                         self.voteViewController.view.alpha = 0.0;
-                         self.topChartViewController.view.alpha = 0.0;
-                     }
-                     completion:nil];
+    previouslySelectedButton = button;
 }
 
 
@@ -529,6 +467,7 @@
 -(void)connectToFacebookControllerLoginSuccessful:(ConnectToFacebookViewController *)viewcontroller wasUserInitiated:(BOOL)userInitiated {
     
     //consider whether you want to animate based on the login call was made by the app instead of by the user.
+    
     [self gotoNewViewController:self.voteViewController animated:YES];
     
     //[self.voteViewController.mainVoteCollectionView reloadData];

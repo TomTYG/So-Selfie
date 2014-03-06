@@ -9,7 +9,7 @@
 #import "ConnectToFacebookViewController.h"
 #import "SSAPI.h"
 @interface ConnectToFacebookViewController () {
-    UIButton *connectToFacebookButton;
+    RankingButtonWithSubtitle *connectToFacebookButton;
 }
 
 @end
@@ -92,6 +92,13 @@
         }
         
         //TODO: create popups that determine whether age and gender could be retrieved, and allow the user to set them.
+        
+        if(couldRetrieveBirthday == false || couldRetrieveGender == false){
+            
+        PopUpSelectGenderAgeController *popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
+        [self.view addSubview:popUpSelectGenderAgeController.view];
+        
+        }
         
         [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
         

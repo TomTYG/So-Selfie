@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RankingButtonWithSubtitle.h"
 #import "SSMacros.h"
+#import "PopUpSelectGenderAgeController.h"
 
 @class ConnectToFacebookViewController;
 
