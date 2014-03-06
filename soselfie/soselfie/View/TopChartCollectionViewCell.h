@@ -15,4 +15,6 @@
 @property (strong, nonatomic) UIImageView *facebookProfilePicture;
 @property (strong, nonatomic) UILabel *facebookNameLabel; 
 
+-(void)startWithImageData:(NSDictionary*)imageData;
+
 @end

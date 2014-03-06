@@ -125,8 +125,10 @@
     
     
     [self showOnlyBoysSelfies:self.boysFilterButton];
+    
     self.boysButtonIsPressed = YES;
-    self.girlsButtonIsPressed = NO;
+    [self showOnlyGirlsSelfies:self.girlsFilterButton];
+    //self.girlsButtonIsPressed = NO;
     
      //genderButtons
     

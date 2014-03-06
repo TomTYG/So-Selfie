@@ -7,6 +7,18 @@
 //
 
 #import "TopChartCollectionViewCell.h"
+#import "SSAPI.h"
+
+@interface TopChartCollectionViewCell () {
+    
+    
+    UIImageView *facebookProfileBackground;
+    UIImageView *shadowOverImagesView;
+}
+
+@property (weak) NSDictionary *imageData;
+
+@end
 
 @implementation TopChartCollectionViewCell
 
@@ -24,16 +36,25 @@
         self.rankingPlace.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.rankingPlace];
         
+        shadowOverImagesView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"universalselfiepreview_shadow.png"]];
+        shadowOverImagesView.contentMode = UIViewContentModeScaleAspectFit;
+        CGRect cr = shadowOverImagesView.frame;
+        cr.size.width *= 0.5;
+        cr.size.height *= 0.5;
+        cr.origin.y = self.selfieImageView.frame.size.height + self.selfieImageView.frame.origin.y - cr.size.height;
+        shadowOverImagesView.frame = cr;
+        [self addSubview:shadowOverImagesView];
+        
         self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 270, 38, 38)];
         self.facebookProfilePicture.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
         [self addSubview:self.facebookProfilePicture];
         
        
-        self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(58, 270, 100, 38)];
-        self.facebookNameLabel.text = @"Facebook Name";
+        self.facebookNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(58, 270, self.frame.size.width - 58, 38)];
+        self.facebookNameLabel.text = @"";
         self.facebookNameLabel.backgroundColor = [UIColor clearColor];
-        self.facebookNameLabel.textAlignment = NSTextAlignmentCenter;
-        self.facebookNameLabel.textColor = [UIColor blackColor];
+        self.facebookNameLabel.textAlignment = NSTextAlignmentLeft;
+        self.facebookNameLabel.textColor = [UIColor whiteColor];
         [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
         [self addSubview:self.facebookNameLabel];
     
@@ -41,13 +62,36 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+-(void)startWithImageData:(NSDictionary *)imageData {
+    
+    self.imageData = imageData;
+    
+    [SSAPI getImageWithImageURL:self.imageData[@"url_small"] onComplete:^(UIImage *image, NSError *error){
+        if (self.imageData != imageData) return;
+        
+        self.selfieImageView.image = image;
+    }];
+    
+    [SSAPI getUserFullName:self.imageData[@"user"][@"fbid"] onComplete:^(NSString *fullName, NSError *error){
+        if (self.imageData != imageData) return;
+        
+        self.facebookNameLabel.text = fullName;
+    }];
+    
+    [SSAPI getProfilePictureOfUser:self.imageData[@"user"][@"fbid"] withSize:facebookProfileBackground.frame.size onComplete:^(UIImage *image, NSError *error){
+        if (self.imageData != imageData) return;
+        
+        self.facebookProfilePicture.image = image;
+        
+    }];
 }
-*/
+
+-(void)prepareForReuse {
+    self.imageData = nil;
+    self.selfieImageView.image = nil;
+    self.facebookNameLabel.text = @"";
+    self.facebookProfilePicture.image = nil;
+}
+
 
 @end

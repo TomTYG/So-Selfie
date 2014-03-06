@@ -14,12 +14,14 @@
 #import "TopChartCollectionViewCell.h"
 #import "SSMacros.h"
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate>
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate, RatingButtonsViewControllerDelegate>
 
 @property (strong, nonatomic) UICollectionView *topChartCollectionView;
-@property (strong, nonatomic) NSArray *testDataArray;
 @property (strong, nonatomic) RatingButtonsViewController *ratingButtonsController;
 @property (strong, nonatomic) DropDownMenu *dropDownMenu;
 @property (strong, nonatomic) TabBarView *tabBarView;
+
+
+-(void)becameVisible;
 
 @end

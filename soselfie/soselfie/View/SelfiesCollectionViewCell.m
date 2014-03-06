@@ -7,6 +7,15 @@
 //
 
 #import "SelfiesCollectionViewCell.h"
+#import "SSAPI.h"
+
+@interface SelfiesCollectionViewCell () {
+    
+}
+
+@property (weak) NSDictionary *imageData;
+
+@end
 
 @implementation SelfiesCollectionViewCell
 
@@ -41,13 +50,13 @@
         self.soFunnyVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, y1, 50, labelheight)];
         self.soFunnyVotesLabel.textColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
         self.soFunnyVotesLabel.font =  [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soFunnyVotesLabel.text = [NSString stringWithFormat:@"%d",self.soFunnyVotes];
+        //self.soFunnyVotesLabel.text = [NSString stringWithFormat:@"%d",self.soFunnyVotes];
         [self addSubview:self.soFunnyVotesLabel];
         
         self.soFunnyRankLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, y1, 50, labelheight)];
         self.soFunnyRankLabel.textColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
         self.soFunnyRankLabel.font = [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soFunnyRankLabel.text = [NSString stringWithFormat:@"#%d",self.soFunnyRank];
+        //self.soFunnyRankLabel.text = [NSString stringWithFormat:@"#%d",self.soFunnyRank];
         [self addSubview:self.soFunnyRankLabel];
         
         
@@ -64,13 +73,13 @@
         self.soHotVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, y2, 50, labelheight)];
         self.soHotVotesLabel.textColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
         self.soHotVotesLabel.font =  [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soHotVotesLabel.text = [NSString stringWithFormat:@"%d",self.soHotVotes];
+        //self.soHotVotesLabel.text = [NSString stringWithFormat:@"%d",self.soHotVotes];
         [self addSubview:self.soHotVotesLabel];
         
         self.soHotRankLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, y2, 50, labelheight)];
         self.soHotRankLabel.textColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
         self.soHotRankLabel.font = [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soHotRankLabel.text = [NSString stringWithFormat:@"#%d",self.soHotRank];
+        //self.soHotRankLabel.text = [NSString stringWithFormat:@"#%d",self.soHotRank];
         [self addSubview:self.soHotRankLabel];
         
         //soLameLine
@@ -86,13 +95,13 @@
         self.soLameVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, y3, 50, labelheight)];
         self.soLameVotesLabel.textColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
         self.soLameVotesLabel.font =  [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soLameVotesLabel.text = [NSString stringWithFormat:@"%d",self.soLameVotes];
+        //self.soLameVotesLabel.text = [NSString stringWithFormat:@"%d",self.soLameVotes];
         [self addSubview:self.soLameVotesLabel];
         
         self.soLameRankLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, y3, 50, labelheight)];
         self.soLameRankLabel.textColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
         self.soLameRankLabel.font = [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.soLameRankLabel.text = [NSString stringWithFormat:@"#%d",self.soLameRank];
+        //self.soLameRankLabel.text = [NSString stringWithFormat:@"#%d",self.soLameRank];
         [self addSubview:self.soLameRankLabel];
         
         
@@ -109,13 +118,13 @@
         self.tryAgainVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(235,y4, 50, labelheight)];
         self.tryAgainVotesLabel.textColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
         self.tryAgainVotesLabel.font =  [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.tryAgainVotesLabel.text = [NSString stringWithFormat:@"%d",self.tryAgainVotes];
+        //self.tryAgainVotesLabel.text = [NSString stringWithFormat:@"%d",self.tryAgainVotes];
         [self addSubview:self.tryAgainVotesLabel];
         
         self.tryAgainRankLabel = [[UILabel alloc] initWithFrame:CGRectMake(280,y4, 50, labelheight)];
         self.tryAgainRankLabel.textColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
         self.tryAgainRankLabel.font = [UIFont fontWithName:myriadBoldFont size:textsize];
-        self.tryAgainRankLabel.text = [NSString stringWithFormat:@"#%d",self.soLameRank];
+        //self.tryAgainRankLabel.text = [NSString stringWithFormat:@"#%d",self.soLameRank];
         [self addSubview:self.tryAgainRankLabel];
         
         //border bottom
@@ -127,7 +136,7 @@
         
     
         self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(223, 88, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"erase selfie" withFontSize:15];
-        
+        [self.eraseSelfieButton addTarget:self action:@selector(eraseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.eraseSelfieButton];
         
         //setting soHotLine
@@ -141,13 +150,43 @@
 }
 
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+-(void)startWithImageData:(NSDictionary *)imageData {
+    //NSLog(@"image data %@", imageData[@"id"]);
+    
+    self.imageData = imageData;
+    
+    [SSAPI getImageWithImageURL:self.imageData[@"url_small"] onComplete:^(UIImage *image, NSError* error){
+        if (self.imageData != imageData) return;
+        
+        self.imageThumbView.image = image;
+        
+        self.soFunnyVotesLabel.text = self.imageData[@"votes_funny"];
+        self.soHotVotesLabel.text = self.imageData[@"votes_hot"];
+        self.soLameVotesLabel.text = self.imageData[@"votes_lame"];
+        self.tryAgainVotesLabel.text = self.imageData[@"votes_weird"];
+    }];
+    
 }
-*/
+
+-(void)eraseButtonClicked:(id)sender {
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Erase selfie?" message:@"Really erase this selfie?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [v show];
+}
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) return;
+    
+    [self.delegate selfiesCollectionViewCell:self pressedDeleteWithImageData:self.imageData];
+}
+
+-(void)prepareForReuse {
+    self.imageThumbView.image = nil;
+    
+    self.soFunnyVotesLabel.text = @"";
+    self.soHotVotesLabel.text = @"";
+    self.soLameVotesLabel.text = @"";
+    self.tryAgainVotesLabel.text = @"";
+}
+
+
 
 @end

@@ -9,8 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "RankingButtonWithSubtitle.h"
 #import "SSMacros.h"
+#import "SSAPI.h"
+
+@class RatingButtonsViewController;
+
+@protocol RatingButtonsViewControllerDelegate <NSObject>
+
+@required
+-(void)ratingButtonsViewController:(RatingButtonsViewController*)viewcontroller pressedVote:(SSVoteType)voteType;
+
+@end
 
 @interface RatingButtonsViewController : UIViewController
+
+@property (weak) id<RatingButtonsViewControllerDelegate>delegate;
 
 @property (strong, nonatomic) UIButton *soFunnyButton;
 @property (strong, nonatomic) UIButton *soHotButton;

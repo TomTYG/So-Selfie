@@ -11,11 +11,12 @@
 #import "TabBarView.h"
 
 
-@interface YourSelfiesController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface YourSelfiesController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, SelfiesCollectionViewCellDelegate>
 
 @property (strong, nonatomic) UICollectionView *yourSelfiesCollectionView;
 @property (strong, nonatomic) TabBarView *tabBarView;
-@property (strong, nonatomic) NSArray *testDataArray; 
 
+
+-(void)becameVisible;
 
 @end

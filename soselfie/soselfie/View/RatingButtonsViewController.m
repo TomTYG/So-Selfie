@@ -46,12 +46,12 @@
     //iphone 4 or 5
     
     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
-    self.soFunnyButton.frame = CGRectMake(0, 0, 160, 95);
+        self.soFunnyButton.frame = CGRectMake(0, 0, 160, 95);
     }
     
     else{
-        NSLog (@"now this one is the frame");
-    self.soFunnyButton.frame = CGRectMake(0, 0, 160, 60);
+        //NSLog (@"now this one is the frame");
+        self.soFunnyButton.frame = CGRectMake(0, 0, 160, 60);
     }
     
     
@@ -148,30 +148,29 @@
     [self.view addSubview:self.tryAgain];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)soFunnyButtonWasPressed {
-    NSLog (@"SOOO funny!");
-    [self slideDownWithDuration:0.4];
+    [self.delegate ratingButtonsViewController:self pressedVote:SSVoteTypeFunny];
+    //NSLog (@"SOOO funny!");
+    //[self slideDownWithDuration:0.4];
 }
 
 -(void)soHotButtonWasPressed {
-    NSLog (@"SOOO hot!");
-    [self slideDownWithDuration:0.4];
+    [self.delegate ratingButtonsViewController:self pressedVote:SSVoteTypeHot];
+    //NSLog (@"SOOO hot!");
+    //[self slideDownWithDuration:0.4];
 }
 
 -(void)soLameButtonWasPressed {
-    NSLog (@"SOOOO lame!");
-    [self slideDownWithDuration:0.4];
+    [self.delegate ratingButtonsViewController:self pressedVote:SSVoteTypeLame];
+    //NSLog (@"SOOOO lame!");
+    //[self slideDownWithDuration:0.4];
 }
 
 -(void)tryAgainButtonWasPressed {
-    NSLog (@"Try again!");
-    [self slideDownWithDuration:0.4];
+    [self.delegate ratingButtonsViewController:self pressedVote:SSVoteTypeTryAgain];
+    //NSLog (@"Try again!");
+    //[self slideDownWithDuration:0.4];
 }
 
 -(void)slideUp{

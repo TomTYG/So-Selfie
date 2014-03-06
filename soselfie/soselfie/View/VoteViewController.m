@@ -13,6 +13,7 @@
 @interface VoteViewController () {
     //long selfieCellCounter;
     int collectioncellcounter;
+    BOOL firstView;
 }
 
 @end
@@ -22,7 +23,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
+    firstView = true;
     collectioncellcounter = 1;
     
     VoteCollectionViewFlowLayout *layout = [[VoteCollectionViewFlowLayout alloc] init];
@@ -55,6 +56,12 @@
 }
 
 
+-(void)becameVisible {
+    if (firstView == true) [self.mainVoteCollectionView reloadData];
+    firstView = false;
+}
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return collectioncellcounter;
@@ -62,6 +69,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     
 
     VoteCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyCell" forIndexPath:indexPath];

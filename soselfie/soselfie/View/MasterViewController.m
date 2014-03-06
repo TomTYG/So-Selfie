@@ -13,6 +13,7 @@
     CGPoint positionAtStartOfGesture;
     float swipeMenuMax;
     UIViewController *activeViewController;
+    
 }
 
 @end
@@ -181,6 +182,10 @@
     
     //do nothing if the new view controller is already the active view controller.
     if (activeViewController == newViewController) return;
+    
+    if ([newViewController respondsToSelector:@selector(becameVisible)]) {
+        [newViewController performSelector:@selector(becameVisible)];
+    }
     
     [self swipeMenuBack];
     
@@ -363,6 +368,8 @@
 
 - (void)showMainMenuOnSwipe:(id)sender {
     
+    //the menu should not be active while the connect to facebook button is still showing.
+    if (activeViewController == self.connectToFacebookContoller) return;
    
     
     CGPoint velocity = [(UIPanGestureRecognizer*)sender velocityInView:[sender view]];
@@ -524,7 +531,7 @@
     //consider whether you want to animate based on the login call was made by the app instead of by the user.
     [self gotoNewViewController:self.voteViewController animated:YES];
     
-    [self.voteViewController.mainVoteCollectionView reloadData];
+    //[self.voteViewController.mainVoteCollectionView reloadData];
 }
 
 #pragma mark - SHOOT ONE DELEGATE

@@ -9,7 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 
-@interface SelfiesCollectionViewCell : UICollectionViewCell
+@class SelfiesCollectionViewCell;
+
+@protocol SelfiesCollectionViewCellDelegate <NSObject>
+
+@required
+-(void)selfiesCollectionViewCell:(SelfiesCollectionViewCell*)cell pressedDeleteWithImageData:(NSDictionary*)imageData;
+
+@end
+
+@interface SelfiesCollectionViewCell : UICollectionViewCell<UIAlertViewDelegate>
+
+@property (weak) id<SelfiesCollectionViewCellDelegate>delegate;
 
 @property (strong, nonatomic) UIImageView *imageThumbView;
 @property (strong ,nonatomic) GenericSoSelfieButtonWithOptionalSubtitle *eraseSelfieButton;
@@ -43,6 +54,8 @@
 
 @property int tryAgainVotes;
 @property int tryAgainRank;
+
+-(void)startWithImageData:(NSDictionary*)imageData;
 
 
 @end
