@@ -67,12 +67,18 @@
         [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
         [self addSubview:self.facebookNameLabel];
         
+        
         UIView *containerViewForScoreView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height/4, 160, 95)];
-        containerViewForScoreView.clipsToBounds = YES;
+        containerViewForScoreView.backgroundColor = [UIColor redColor];
         [self addSubview:containerViewForScoreView];
         
-        self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.frame.size.height/4, 160, 95)];
+         
+        
+        self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, 0, 160, 95)];
         [containerViewForScoreView addSubview:self.scoreViewForTopImages];
+        
+        
+        containerViewForScoreView.clipsToBounds = YES;
     
     }
     return self;

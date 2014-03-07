@@ -85,14 +85,16 @@
     self.facebookNameLabel.alpha = 0;
     [self addSubview:self.facebookNameLabel];
     
-    int buttonWidth = 30;
-    int buttonHeight = 30;
+    int buttonWidth = 35;
+    int buttonHeight = 35;
     
     innapropriateImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     innapropriateImageButton.frame = CGRectMake(self.frame.size.width - buttonWidth - 10, facebookInfoY + 3,buttonWidth, buttonHeight);
+    
     [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate"] forState:UIControlStateNormal];
     [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate_red"] forState:UIControlStateHighlighted];
     [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate_red"] forState:UIControlStateSelected];
+    
     [self addSubview:innapropriateImageButton];
     
     [innapropriateImageButton addTarget:self action:@selector(markAsInnapropriate:) forControlEvents:UIControlEventTouchUpInside];

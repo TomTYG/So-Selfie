@@ -15,14 +15,6 @@
 
 @implementation RatingButtonsViewController
 
--(id)initWithFrame:(CGRect)frame {
-    
-    self = [super initWithNibName:nil bundle:nil];
-    
-    
-    return self;
-}
-
 
 - (void)viewDidLoad
 {
