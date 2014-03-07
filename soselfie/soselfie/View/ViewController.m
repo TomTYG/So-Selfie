@@ -15,7 +15,7 @@
     int previoustotalloading;
     int currentindex;
     RatingButtonsViewController *ratingButtonsViewController;
-    UIView *basicView;
+    UIView *containerViewForRatingButtonsController;
 }
 
 @end
@@ -82,12 +82,13 @@
     imageDatas = @[];
     
     
-    ratingButtonsViewController = [[RatingButtonsViewController alloc] initWithNibName:nil bundle:nil];
-    ratingButtonsViewController.view.frame = CGRectMake(0, 380, self.view.frame.size.width, 0);
-    ratingButtonsViewController.view.clipsToBounds = YES;
-    [self.view addSubview:ratingButtonsViewController.view];
+    ratingButtonsViewController = [[RatingButtonsViewController alloc] init];
+    ratingButtonsViewController.view.frame = CGRectMake(0, -200, self.view.frame.size.width, 184);
     
-    ratingButtonsViewController.controllerIsDisplayed = NO;
+    containerViewForRatingButtonsController = [[UIView alloc] initWithFrame:CGRectMake(0, 380, self.view.frame.size.width, 184)];
+    containerViewForRatingButtonsController.clipsToBounds = YES;
+    [self.view addSubview:containerViewForRatingButtonsController];
+    [containerViewForRatingButtonsController addSubview:ratingButtonsViewController.view];
     
     
     
@@ -224,7 +225,24 @@
     
     float newYOrigin = [[UIScreen mainScreen] bounds].size.height - [collectionView cellForItemAtIndexPath:indexPath].frame.size.height - self.tabBarView.frame.size.height;
     
-    [self showOrHideRatingButtonsControllerWithYOrigin:newYOrigin];
+    //[self showOrHideRatingButtonsControllerWithYOrigin:newYOrigin];
+    
+    [self showRatingButtonsController];
+}
+
+- (void)showRatingButtonsController {
+    
+    CGRect newRatingButtonsControllerFrame = ratingButtonsViewController.view.frame;
+    newRatingButtonsControllerFrame.origin.y = 0;
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.2
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         ratingButtonsViewController.view.frame = newRatingButtonsControllerFrame;
+                     }
+                     completion:nil];
+    
 }
 
 -(void)showOrHideRatingButtonsControllerWithYOrigin:(float)newYOrigin {
