@@ -25,4 +25,6 @@
 
 @property (weak) id<ConnectoToFacebookViewControllerDelegate>delegate;
 
+-(void)start;
+
 @end

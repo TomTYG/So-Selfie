@@ -24,4 +24,6 @@
 
 @property (weak) id<PopUpSelectGenderAgeControllerDelegate>delegate;
 
+-(void)start;
+
 @end

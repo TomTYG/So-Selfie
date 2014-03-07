@@ -27,6 +27,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
+    
+    
+    return self;
+}
+-(void)start {
     int buttonHeight;
     int bottomInset;
     int logoYOrigin;
@@ -43,17 +48,20 @@
     
     else {
         
-        buttonHeight = 60;
+        buttonHeight = 80;
         bottomInset = 15;
         logoYOrigin = 150;
         labeYOrigin = 64;
     }
     
-    subviewForMainItems = [[UIView alloc] initWithFrame:self.view.frame];
+    subviewForMainItems = [[UIView alloc] initWithFrame:self.view.bounds];
     subviewForMainItems.backgroundColor = [UIColor clearColor];
+    subviewForMainItems.clipsToBounds = YES;
     [self.view addSubview:subviewForMainItems];
     
+    
     self.view.backgroundColor = [UIColor colorWithRed:232/255.0 green:232/255.0 blue:232/255.0 alpha:1.0];
+    
     
     connectToFacebookButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - buttonHeight, 320, buttonHeight)];
     connectToFacebookButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
@@ -61,14 +69,14 @@
     [connectToFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     connectToFacebookButton.backgroundColor = [UIColor colorWithRed:87/255.0 green:117/255.0 blue:174/255.0 alpha:1.0];
     [connectToFacebookButton setTitle:@"Connect with Facebook" forState:UIControlStateNormal];
-    [connectToFacebookButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
+    //[connectToFacebookButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
     [connectToFacebookButton addTarget:self action:@selector(loginButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [connectToFacebookButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(103/255.0) green:(140/255.0) blue:(198/255.0) alpha:1]] forState:UIControlStateHighlighted];
     [subviewForMainItems addSubview:connectToFacebookButton];
     
     UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(83, logoYOrigin, 154, 167)];
     logoImageView.image = [UIImage imageNamed:@"logo"];
-    [self.view addSubview:logoImageView];
+    [subviewForMainItems addSubview:logoImageView];
     
     UILabel *weNeedYouLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, labeYOrigin, 320, 21)];
     weNeedYouLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:20];
@@ -87,11 +95,11 @@
         });
         
     }
-    
-    return self;
 }
 
+
 -(void)loginButtonClicked:(id)sender {
+    NSLog(@"clicked login button");
     [self loginUserInitiated:true];
 }
 
@@ -111,12 +119,13 @@
         [self.view addSubview:splashScreenOverlay];
     }
     
-    NSLog(@"logging in");
+    NSLog(@"logging in %@", @(userInitiated));
     
     [SSAPI logInToFacebookOnComplete:^(NSString *fbid, NSString *accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error){
         
         
         NSLog(@"logged in %@", error);
+        
         connectToFacebookButton.enabled = YES;
         
         if (error != nil) {
@@ -143,8 +152,10 @@
                 [self.delegate connectToFacebookControllerAutoLoginFailed:self];
             }
             
-            popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
+            popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] initWithNibName:nil bundle:nil];
             popUpSelectGenderAgeController.delegate = self;
+            popUpSelectGenderAgeController.view.frame = self.view.bounds;
+            [popUpSelectGenderAgeController start];
             
             [subviewForMainItems addSubview:popUpSelectGenderAgeController.view];
             
@@ -167,6 +178,8 @@
 
 -(void)sendInfoToServerUserInitiated:(BOOL)userInitiated {
     
+    
+    
     [SSAPI sendProfileInfoToServerWithonComplete:^(BOOL success, NSError *possibleError){
         if (possibleError != nil) {
             UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Please try logging in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -175,9 +188,10 @@
         }
         
         
-        //NSLog(@"popup view %@", splashScreenOverlay.view);
+        //NSLog(@"popup view %@", splashScreenOverlay);
         if (splashScreenOverlay != nil) subviewForMainItems.alpha = 0;
         
+        [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
         
         double delayInSeconds = 1.0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -185,12 +199,12 @@
             [popUpSelectGenderAgeController.view removeFromSuperview];
             popUpSelectGenderAgeController = nil;
             
-            [splashScreenOverlay removeFromSuperview];
-            splashScreenOverlay = nil;
+            //[splashScreenOverlay removeFromSuperview];
+            //splashScreenOverlay = nil;
         });
         
         
-        [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
+        
     }];
 }
 

@@ -25,9 +25,8 @@
 @implementation PopUpSelectGenderAgeController
 
 
-- (void)viewDidLoad
+- (void)start
 {
-    [super viewDidLoad];
     
     int bottomButtonHeight;
     int bottomInset;
@@ -80,13 +79,13 @@
     weCanNotDetectLabel.numberOfLines = 3;
     [self.view addSubview:weCanNotDetectLabel];
     
-    selectionIsDoneButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen]bounds].size.height - bottomButtonHeight, 320, bottomButtonHeight)];
+    selectionIsDoneButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomButtonHeight, 320, bottomButtonHeight)];
     selectionIsDoneButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
     selectionIsDoneButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [selectionIsDoneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     selectionIsDoneButton.backgroundColor = [UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0];
     [selectionIsDoneButton setTitle:@"Done!" forState:UIControlStateNormal];
-    [selectionIsDoneButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
+    //[selectionIsDoneButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
     [selectionIsDoneButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1]] forState:UIControlStateHighlighted];
     [selectionIsDoneButton addTarget:self action:@selector(selectionIsDoneButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectionIsDoneButton];

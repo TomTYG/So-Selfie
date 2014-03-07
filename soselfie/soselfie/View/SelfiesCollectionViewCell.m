@@ -160,10 +160,24 @@
         
         self.imageThumbView.image = image;
         
-        self.soFunnyRankLabel.text = self.imageData[@"votes_funny"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_funny"][@"rank"];
-        self.soHotRankLabel.text = self.imageData[@"votes_hot"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_hot"][@"rank"];
-        self.soLameRankLabel.text = self.imageData[@"votes_lame"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_lame"][@"rank"];
-        self.tryAgainRankLabel.text = self.imageData[@"votes_weird"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_weird"][@"rank"];
+        NSString *s;
+        
+        s = self.imageData[@"votes_funny"][@"rank"] == [NSNull null] ? nil : self.imageData[@"votes_funny"][@"rank"];
+        if (s) s = [NSString stringWithFormat:@"#%@", s];
+        self.soFunnyRankLabel.text = s;
+        
+        s = self.imageData[@"votes_hot"][@"rank"] == [NSNull null] ? nil : self.imageData[@"votes_hot"][@"rank"];
+        if (s) s = [NSString stringWithFormat:@"#%@", s];
+        self.soHotRankLabel.text = s;
+        
+        s = self.imageData[@"votes_lame"][@"rank"] == [NSNull null] ? nil : self.imageData[@"votes_lame"][@"rank"];
+        if (s) s = [NSString stringWithFormat:@"#%@", s];
+        self.soLameRankLabel.text = s;
+        
+        s = self.imageData[@"votes_weird"][@"rank"] == [NSNull null] ? nil : self.imageData[@"votes_weird"][@"rank"];
+        if (s) s = [NSString stringWithFormat:@"#%@", s];
+        self.tryAgainRankLabel.text = s;
+        
         
         self.soFunnyVotesLabel.text = self.imageData[@"votes_funny"][@"count"];
         self.soHotVotesLabel.text = self.imageData[@"votes_hot"][@"count"];

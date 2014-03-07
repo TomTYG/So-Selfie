@@ -233,7 +233,7 @@
     
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
     
-    TopChartCollectionViewCell *currentCell = [collectionView cellForItemAtIndexPath:indexPath];
+    TopChartCollectionViewCell *currentCell = (TopChartCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
     
     currentCell.scoreViewForTopImages.soFunnyVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_funny"] valueForKey:@"count"];

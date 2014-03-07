@@ -43,19 +43,29 @@
     self.panRecognizer.delegate = self;
   
 
-    self.genericCentralView = [[UIView alloc] init];
+    self.genericCentralView = [[UIView alloc] initWithFrame:self.view.bounds];
     
     
     //iphone 4 or 5
     
+    CGRect c = self.genericCentralView.frame;
+    if (IS_IOS7 == true) {
+        //c.origin.y -= 20;
+        //c.size.height += 20;
+    } else {
+        //c.origin.y -= 20;
+    }
+    self.genericCentralView.frame = c;
+    
+    NSLog(@"generic frame %@", NSStringFromCGRect(c));
     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
-     
-    self.genericCentralView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        
+        //self.genericCentralView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         
     }
     else {
         
-    self.genericCentralView.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        //self.genericCentralView.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
         
     }
     
@@ -67,43 +77,50 @@
     //your selfies view controller
     self.yourSelfiesViewController = [[YourSelfiesController alloc] init];
     self.yourSelfiesViewController.view.alpha = 0;
+    self.yourSelfiesViewController.view.frame = self.genericCentralView.bounds;
     [self.genericCentralView addSubview:self.yourSelfiesViewController.view];
     
     //shoot view controller
     self.shootOneViewController = [[ShootOneViewController alloc] init];
     self.shootOneViewController.view.alpha = 0;
     self.shootOneViewController.delegate = self;
+    self.shootOneViewController.view.frame = self.genericCentralView.bounds;
     [self.genericCentralView addSubview:self.shootOneViewController.view];
     
     //top selfies controller
     self.topChartViewController = [[ViewController alloc] init];
     self.topChartViewController.view.alpha = 0;
+    self.topChartViewController.view.frame = self.genericCentralView.bounds;
     [self.genericCentralView addSubview:self.topChartViewController.view];
     
     //main vote view controller
     self.voteViewController = [[VoteViewController alloc] init];
     self.voteViewController.view.alpha = 0;
+    self.voteViewController.view.frame = self.genericCentralView.bounds;
+    [self.voteViewController start];
     [self.genericCentralView addSubview:self.voteViewController.view];
     
-    //pop up select age/gender view controller
-    
-    
     //create connect to facebook controller
-    self.connectToFacebookContoller = [[ConnectToFacebookViewController alloc] init];
+    self.connectToFacebookContoller = [[ConnectToFacebookViewController alloc] initWithNibName:nil bundle:nil];
     self.connectToFacebookContoller.delegate = self;
     self.connectToFacebookContoller.view.alpha = 0;
+    self.connectToFacebookContoller.view.frame = self.genericCentralView.bounds;
+    [self.connectToFacebookContoller start];
     [self.genericCentralView addSubview:self.connectToFacebookContoller.view];
-    
-    
     
     //main menu view controller
     
     self.mainSwipeViewController = [[MainSwipeMenuController alloc]init];
-    self.mainSwipeViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.mainSwipeViewController.delegate = self;
-    //[self addChildViewController:self.mainSwipeViewController];
+    self.mainSwipeViewController.view.frame = self.genericCentralView.frame; //notice frame, not bounds
     [self.view addSubview:self.mainSwipeViewController.view];
     [self.view sendSubviewToBack:self.mainSwipeViewController.view];
+    
+    
+    
+    
+    
+    
     
     
     //setting up swipe menu buttons
@@ -161,18 +178,17 @@
     [self gotoNewViewController:self.connectToFacebookContoller animated:NO];
     
     
+    
 }
 
 - (void) enablePanGestureRecognizer:(id)sender {
     
-    //NSLog (@"YESH");
     self.panRecognizer.enabled = NO;
     
 }
 
 - (void) disablePanGestureRecognizer:(id)sender {
     
-    //NSLog (@"JUST ENOUGH");
     
     self.panRecognizer.enabled = YES;
 }
@@ -266,6 +282,7 @@
 
 
 - (void)swipeMenuBack {
+    
     
     self.swipeMenuIsVisible = NO; 
  

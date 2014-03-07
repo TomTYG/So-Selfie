@@ -86,11 +86,12 @@
 }
 
 -(void)getRandomSelfie {
+    /*
     SSUserGender genders = [self.delegate voteSelfieViewNeedsGenders:self];
     int min = [self.delegate voteSelfieViewNeedsMinimumAge:self];
     int max = [self.delegate voteSelfieViewNeedsMaximumAge:self];
     
-    /*
+    
     [SSAPI getRandomSelfieForMinimumAge:min andMaximumAge:max andGenders:genders onComplete:^(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error) {
         
         totalvotescast++;

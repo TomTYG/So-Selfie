@@ -58,7 +58,7 @@
     else {
         
         self.subtitleLabel.frame = CGRectMake(0, 33, 160, 30);
-        [self setTitleEdgeInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
+        //[self setTitleEdgeInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
     }
     
     

@@ -26,4 +26,6 @@
 //this method whenever either change. This can potentially be called very often very quickly (if a user is sliding the age slider or spamming the buttons for example), so don't do too heavy calculations here.
 -(void)ageOrGenderChanged;
 
+-(void)start;
+
 @end

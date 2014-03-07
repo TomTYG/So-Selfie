@@ -23,12 +23,10 @@
 
 @implementation VoteViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+-(void)start {
     firstView = true;
     
-    [self view];
     self.view.backgroundColor = [UIColor whiteColor];
     
     VoteCollectionViewFlowLayout *layout = [[VoteCollectionViewFlowLayout alloc] init];
@@ -59,8 +57,6 @@
     
     currentImageDatas = @[];
     votesNotDoneArray = @[];
-    
-    return self;
 }
 
 
