@@ -14,6 +14,8 @@
     SSVoteType currentVoteType;
     int previoustotalloading;
     int currentindex;
+    RatingButtonsViewController *ratingButtonsViewController;
+    UIView *basicView;
 }
 
 @end
@@ -67,7 +69,7 @@
     
     
     //setting ratingButtonsController
-    
+    /*
     self.ratingButtonsController = [[RatingButtonsViewController alloc] init];
     self.ratingButtonsController.view.backgroundColor = [UIColor clearColor];
     self.ratingButtonsController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 248);
@@ -75,11 +77,21 @@
     //[self addChildViewController:self.ratingButtonsController];
     [self.view addSubview:self.ratingButtonsController.view];
     //[self.view bringSubviewToFront:self.ratingButtonsController.view];
-    
-    
-    
+    */
+     
     imageDatas = @[];
-
+    
+    
+    ratingButtonsViewController = [[RatingButtonsViewController alloc] initWithNibName:nil bundle:nil];
+    ratingButtonsViewController.view.frame = CGRectMake(0, 380, self.view.frame.size.width, 0);
+    ratingButtonsViewController.view.clipsToBounds = YES;
+    [self.view addSubview:ratingButtonsViewController.view];
+    
+    ratingButtonsViewController.controllerIsDisplayed = NO;
+    
+    
+    
+    
 }
 
 -(void)becameVisible {
@@ -188,7 +200,9 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     currentindex = -1;
     
-    [self.ratingButtonsController slideDownWithDuration:0.4];
+    //[self.ratingButtonsController slideDownWithDuration:0.4];
+    
+    [self showOrHideRatingButtonsControllerWithYOrigin:0.0];
     
     if(self.dropDownMenu.menuIsHidden == NO){
         [self showOrHideDropDownMenu:nil];
@@ -206,7 +220,34 @@
     
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
     
-    [self.ratingButtonsController slideUp];
+    //[self.ratingButtonsController slideUp];
+    
+    float newYOrigin = [[UIScreen mainScreen] bounds].size.height - [collectionView cellForItemAtIndexPath:indexPath].frame.size.height - self.tabBarView.frame.size.height;
+    
+    [self showOrHideRatingButtonsControllerWithYOrigin:newYOrigin];
+}
+
+-(void)showOrHideRatingButtonsControllerWithYOrigin:(float)newYOrigin {
+    
+    CGRect newRatingButtonsControllerFrame = ratingButtonsViewController.view.frame;
+    
+    if (ratingButtonsViewController.controllerIsDisplayed == NO) {
+    newRatingButtonsControllerFrame.size.height = newYOrigin;
+    }
+    else {
+    newRatingButtonsControllerFrame.size.height = 0;
+    }
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.2
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         ratingButtonsViewController.view.frame = newRatingButtonsControllerFrame;
+                     }
+                     completion:nil];
+    
+    
+    
 }
 
 

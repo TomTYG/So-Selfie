@@ -85,10 +85,23 @@
     settingsBlockView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:settingsBlockView];
     
+    
     SwipeMenuButton *settingHeader = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5,0,200,30)];
-    [settingHeader setTitle:@"Filter your selfies!" forState:UIControlStateNormal];
+    [settingHeader setTitle:@"Selfie filter" forState:UIControlStateNormal];
     settingHeader.userInteractionEnabled = NO;
     [settingsBlockView addSubview:settingHeader];
+    
+    
+    //header in Tondu
+    /*
+    UILabel *settingsHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,0,200,30)];
+    settingsHeader.text = @"SELFIE FILTER";
+    settingsHeader.backgroundColor = [UIColor clearColor];
+    settingsHeader.font = [UIFont fontWithName:@"Tondu-Beta" size:14];
+    settingsHeader.textColor = [UIColor whiteColor];
+    [settingsBlockView addSubview:settingsHeader];
+    */
+    
 
     UILabel *genderHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 48, 100, 20)];
     genderHeader.text = @"Gender";

@@ -13,6 +13,7 @@
 #import "MainSwipeMenuController.h"
 #import "TopChartCollectionViewCell.h"
 #import "SSMacros.h"
+#import "VoteButtonView.h"
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate, RatingButtonsViewControllerDelegate>
 

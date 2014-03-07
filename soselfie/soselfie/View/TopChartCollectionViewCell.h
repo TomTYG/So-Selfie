@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RatingButtonsViewController.h"
 
 @interface TopChartCollectionViewCell : UICollectionViewCell
 

@@ -14,6 +14,7 @@
     
     UIImageView *facebookProfileBackground;
     UIImageView *shadowOverImagesView;
+    
 }
 
 @property (weak) NSDictionary *imageData;
@@ -57,7 +58,7 @@
         self.facebookNameLabel.textColor = [UIColor whiteColor];
         [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
         [self addSubview:self.facebookNameLabel];
-    
+        
     }
     return self;
 }

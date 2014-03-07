@@ -29,6 +29,8 @@
 @property (strong, nonatomic) UIButton *soLameButton;
 @property (strong, nonatomic) UIButton *tryAgain;
 
+@property BOOL controllerIsDisplayed;
+
 -(void)slideUp;
 -(void)slideDownWithDuration:(double)duration;
 

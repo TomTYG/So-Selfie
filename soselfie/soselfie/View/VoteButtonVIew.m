@@ -40,6 +40,7 @@
                  forControlEvents:UIControlEventTouchUpInside];
     self.soFunnyButton.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
     [self.soFunnyButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1]] forState:UIControlStateHighlighted];
+    [self.soFunnyButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1]] forState:UIControlStateSelected];
     [self addSubview:self.soFunnyButton];
     
     //sohotbutton
@@ -69,6 +70,7 @@
                forControlEvents:UIControlEventTouchUpInside];
     self.soHotButton.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [self.soHotButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(252/255.0) green:(96/255.0) blue:(152/255.0) alpha:1]] forState:UIControlStateHighlighted];
+    [self.soHotButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(252/255.0) green:(96/255.0) blue:(152/255.0) alpha:1]] forState:UIControlStateSelected];
     [self addSubview:self.soHotButton];
     
     //solamebutton
@@ -98,6 +100,7 @@
                 forControlEvents:UIControlEventTouchUpInside];
     self.soLameButton.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
     [self.soLameButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(13/255.0) green:(198/255.0) blue:(255/255.0) alpha:1]] forState:UIControlStateHighlighted];
+    [self.soLameButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(13/255.0) green:(198/255.0) blue:(255/255.0) alpha:1]] forState:UIControlStateSelected];
     [self addSubview:self.soLameButton];
     
     //tryAgain
@@ -126,6 +129,7 @@
             forControlEvents:UIControlEventTouchUpInside];
     self.tryAgain.backgroundColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
     [self.tryAgain setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(111/255.0) green:(58/255.0) blue:(173/255.0) alpha:1]] forState:UIControlStateHighlighted];
+    [self.tryAgain setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(111/255.0) green:(58/255.0) blue:(173/255.0) alpha:1]] forState:UIControlStateSelected];
     [self addSubview:self.tryAgain];
     
     [self disableButtons];
@@ -137,35 +141,66 @@
 //static NSString *const ratingButtonIsPressed = @"RatingButtonIsPressed";
 
 -(void)soFunnyButtonWasPressed:(id)sender {
+
     //[[NSNotificationCenter defaultCenter] postNotificationName:ratingButtonIsPressed object:self];
     [self disableButtons];
+    //[self disableAllButtonsExceptOne:self.soFunnyButton];
     [self.delegate voteButtonView:self pressedButton:(UIButton*)sender vote:SSVoteTypeFunny];
+   
 }
 
 -(void)soHotButtonWasPressed:(id)sender {
     //[[NSNotificationCenter defaultCenter] postNotificationName:ratingButtonIsPressed object:self];
     [self disableButtons];
+    //[self disableAllButtonsExceptOne:self.soHotButton];
     [self.delegate voteButtonView:self pressedButton:(UIButton*)sender vote:SSVoteTypeHot];
 }
         
 -(void)soLameButtonWasPressed:(id)sender {
     //[[NSNotificationCenter defaultCenter] postNotificationName:ratingButtonIsPressed object:self];
     [self disableButtons];
+    //[self disableAllButtonsExceptOne:self.soLameButton];
     [self.delegate voteButtonView:self pressedButton:(UIButton*)sender vote:SSVoteTypeLame];
 }
 
 -(void)tryAgainButtonWasPressed:(id)sender {
     //[[NSNotificationCenter defaultCenter] postNotificationName:ratingButtonIsPressed object:self];
     [self disableButtons];
+    //[self disableAllButtonsExceptOne:self.tryAgain];
     [self.delegate voteButtonView:self pressedButton:(UIButton*)sender vote:SSVoteTypeTryAgain];
 }
 
+
+
 -(void)disableButtons {
+    
     self.soFunnyButton.enabled = NO;
     self.soHotButton.enabled = NO;
     self.soLameButton.enabled = NO;
     self.tryAgain.enabled = NO;
+    
+    self.soFunnyButton.highlighted = NO;
+    self.soHotButton.highlighted = NO;
+    self.soLameButton.highlighted = NO;
+    self.tryAgain.highlighted = NO;
+    
+    self.soFunnyButton.selected = NO;
+    self.soHotButton.selected = NO;
+    self.soLameButton.selected = NO;
+    self.tryAgain.selected = NO;
+    
 }
+
+
+-(void)disableAllButtonsExceptOne:(UIButton *)button {
+    
+    self.soFunnyButton.enabled = NO;
+    self.soHotButton.enabled = NO;
+    self.soLameButton.enabled = NO;
+    self.tryAgain.enabled = NO;
+    
+}
+
 -(void)enableButtons {
     self.soFunnyButton.enabled = YES;
     self.soHotButton.enabled = YES;

@@ -17,6 +17,7 @@
     
     UIImageView *facebookProfileBackground;
     UIImageView *shadowOverImagesView;
+    UIButton *innapropriateImageButton;
 }
 
 @end
@@ -84,9 +85,45 @@
     self.facebookNameLabel.alpha = 0;
     [self addSubview:self.facebookNameLabel];
     
+    int buttonWidth = 36;
+    int buttonHeight = 36;
     
+    innapropriateImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    innapropriateImageButton.frame = CGRectMake(self.frame.size.width - buttonWidth - 10, facebookInfoY + 3,buttonWidth, buttonHeight);
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadface"] forState:UIControlStateNormal];
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadFACEHOVER"] forState:UIControlStateHighlighted];
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadFACEHOVER"] forState:UIControlStateSelected];
+    [self addSubview:innapropriateImageButton];
+    
+    [innapropriateImageButton addTarget:self action:@selector(markAsInnapropriate:) forControlEvents:UIControlEventTouchUpInside];
     
     return self;
+}
+
+- (void)markAsInnapropriate:(UIButton *)button {
+    
+    button.highlighted = YES;
+    button.selected = YES;
+    
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Innapropriate selfie?" message:@"Do you find this selfie innapropriate?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [v show];
+
+}
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0){
+    innapropriateImageButton.highlighted = NO;
+    innapropriateImageButton.selected = NO;
+    return;}
+    
+    else {
+    
+    [self voteButtonView:nil pressedButton:innapropriateImageButton vote:SSVoteTypeInappropriate];
+    innapropriateImageButton.highlighted = NO;
+    innapropriateImageButton.selected = NO;
+    
+    }
+        
 }
 
 -(void)getRandomImage {
@@ -153,11 +190,18 @@
 
 -(void)voteButtonView:(VoteButtonView *)voteButtonView pressedButton:(UIButton *)button vote:(SSVoteType)vote {
     
-    [SSAPI voteForSelfieID:currentImageData[@"id"] andImageAccessToken:currentImageData[@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
+    
+    button.enabled = YES;
+    button.highlighted = YES;
+    button.selected = YES;
+    
+     [SSAPI voteForSelfieID:currentImageData[@"id"] andImageAccessToken:currentImageData[@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
         
         voteStatus = 2;
         //NSLog(@"voting done %@ %@", @(success), possibleError);
         [self.delegate voteCollectionViewCellDoneVoting:self];
+        
+        
         
     }];
 }
