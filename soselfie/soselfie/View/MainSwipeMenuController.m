@@ -174,7 +174,7 @@
     [self.ageSlider addTarget:self action:@selector(updateSliderLabels:) forControlEvents:UIControlEventValueChanged];
     [settingsBlockView addSubview:self.ageSlider];
     
-    self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ageSlider.frame.origin.x, self.ageSlider.frame.origin.y + 30, 50, 50)];
+    self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ageSlider.lowerCenter.x + 8, self.ageSlider.center.y + 10, 50, 50)];
     self.ageSlider.lowerLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.lowerLabel.textColor = [UIColor whiteColor];
     self.ageSlider.lowerLabel.backgroundColor = [UIColor clearColor];
@@ -182,7 +182,7 @@
     self.ageSlider.lowerLabel.text = [NSString stringWithFormat:@"%d",(int)self.ageSlider.lowerValue];
     
     
-    self.ageSlider.upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, self.ageSlider.frame.origin.y + 20, 50, 50)];
+    self.ageSlider.upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, self.ageSlider.center.y + 10, 50, 50)];
     self.ageSlider.upperLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
     self.ageSlider.upperLabel.textColor = [UIColor whiteColor];
     self.ageSlider.upperLabel.backgroundColor = [UIColor clearColor];

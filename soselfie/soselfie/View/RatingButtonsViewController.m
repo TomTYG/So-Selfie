@@ -18,9 +18,6 @@
 -(id)initWithFrame:(CGRect)frame {
     
     self = [super initWithNibName:nil bundle:nil];
-    
-    (0, 380, self.view.frame.size.width, 0);
-    
     return self;
 }
 
