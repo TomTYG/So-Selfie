@@ -14,6 +14,9 @@
     //long selfieCellCounter;
     int collectioncellcounter;
     BOOL firstView;
+    
+    NSArray *excludeIDs;
+    
 }
 
 @end
@@ -60,6 +63,10 @@
     if (firstView == true) [self.mainVoteCollectionView reloadData];
     firstView = false;
 }
+-(void)userloggedout {    
+    firstView = true;
+}
+
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

@@ -73,8 +73,15 @@
     
     [self loadNextImagesBatch];
     
+}
+-(void)userloggedout {
+    imageDatas = @[];
+    previoustotalloading = 0;
+    
+    [self.yourSelfiesCollectionView reloadData];
     
 }
+
 
 -(void)loadNextImagesBatch {
     

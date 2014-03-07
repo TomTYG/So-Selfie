@@ -84,7 +84,7 @@
     self.voteViewController.view.alpha = 0;
     [self.genericCentralView addSubview:self.voteViewController.view];
     
-    //pop up select age/gender veiw controller
+    //pop up select age/gender view controller
     
     
     //create connect to facebook controller
@@ -99,9 +99,11 @@
     
     self.mainSwipeViewController = [[MainSwipeMenuController alloc]init];
     self.mainSwipeViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    [self addChildViewController:self.mainSwipeViewController];
+    self.mainSwipeViewController.delegate = self;
+    //[self addChildViewController:self.mainSwipeViewController];
     [self.view addSubview:self.mainSwipeViewController.view];
     [self.view sendSubviewToBack:self.mainSwipeViewController.view];
+    
     
     //setting up swipe menu buttons
     
@@ -148,6 +150,13 @@
                                                  name: sliderHasStoppedBeingTouched
                                                object: nil];
     
+    /*
+    if ([SSAPI canLoginToFacebookWithoutPromptingUser] == true) {
+        [self loginUserInitiated:false];
+    } else {
+        
+    }*/
+    
     [self gotoNewViewController:self.connectToFacebookContoller animated:NO];
     
     
@@ -170,6 +179,9 @@
 
 -(void)gotoNewViewController:(UIViewController*)newViewController animated:(BOOL)animated {
     
+    NSLog(@"going to new %@ %@", activeViewController, newViewController);
+    [self swipeMenuBack];
+    
     //do nothing if the new view controller is already the active view controller.
     if (activeViewController == newViewController) return;
     
@@ -177,7 +189,7 @@
         [newViewController performSelector:@selector(becameVisible)];
     }
     
-    [self swipeMenuBack];
+    
     
     [activeViewController.view.superview bringSubviewToFront:activeViewController.view];
     newViewController.view.alpha = 1;
@@ -265,9 +277,11 @@
                      animations:^{
                          
                         self.genericCentralView.frame = newCurrentViewControllerFrame;
-                      
+                        
                      }
-                     completion:nil];
+                     completion:^(BOOL success) {
+                         self.mainSwipeViewController.view.alpha = 0;
+                     }];
     
     [self changeStatusBarColor];
     
@@ -308,7 +322,8 @@
     
     //the menu should not be active while the connect to facebook button is still showing.
     if (activeViewController == self.connectToFacebookContoller) return;
-   
+    
+    
     
     CGPoint velocity = [(UIPanGestureRecognizer*)sender velocityInView:[sender view]];
     
@@ -318,7 +333,7 @@
     CGRect newSwipedViewFrame = self.genericCentralView.frame;
     
     int coeff = 40;
-    float alphaPercent = self.genericCentralView.frame.origin.x / swipeMenuMax;
+    float alphaPercent= 1; // = self.genericCentralView.frame.origin.x / swipeMenuMax;
     
     
     
@@ -335,19 +350,20 @@
     
     if([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateChanged) {
         
-        self.mainSwipeViewController.view.alpha = alphaPercent;
+        //self.mainSwipeViewController.view.alpha = alphaPercent;
+        self.mainSwipeViewController.view.alpha = 1.0;
         
         newSwipedViewFrame.origin.x = translatedPoint.x + positionAtStartOfGesture.x;
         self.genericCentralView.frame = newSwipedViewFrame;
         
         if(self.genericCentralView.frame.origin.x < 0){
-        newSwipedViewFrame.origin.x = 0;
-        self.genericCentralView.frame = newSwipedViewFrame;
+            newSwipedViewFrame.origin.x = 0;
+            self.genericCentralView.frame = newSwipedViewFrame;
         }
         
         else if(self.genericCentralView.frame.origin.x  > swipeMenuMax) {
-        newSwipedViewFrame.origin.x = swipeMenuMax;
-        self.genericCentralView.frame = newSwipedViewFrame;
+            newSwipedViewFrame.origin.x = swipeMenuMax;
+            self.genericCentralView.frame = newSwipedViewFrame;
         }
         
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
@@ -357,20 +373,20 @@
     if(velocity.x == 0){
         velocity.x = coeff;
     }
-   
+    
     
     if([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
         
-        NSLog (@"velocity x is %f",velocity.x);
+        //NSLog (@"velocity x is %f",velocity.x);
         
         
         if(velocity.x == 0){
+            
             velocity.x = coeff;
-        }
-        
-        //pans to the left
-        
-        else if (velocity.x > 0){
+            
+        } else if (velocity.x > 0){
+            
+            //pans to left
             
             // if central view has crossed masterview center
             
@@ -399,50 +415,50 @@
                 }
             }
             
-        }
-        
-        //pans to the right
-        
-        else {
-                // if central view has crossed masterview center
+        } else {
+            //pans to right
+            // if central view has crossed masterview center
             
-                if(self.genericCentralView.frame.origin.x <= self.view.center.x){
-                        newSwipedViewFrame.origin.x = 0;
-                        alphaPercent = 0.0;
-                        self.swipeMenuIsVisible = NO;
-                        self.tapRecognizer.enabled = NO;
+            if(self.genericCentralView.frame.origin.x <= self.view.center.x){
+                newSwipedViewFrame.origin.x = 0;
+                alphaPercent = 0.0;
+                self.swipeMenuIsVisible = NO;
+                self.tapRecognizer.enabled = NO;
+            }
+            
+            // if central view has not crossed masterview center
+            
+            else{
+                if (velocity.x < -600){
+                    newSwipedViewFrame.origin.x = 0;
+                    alphaPercent = 0.0;
+                    self.swipeMenuIsVisible = NO;
+                    self.tapRecognizer.enabled = NO;
                 }
-            
-                // if central view has not crossed masterview center
-            
-                else{
-                    if (velocity.x < -600){
-                        newSwipedViewFrame.origin.x = 0;
-                        alphaPercent = 0.0;
-                        self.swipeMenuIsVisible = NO;
-                        self.tapRecognizer.enabled = NO;
-                    }
-                    else {
-                        newSwipedViewFrame.origin.x = swipeMenuMax;
-                        alphaPercent = 1.0;
-                        self.swipeMenuIsVisible = YES;
-                        self.tapRecognizer.enabled = YES;
-                    }
+                else {
+                    newSwipedViewFrame.origin.x = swipeMenuMax;
+                    alphaPercent = 1.0;
+                    self.swipeMenuIsVisible = YES;
+                    self.tapRecognizer.enabled = YES;
+                }
                 
             }
-          
+            
         }
+        if (alphaPercent > 0 ) self.mainSwipeViewController.view.alpha = 1;
         
         [UIView animateWithDuration:0.4
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-                             self.mainSwipeViewController.view.alpha = alphaPercent;
+                             
                              self.genericCentralView.frame = newSwipedViewFrame;
                          }
-                         completion:nil];
+                         completion:^(BOOL finished) {
+                             if (alphaPercent == 0) self.mainSwipeViewController.view.alpha = 0;
+                         }];
         
-         [self changeStatusBarColor];
+        [self changeStatusBarColor];
     }
     
    
@@ -451,6 +467,7 @@
 
 
 -(void)changeStatusBarColor {
+    if (IS_IOS7 == false) return;
     if (self.swipeMenuIsVisible == YES){
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
@@ -467,16 +484,39 @@
 -(void)connectToFacebookControllerLoginSuccessful:(ConnectToFacebookViewController *)viewcontroller wasUserInitiated:(BOOL)userInitiated {
     
     //consider whether you want to animate based on the login call was made by the app instead of by the user.
-    
+    [self.mainSwipeViewController userloggedin];
     [self gotoNewViewController:self.voteViewController animated:YES];
     
     //[self.voteViewController.mainVoteCollectionView reloadData];
+}
+
+-(void)connectToFacebookControllerAutoLoginFailed:(ConnectToFacebookViewController *)viewcontroller {
+    
 }
 
 #pragma mark - SHOOT ONE DELEGATE
 
 -(void)shootOneViewControllerCameraSuccesfull:(ShootOneViewController *)viewcontroller {
     [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
+}
+
+
+#pragma mark - SWIPE MENU DELEGATE
+
+-(void)mainSwipeMenuControllerEraseClicked:(MainSwipeMenuController *)swipecontroller {
+    
+    [SSAPI eraseCurrentUserOnComplete:^(BOOL success, NSError *possibleError) {
+        
+        //NSLog(@"%@ %@", @(success), possibleError);
+        
+        [self.voteViewController userloggedout];
+        [self.yourSelfiesViewController userloggedout];
+        [self.mainSwipeViewController userloggedout];
+        
+        [self gotoNewViewController:self.connectToFacebookContoller animated:YES];
+        
+    }];
+    
 }
 
 

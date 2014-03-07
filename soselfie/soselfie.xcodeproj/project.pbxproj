@@ -388,12 +388,12 @@
 		8968798C18B36E4900C48085 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				08A2D60718C876E300E5A8D7 /* PopUpSelectGenderAgeController.h */,
-				08A2D60818C876E300E5A8D7 /* PopUpSelectGenderAgeController.m */,
 				08ECE32518C5D22700650753 /* MasterViewController.h */,
 				08ECE32618C5D22700650753 /* MasterViewController.m */,
 				08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */,
 				08ECE31E18C5D22700650753 /* ConnectToFacebookViewController.m */,
+				08A2D60718C876E300E5A8D7 /* PopUpSelectGenderAgeController.h */,
+				08A2D60818C876E300E5A8D7 /* PopUpSelectGenderAgeController.m */,
 				08ECE31F18C5D22700650753 /* DropDownMenu.h */,
 				08ECE32018C5D22700650753 /* DropDownMenu.m */,
 				08ECE32118C5D22700650753 /* KeepItOrTryAgainViewController.h */,

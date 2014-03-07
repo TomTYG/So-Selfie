@@ -38,6 +38,15 @@ typedef NS_ENUM(int, SSVoteType) {
                  onComplete:(void(^)(UIImage *image, NSError *error))onComplete;
 
 
++(int)agemin;
++(int)agemax;
++(SSUserGender)genders;
+
++(void)setAgemin:(int)agemin;
++(void)setAgemax:(int)agemax;
++(void)setGenders:(SSUserGender)genders;
+
+
 
 
 //LOGIN VIEW FUNCTIONS
@@ -45,6 +54,8 @@ typedef NS_ENUM(int, SSVoteType) {
 +(NSString*)fbid;
 +(BOOL)canLoginToFacebookWithoutPromptingUser;
 //you can call this function even when logged in. It will just return immediately in that case.
++(void)doesUserAlreadyExistInDatabase:(NSString*)fbid onComplete:(void(^)(BOOL userExists, NSError *possibleError))onComplete;
+
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete;
 
 +(void)setUserBirthday:(NSString*)day month:(NSString*)month year:(NSString*)year;
@@ -61,12 +72,18 @@ typedef NS_ENUM(int, SSVoteType) {
 +(void)getUserFullName:(NSString*)fbid onComplete:(void(^)(NSString *fullName, NSError *error))onComplete;
 
 
+
++(void)eraseCurrentUserOnComplete:(void(^)(BOOL success, NSError *possibleError))onComplete;
++(void)logOutCurrentUser;
+
+
 //VOTE VIEW
 
 //the NSDictionary returned has keys of SSAPIVotesKeys. Each element is either an NSNumber, or possibly an object with ( NSNumber *votes, NSNumber *rank ).
 +(void)getRandomSelfieForMinimumAge:(int)minimumAge
                       andMaximumAge:(int)maximumAge
                          andGenders:(SSUserGender)genders
+                         excludeIDs:(NSArray*)excludes
                          onComplete:(void(^)(NSDictionary *imageData, NSError *error))onComplete;
 /*
 +(void)getRandomSelfieForMinimumAge:(int)minimumAge

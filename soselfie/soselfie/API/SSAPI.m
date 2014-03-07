@@ -62,6 +62,34 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 
 
 
+static int AGEMIN = 13;
+static int AGEMAX = 34;
+static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
+
++(int)agemin {
+    return AGEMIN;
+}
++(int)agemax {
+    return AGEMAX;
+}
++(SSUserGender)genders {
+    return GENDERS;
+}
+
++(void)setAgemin:(int)agemin {
+    AGEMIN = agemin;
+}
++(void)setAgemax:(int)agemax {
+    AGEMAX = agemax;
+}
++(void)setGenders:(SSUserGender)genders {
+    GENDERS = genders;
+}
+
+
+
+
+
 #pragma mark - LOGIN
 
 +(BOOL)canLoginToFacebookWithoutPromptingUser {
@@ -70,6 +98,54 @@ static SSUserGender GENDER = SSUserGenderUnknown;
     if (FBSession.activeSession.state & FB_SESSIONSTATEOPENBIT) return YES;
     return NO;
 }
+
+
+
+
+
++(void)doesUserAlreadyExistInDatabase:(NSString *)fbid onComplete:(void (^)(BOOL, NSError *))onComplete {
+    if ([self hasFBCredentials] == false) {
+        NSError *error = [NSError errorWithDomain:@"FB Login error" code:0 userInfo:@{@"message": @"You are not currently logged in."}];
+        onComplete(0, error);
+        return;
+    }
+    
+    
+    NSString *url = [NSString stringWithFormat:@"%@/user_exists.php?fbid=%@&accesstoken=%@", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken];
+    
+    NSDictionary *options = @{@"forcereload": @YES};
+    
+    NSLog(@"sending url %@", url);
+    
+    [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
+        
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
+        
+        if (result == nil) {
+            NSLog(@"result %@", [[NSString alloc] initWithData:data[@"data"] encoding:NSUTF8StringEncoding]);
+        } else {
+            
+            if (result[@"error"] != nil) {
+                
+                NSError *e = [NSError errorWithDomain:result[@"error"][@"type"] code:0 userInfo:@{@"message": result[@"error"][@"message"]}];
+                
+                onComplete(0, e);
+                
+                return;
+            }
+            
+            
+            BOOL exists = [result[@"result"] boolValue];
+            
+            onComplete(exists, nil);
+            
+        }
+        
+    } onFail:nil];
+}
+
+
+
 
 
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete {
@@ -128,10 +204,16 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 
 
 +(void)setUserBirthday:(NSString *)day month:(NSString *)month year:(NSString *)year {
+    
+    if ([day intValue] < 10) day = [NSString stringWithFormat:@"0%@", day];
+    if ([month intValue] < 10) month = [NSString stringWithFormat:@"0%@", month];
+    
+    NSLog(@"new birthday %@ %@ %@", year, month, day);
     NSArray *a = [NSArray arrayWithObjects:year, month, day, nil];
     BIRTHDAY = a;
 }
 +(void)setUserGender:(SSUserGender)gender {
+    NSLog(@"setting user gender %i", gender);
     GENDER = gender;
 }
 
@@ -240,7 +322,53 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 }
 
 
++(void)eraseCurrentUserOnComplete:(void (^)(BOOL, NSError *))onComplete {
+    if ([self hasFBCredentials] == false) {
+        NSError *error = [NSError errorWithDomain:@"FB Login error" code:0 userInfo:@{@"message": @"You are not currently logged in."}];
+        onComplete(0, error);
+        return;
+    }
+    
+    
+    NSString *url = [NSString stringWithFormat:@"%@/user_erase.php?fbid=%@&accesstoken=%@", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken];
+    
+    NSDictionary *options = @{@"forcereload": @YES};
+    
+    NSLog(@"sending url %@", url);
+    
+    [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
+        
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
+        
+        if (result == nil) {
+            NSLog(@"result %@", [[NSString alloc] initWithData:data[@"data"] encoding:NSUTF8StringEncoding]);
+        } else {
+            
+            if (result[@"error"] != nil) {
+                
+                NSError *e = [NSError errorWithDomain:result[@"error"][@"type"] code:0 userInfo:@{@"message": result[@"error"][@"message"]}];
+                
+                onComplete(0, e);
+                
+                return;
+            }
+            
+            [self logOutCurrentUser];
+            
+            onComplete(1, nil);
+            
+        }
+        
+    } onFail:nil];
+}
 
+
++(void)logOutCurrentUser {
+    FBID = nil;
+    BIRTHDAY = nil;
+    GENDER = SSUserGenderUnknown;
+    [[FBSession activeSession] closeAndClearTokenInformation];
+}
 
 #pragma mark - UPLOAD SELFIE
 
@@ -415,13 +543,15 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 #pragma mark - VOTE SELFIE
 
 //+(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders onComplete:(void(^)(NSString *selfieID, NSString *ownerfbid, NSString *imageURL, NSString *imageURLsmall, NSString *imageAccessToken, NSDictionary *votes, NSError *error))onComplete {
-+(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders onComplete:(void (^)(NSDictionary *, NSError *))onComplete {
++(void)getRandomSelfieForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders excludeIDs:(NSArray *)excludes onComplete:(void(^)(NSDictionary *imageData, NSError *error))onComplete {
     
     if ([self hasFBCredentials] == false) {
         NSError *error = [NSError errorWithDomain:@"FB Login error" code:0 userInfo:@{@"message": @"You are not currently logged in."}];
         onComplete(nil, error);
         return;
     }
+    
+    //NSString *exclude1 = [NSString stringWithFormat:<#(NSString *), ...#>]
     
     
     NSString *url = [NSString stringWithFormat:@"%@/image_random.php?fbid=%@&accesstoken=%@&gender=%i&agemin=%i&agemax=%i", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken, genders, minimumAge, maximumAge];

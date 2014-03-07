@@ -7,6 +7,7 @@
 //
 
 #import "PopUpSelectGenderAgeController.h"
+#import "SSAPI.h"
 
 @interface PopUpSelectGenderAgeController (){
     
@@ -23,16 +24,6 @@
 
 @implementation PopUpSelectGenderAgeController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-        self.view.backgroundColor = [UIColor colorWithRed:232/255.0 green:232/255.0 blue:232/255.0 alpha:1.0];
-        
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -73,12 +64,14 @@
         
     }
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - logoWidth)/2, logoOriginY, logoWidth, logoHeight)];
     logoImageView.image = [UIImage imageNamed:@"iphone5_textless_logo"];
     [self.view addSubview:logoImageView];
     
     UILabel *weCanNotDetectLabel = [[UILabel alloc] initWithFrame:CGRectMake (22, logoImageView.frame.origin.y + zeroGap, 276, 70)];
-    weCanNotDetectLabel.text = @"We can't detect your age and gender through Facebook.Can you help?";
+    weCanNotDetectLabel.text = @"We can't detect your age or gender through Facebook. Can you help?";
     weCanNotDetectLabel.backgroundColor = [UIColor clearColor];
     weCanNotDetectLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:20];
     weCanNotDetectLabel.textColor = [UIColor colorWithRed:88/255.0 green:89/255.0 blue:91/255.0 alpha:1.0];
@@ -95,6 +88,7 @@
     [selectionIsDoneButton setTitle:@"Done!" forState:UIControlStateNormal];
     [selectionIsDoneButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
     [selectionIsDoneButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1]] forState:UIControlStateHighlighted];
+    [selectionIsDoneButton addTarget:self action:@selector(selectionIsDoneButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectionIsDoneButton];
     
     //gedner label and buttons view
@@ -144,7 +138,7 @@
     [self.view addSubview:ageLabelAndButtonsView];
     
     UILabel *yourAgeIsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 21)];
-    yourAgeIsLabel.text = @"You age is...";
+    yourAgeIsLabel.text = @"Your age is...";
     yourAgeIsLabel.textAlignment = NSTextAlignmentCenter;
     yourAgeIsLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:20];
     yourAgeIsLabel.textColor = [UIColor colorWithRed:88/255.0 green:89/255.0 blue:91/255.0 alpha:1.0];
@@ -162,6 +156,7 @@
     yourAgeIsSlider.lowerLabel.backgroundColor = [UIColor clearColor];
     [ageLabelAndButtonsView addSubview:yourAgeIsSlider.lowerLabel];
     yourAgeIsSlider.lowerLabel.text = [NSString stringWithFormat:@"%d",(int)yourAgeIsSlider.lowerValue];
+    
 
     
 }
@@ -174,8 +169,17 @@
     lowerCenter.x = (yourAgeIsSlider.lowerCenter.x +  yourAgeIsSlider.frame.origin.x);
     lowerCenter.y = (yourAgeIsSlider.center.y + 30.0f);
     
+    int age = (int)yourAgeIsSlider.lowerValue;
+    
     yourAgeIsSlider.lowerLabel.center = lowerCenter;
-    yourAgeIsSlider.lowerLabel.text = [NSString stringWithFormat:@"%d", (int)yourAgeIsSlider.lowerValue];
+    yourAgeIsSlider.lowerLabel.text = [NSString stringWithFormat:@"%d", age];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *today = [NSDate date];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:today];
+    
+    [SSAPI setUserBirthday:[NSString stringWithFormat:@"%i", components.day] month:[NSString stringWithFormat:@"%i", components.month] year:[NSString stringWithFormat:@"%i", components.year - age]];
+    
 }
 
 
@@ -184,6 +188,8 @@
     if (maleGenderButtonIsPressed == NO){
         button.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
         maleGenderButtonIsPressed = YES;
+        
+        [SSAPI setUserGender:SSUserGenderMale];
         
         if (femaleGenderButtonIsPressed == YES){
             [self femaleGenderWasSelected:femaleGednerButton];
@@ -208,6 +214,9 @@
         button.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
         femaleGenderButtonIsPressed = YES;
         
+        
+        [SSAPI setUserGender:SSUserGenderFemale];
+        
         if (maleGenderButtonIsPressed == YES){
             [self maleGenderWasSelected:maleGenderButton];
         }
@@ -227,10 +236,26 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+-(void)selectionIsDoneButtonClicked:(id)sender {
+    NSArray *a = [SSAPI isProfileInfoReadyToBeSentToServer];
+    
+    if (a.count == 0) {
+        [self.delegate popUpSelectGenderAgeControllerReadyToLogin:self];
+        return;
+    }
+    
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Missing login info" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    NSString *s = a[0];
+    if ([s isEqualToString:@"birthday"]) {
+        v.message = @"Please enter your age.";
+    } else if ([s isEqualToString:@"gender"]) {
+        v.message = @"Please enter your gender.";
+    }
+    
+    [v show];
 }
+
 
 @end

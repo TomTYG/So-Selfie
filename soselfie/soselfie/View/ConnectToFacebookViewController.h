@@ -17,10 +17,11 @@
 
 @required
 -(void)connectToFacebookControllerLoginSuccessful:(ConnectToFacebookViewController*)viewcontroller wasUserInitiated:(BOOL)userInitiated;
+-(void)connectToFacebookControllerAutoLoginFailed:(ConnectToFacebookViewController*)viewcontroller;
 
 @end
 
-@interface ConnectToFacebookViewController : UIViewController
+@interface ConnectToFacebookViewController : UIViewController<PopUpSelectGenderAgeControllerDelegate>
 
 @property (weak) id<ConnectoToFacebookViewControllerDelegate>delegate;
 

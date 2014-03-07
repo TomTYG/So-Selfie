@@ -111,7 +111,7 @@
     
     previoustotalloading = imageDatas.count + 1;
     
-    [SSAPI getTopSelfiesForMinimumAge:13 andMaximumAge:34 andGenders:(SSUserGenderFemale | SSUserGenderMale) andVoteCategory:currentVoteType startingFromIndex:imageDatas.count onComplete:^(int totalSelfies, NSArray *images, NSError *error){
+    [SSAPI getTopSelfiesForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] andVoteCategory:currentVoteType startingFromIndex:imageDatas.count onComplete:^(int totalSelfies, NSArray *images, NSError *error){
         
         if (error != nil) return;
         
@@ -184,7 +184,7 @@
     
     TopChartCollectionViewCell *cell= [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
     
-    cell.rankingPlace.text = [NSString stringWithFormat:@"#%ld",(long)indexPath.item];
+    cell.rankingPlace.text = [NSString stringWithFormat:@"#%ld",(long)indexPath.item + 1];
     [cell startWithImageData:imageDatas[indexPath.item]];
     
     return cell;

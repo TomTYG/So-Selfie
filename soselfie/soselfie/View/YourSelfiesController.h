@@ -18,5 +18,6 @@
 
 
 -(void)becameVisible;
+-(void)userloggedout;
 
 @end

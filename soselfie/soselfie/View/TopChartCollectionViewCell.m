@@ -34,7 +34,11 @@
         self.rankingPlace.backgroundColor = [UIColor clearColor];
         [self.rankingPlace setFont:[UIFont fontWithName:@"Tondu-Beta" size:40]];
         self.rankingPlace.textColor = [UIColor blackColor];
-        self.rankingPlace.textAlignment = NSTextAlignmentCenter;
+        self.rankingPlace.textAlignment = NSTextAlignmentLeft;
+        self.rankingPlace.layer.shadowColor = [[UIColor whiteColor] CGColor];
+        self.rankingPlace.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+        self.rankingPlace.layer.shadowOpacity = 1.0f;
+        self.rankingPlace.layer.shadowRadius = 1.0f;
         [self addSubview:self.rankingPlace];
         
         shadowOverImagesView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"universalselfiepreview_shadow.png"]];

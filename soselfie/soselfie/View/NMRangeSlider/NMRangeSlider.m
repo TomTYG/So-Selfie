@@ -515,7 +515,7 @@ NSUInteger DeviceSystemMajorVersion() {
 
     // Value labels
     
-    NSLog (@"VIEW WIDTH IS %f and HEIGHT IS %f",self.frame.size.width,self.frame.size.height);
+    //NSLog (@"VIEW WIDTH IS %f and HEIGHT IS %f",self.frame.size.width,self.frame.size.height);
 
     
     //those handles are just commented out

@@ -135,10 +135,12 @@
     [ratingButtonsController disableButtons];
     
     voteStatus = 1;
-    [SSAPI getRandomSelfieForMinimumAge:13 andMaximumAge:34 andGenders:(SSUserGenderMale | SSUserGenderFemale) onComplete:^(NSDictionary *imageData, NSError *error){
+    [SSAPI getRandomSelfieForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] excludeIDs:nil onComplete:^(NSDictionary *imageData, NSError *error){
+        
         
         //todo: this line enables the buttons to be used again even when there is an image error of some kind (like no access token, or like no more images available. consider what a good fallback might be instead of this solution.
         [ratingButtonsController enableButtons];
+        
         
         currentImageData = imageData;
         if (error != nil) {
@@ -180,7 +182,6 @@
         }];
         
         
-        
         //this disables the "X voted this" black text underneath buttons, by disabling it.
         //[ratingButtonsController startWithVotesDictionary:imageData];
     }];
@@ -198,12 +199,12 @@
      [SSAPI voteForSelfieID:currentImageData[@"id"] andImageAccessToken:currentImageData[@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
         
         voteStatus = 2;
-        //NSLog(@"voting done %@ %@", @(success), possibleError);
         [self.delegate voteCollectionViewCellDoneVoting:self];
         
         
         
     }];
+    
 }
 
 

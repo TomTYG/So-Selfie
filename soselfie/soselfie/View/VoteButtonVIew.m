@@ -31,7 +31,7 @@
     }
     
     else{
-        NSLog (@"now this one is the frame");
+        //NSLog (@"now this one is the frame");
         self.soFunnyButton.frame = CGRectMake(0, 0, 160, 60);
     }
     
@@ -61,7 +61,7 @@
     }
     
     else{
-        NSLog (@"now this one is the frame");
+        //NSLog (@"now this one is the frame");
         self.soHotButton.frame = CGRectMake(160, 0, 160, 60);
     }
     
@@ -91,7 +91,7 @@
     }
     
     else{
-        NSLog (@"now this one is the frame");
+        //NSLog (@"now this one is the frame");
         self.soLameButton.frame = CGRectMake(0, 60, 160, 60);
     }
     
@@ -119,7 +119,7 @@
     }
     
     else{
-        NSLog (@"now this one is the frame");
+        //NSLog (@"now this one is the frame");
         self.tryAgain.frame = CGRectMake(160, 60, 160, 60);
     }
     

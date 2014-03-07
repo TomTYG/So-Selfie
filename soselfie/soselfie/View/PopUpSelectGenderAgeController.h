@@ -11,6 +11,17 @@
 #import "RankingButtonWithSubtitle.h"
 #import "NMRangeSlider.h"
 
+@class PopUpSelectGenderAgeController;
+
+@protocol PopUpSelectGenderAgeControllerDelegate <NSObject>
+
+@required
+-(void)popUpSelectGenderAgeControllerReadyToLogin:(PopUpSelectGenderAgeController*)genderagecontroller;
+
+@end
+
 @interface PopUpSelectGenderAgeController : UIViewController
+
+@property (weak) id<PopUpSelectGenderAgeControllerDelegate>delegate;
 
 @end

@@ -10,6 +10,9 @@
 #import "SSAPI.h"
 @interface ConnectToFacebookViewController () {
     RankingButtonWithSubtitle *connectToFacebookButton;
+    PopUpSelectGenderAgeController *popUpSelectGenderAgeController;
+    
+    UIImageView *splashScreenOverlay;
 }
 
 @end
@@ -68,6 +71,11 @@
     [self.view addSubview:weNeedYouLabel];
     
     if ([SSAPI canLoginToFacebookWithoutPromptingUser] == true) {
+        splashScreenOverlay = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        splashScreenOverlay.backgroundColor = [UIColor clearColor];
+        //todo: set the image to the splash screen image.
+        splashScreenOverlay.backgroundColor = [UIColor greenColor];
+        [self.view addSubview:splashScreenOverlay];
         [self loginUserInitiated:false];
     }
     
@@ -82,26 +90,77 @@
     connectToFacebookButton.enabled = NO;
     
     [SSAPI logInToFacebookOnComplete:^(NSString *fbid, NSString *accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error){
-        NSLog(@"logged in %@", error);
+        
+        
+        //NSLog(@"logged in %@", error);
         connectToFacebookButton.enabled = YES;
         
         if (error != nil) {
             UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Please try logging in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             if (userInitiated == true) [v show];
+            if (userInitiated == false) {
+                [splashScreenOverlay removeFromSuperview];
+                splashScreenOverlay = nil;
+                [self.delegate connectToFacebookControllerAutoLoginFailed:self];
+            }
             return;
         }
         
-        //TODO: create popups that determine whether age and gender could be retrieved, and allow the user to set them.
+        //couldRetrieveBirthday = false;
+        
+        
         
         if(couldRetrieveBirthday == false || couldRetrieveGender == false){
             
-        PopUpSelectGenderAgeController *popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
-        [self.view addSubview:popUpSelectGenderAgeController.view];
-        
+            //if the user did not initiate this login, then we don't want him to suddenly see this popup out of the blue. let him click the button again and find out.
+            if (userInitiated == false) {
+                [splashScreenOverlay removeFromSuperview];
+                splashScreenOverlay = nil;
+                [self.delegate connectToFacebookControllerAutoLoginFailed:self];
+            }
+            
+            popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
+            popUpSelectGenderAgeController.delegate = self;
+            [self.view addSubview:popUpSelectGenderAgeController.view];
+            
+            
+        } else {
+            
+            [self sendInfoToServerUserInitiated:userInitiated];
+            
+            
         }
         
-        [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
         
+        
+    }];
+}
+
+-(void)popUpSelectGenderAgeControllerReadyToLogin:(PopUpSelectGenderAgeController *)genderagecontroller {
+    [self sendInfoToServerUserInitiated:true];
+}
+
+-(void)sendInfoToServerUserInitiated:(BOOL)userInitiated {
+    
+    [SSAPI sendProfileInfoToServerWithonComplete:^(BOOL success, NSError *possibleError){
+        if (possibleError != nil) {
+            UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Please try logging in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            if (userInitiated == true) [v show];
+            return;
+        }
+        
+        double delayInSeconds = 1.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [popUpSelectGenderAgeController.view removeFromSuperview];
+            popUpSelectGenderAgeController = nil;
+            
+            [splashScreenOverlay removeFromSuperview];
+            splashScreenOverlay = nil;
+        });
+        
+        
+        [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
     }];
 }
 

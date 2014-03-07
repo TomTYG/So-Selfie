@@ -20,5 +20,7 @@
 
 //this method is called by the MasterViewController when it becomes visible. Since viewcontrollers are always on, this is a good way of checking what should happen when a view controller becomes visible.
 -(void)becameVisible;
+//this method is called by the MasterViewController when the user logs out or erases his account.
+-(void)userloggedout;
 
 @end

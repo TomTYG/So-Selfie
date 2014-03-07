@@ -12,7 +12,18 @@
 #import "SSMacros.h"
 #import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 
-@interface MainSwipeMenuController : UIViewController
+
+@class MainSwipeMenuController;
+@protocol MainSwipeMenuControllerDelegate <NSObject>
+
+@required
+-(void)mainSwipeMenuControllerEraseClicked:(MainSwipeMenuController*)swipecontroller;
+
+@end
+
+@interface MainSwipeMenuController : UIViewController<UIAlertViewDelegate>
+
+@property (weak) id<MainSwipeMenuControllerDelegate>delegate;
 
 @property (strong, nonatomic) NMRangeSlider *ageSlider;
 @property (strong ,nonatomic) UIButton *boysFilterButton;
@@ -23,9 +34,15 @@
 @property (strong,nonatomic) SwipeMenuButton *shootOne;
 @property (strong,nonatomic) SwipeMenuButton *yourSelfiesButton;
 
+@property UILabel *personName;
+@property UIImageView *fbprofilepictureview;
+
 
 
 @property BOOL boysButtonIsPressed;
 @property BOOL girlsButtonIsPressed;
+
+-(void)userloggedin;
+-(void)userloggedout;
 
 @end
