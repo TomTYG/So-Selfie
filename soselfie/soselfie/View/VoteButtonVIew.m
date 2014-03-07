@@ -132,7 +132,7 @@
     [self.tryAgain setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(111/255.0) green:(58/255.0) blue:(173/255.0) alpha:1]] forState:UIControlStateSelected];
     [self addSubview:self.tryAgain];
     
-    [self disableButtons];
+    //[self disableButtons];
     
     return self;
 
@@ -221,7 +221,8 @@
     self.soLameButton.subtitleLabel.text = @"";
     self.tryAgain.subtitleLabel.text = @"";
     
-    [self disableButtons];
+    //[self disableButtons];
+    [self enableButtons];
 }
 
 @end

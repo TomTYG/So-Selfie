@@ -17,6 +17,7 @@
 
 @required
 -(void)voteCollectionViewCellDoneVoting:(VoteCollectionViewCell*)cell;
+-(void)voteCollectionViewCell:(VoteCollectionViewCell*)cell clickedVote:(SSVoteType)vote;
 
 @end
 
@@ -29,5 +30,6 @@
 @property (weak) id<VoteCollectionViewCellDelegate>delegate;
 
 -(void)getRandomImage;
+-(void)startWithImageData:(NSDictionary*)imageData;
 
 @end

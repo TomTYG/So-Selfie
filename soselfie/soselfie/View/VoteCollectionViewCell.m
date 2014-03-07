@@ -111,19 +111,55 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0){
+    
     innapropriateImageButton.highlighted = NO;
     innapropriateImageButton.selected = NO;
-    return;}
     
-    else {
+    if (buttonIndex == 0) return;
     
     [self voteButtonView:nil pressedButton:innapropriateImageButton vote:SSVoteTypeInappropriate];
-    innapropriateImageButton.highlighted = NO;
-    innapropriateImageButton.selected = NO;
-    
-    }
         
+}
+
+
+-(void)startWithImageData:(NSDictionary *)imageData {
+    
+    if (currentImageData == imageData) return;
+    
+    self.facebookProfilePicture.image = nil;
+    self.photoImageView.image = nil;
+    self.facebookNameLabel.text = @"";
+    self.facebookNameLabel.alpha = 0;
+    
+    currentImageData = imageData;
+    
+    NSString *userfbid = imageData[@"user"][@"fbid"];
+    
+    [SSAPI getProfilePictureOfUser:userfbid withSize:self.facebookProfilePicture.frame.size onComplete:^(UIImage *image, NSError *error){
+        if (imageData != currentImageData) return;
+        
+        [UIView animateWithDuration:0.2 animations:^() {
+            self.facebookProfilePicture.alpha = 1;
+        }];
+        
+        self.facebookProfilePicture.image = image;
+    }];
+    [SSAPI getUserFullName:userfbid onComplete:^(NSString *fullName, NSError *error){
+        if (imageData != currentImageData) return;
+        
+        self.facebookNameLabel.text = fullName;
+        [UIView animateWithDuration:0.2 animations:^() {
+            self.facebookNameLabel.alpha = 1;
+        }];
+    }];
+    
+    
+    
+    [SSAPI getImageWithImageURL:imageData[@"url_small"] onComplete:^(UIImage *image, NSError *error){
+        if (imageData != currentImageData) return;
+        
+        self.photoImageView.image = image;
+    }];
 }
 
 -(void)getRandomImage {
@@ -196,32 +232,34 @@
     button.highlighted = YES;
     button.selected = YES;
     
+    [self.delegate voteCollectionViewCell:self clickedVote:vote];
+    
+    /*
      [SSAPI voteForSelfieID:currentImageData[@"id"] andImageAccessToken:currentImageData[@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
         
-        voteStatus = 2;
+        //voteStatus = 2;
         [self.delegate voteCollectionViewCellDoneVoting:self];
         
         
         
     }];
+     */
     
 }
 
 
 -(void)prepareForReuse {
-    //NSLog(@"preparing for reuse %i", voteStatus);
-    if (voteStatus == 2) {
-        self.facebookProfilePicture.image = nil;
-        self.photoImageView.image = nil;
-        self.facebookNameLabel.text = @"";
-        self.facebookNameLabel.alpha = 0;
-        self.delegate = nil;
-        
-        [ratingButtonsController prepareForReuse];
-        
-        [super prepareForReuse];
-        voteStatus = 0;
-    }
+    /*
+    self.facebookProfilePicture.image = nil;
+    self.photoImageView.image = nil;
+    self.facebookNameLabel.text = @"";
+    self.facebookNameLabel.alpha = 0;
+    self.delegate = nil;
+    */
+    [ratingButtonsController prepareForReuse];
+    
+    [super prepareForReuse];
+    
     
     
 }

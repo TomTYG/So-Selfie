@@ -10,13 +10,12 @@
 
 @implementation VoteCollectionViewFlowLayout
 
-/*
+
 -(UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath {
-    //return [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
     return nil;
 }
 -(UICollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath *)itemIndexPath {
     return nil;
 }
-*/
+
 @end

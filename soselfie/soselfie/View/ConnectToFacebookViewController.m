@@ -121,6 +121,7 @@
             
             popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
             popUpSelectGenderAgeController.delegate = self;
+            
             [self.view addSubview:popUpSelectGenderAgeController.view];
             
             
@@ -155,8 +156,8 @@
             [popUpSelectGenderAgeController.view removeFromSuperview];
             popUpSelectGenderAgeController = nil;
             
-            [splashScreenOverlay removeFromSuperview];
-            splashScreenOverlay = nil;
+            //[splashScreenOverlay removeFromSuperview];
+            //splashScreenOverlay = nil;
         });
         
         

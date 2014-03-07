@@ -208,12 +208,12 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
     if ([day intValue] < 10) day = [NSString stringWithFormat:@"0%@", day];
     if ([month intValue] < 10) month = [NSString stringWithFormat:@"0%@", month];
     
-    NSLog(@"new birthday %@ %@ %@", year, month, day);
+    //NSLog(@"new birthday %@ %@ %@", year, month, day);
     NSArray *a = [NSArray arrayWithObjects:year, month, day, nil];
     BIRTHDAY = a;
 }
 +(void)setUserGender:(SSUserGender)gender {
-    NSLog(@"setting user gender %i", gender);
+    //NSLog(@"setting user gender %i", gender);
     GENDER = gender;
 }
 
@@ -551,10 +551,16 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         return;
     }
     
-    //NSString *exclude1 = [NSString stringWithFormat:<#(NSString *), ...#>]
+    NSString *exclude1 = nil;
+    if (excludes.count > 0) exclude1 = excludes[0];
+    NSString *exclude2 = nil;
+    if (excludes.count > 1) exclude2 = excludes[1];
     
     
     NSString *url = [NSString stringWithFormat:@"%@/image_random.php?fbid=%@&accesstoken=%@&gender=%i&agemin=%i&agemax=%i", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken, genders, minimumAge, maximumAge];
+    
+    if (exclude1 != nil) url = [url stringByAppendingFormat:@"&exclude1=%@", exclude1];
+    if (exclude2 != nil) url = [url stringByAppendingFormat:@"&exclude2=%@", exclude2];
     
     NSDictionary *options = @{@"forcereload": @YES};
     
