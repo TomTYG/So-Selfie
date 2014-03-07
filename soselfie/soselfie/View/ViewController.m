@@ -16,6 +16,8 @@
     int currentindex;
     RatingButtonsViewController *ratingButtonsViewController;
     UIView *containerViewForRatingButtonsController;
+    int cellHeight;
+    int cellWidth;
 }
 
 @end
@@ -39,6 +41,9 @@
     self.topChartCollectionView.delegate = self;
     [self.topChartCollectionView registerClass:[TopChartCollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
     [self.view addSubview:self.topChartCollectionView];
+    
+    cellHeight = 320;
+    cellWidth = 320;
     
     //setting dropdown menu
     
@@ -66,6 +71,9 @@
     [self.view addSubview:self.tabBarView];
     //[self.view bringSubviewToFront:self.tabBarView];
     
+    self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.view.frame.size.height/4, 160, 95)];
+    [self.view addSubview:self.scoreViewForTopImages];
+    
     
     
     //setting ratingButtonsController
@@ -82,17 +90,16 @@
     imageDatas = @[];
     
     
+    /*
     ratingButtonsViewController = [[RatingButtonsViewController alloc] init];
-    ratingButtonsViewController.view.frame = CGRectMake(0, -200, self.view.frame.size.width, 184);
+    ratingButtonsViewController.view.frame = CGRectMake(0, -ratingButtonsViewController.soFunnyButton.frame.size.height *2, self.view.frame.size.width, ratingButtonsViewController.soFunnyButton.frame.size.height *2);
+    ratingButtonsViewController.controllerIsDisplayed = NO;
     
-    containerViewForRatingButtonsController = [[UIView alloc] initWithFrame:CGRectMake(0, 380, self.view.frame.size.width, 184)];
+    containerViewForRatingButtonsController = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabBarView.frame.size.height + cellHeight, self.view.frame.size.width, ratingButtonsViewController.soFunnyButton.frame.size.height *2)];
     containerViewForRatingButtonsController.clipsToBounds = YES;
     [self.view addSubview:containerViewForRatingButtonsController];
     [containerViewForRatingButtonsController addSubview:ratingButtonsViewController.view];
-    
-    
-    
-    
+     */
 }
 
 -(void)becameVisible {
@@ -200,7 +207,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(320, 320);
+    return CGSizeMake(cellWidth, cellHeight);
     
 }
 
@@ -209,8 +216,6 @@
     currentindex = -1;
     
     //[self.ratingButtonsController slideDownWithDuration:0.4];
-    
-    [self showOrHideRatingButtonsControllerWithYOrigin:0.0];
     
     if(self.dropDownMenu.menuIsHidden == NO){
         [self showOrHideDropDownMenu:nil];
@@ -228,22 +233,40 @@
     
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
     
-    //[self.ratingButtonsController slideUp];
+    TopChartCollectionViewCell *currentCell = [collectionView cellForItemAtIndexPath:indexPath];
     
-    float newYOrigin = [[UIScreen mainScreen] bounds].size.height - [collectionView cellForItemAtIndexPath:indexPath].frame.size.height - self.tabBarView.frame.size.height;
     
-    //[self showOrHideRatingButtonsControllerWithYOrigin:newYOrigin];
+    currentCell.scoreViewForTopImages.soFunnyVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_funny"] valueForKey:@"count"];
+    currentCell.scoreViewForTopImages.soHotVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_hot"] valueForKey:@"count"];
+    currentCell.scoreViewForTopImages.soLameVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_lame"] valueForKey:@"count"];
+    currentCell.scoreViewForTopImages.tryAgainVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_weird"] valueForKey:@"count"];
     
-    [self showRatingButtonsController];
+     
+    [currentCell displayScoreViewOnTap];
+    
+    NSLog (@"data is %@",imageDatas[indexPath.item]);
+    
+    /*
+    [UIView animateWithDuration:0.4 animations:^() {
+        self.topChartCollectionView.contentOffset = CGPointMake(0, collectionView.contentOffset.y);
+    } completion:^(BOOL finished) {
+        if (finished == YES){
+            [self displayRatingButtonsController];
+        }
+        
+    }];
+    */
+
 }
 
-- (void)showRatingButtonsController {
+- (void)displayRatingButtonsController {
     
     CGRect newRatingButtonsControllerFrame = ratingButtonsViewController.view.frame;
     newRatingButtonsControllerFrame.origin.y = 0;
+
     
     [UIView animateWithDuration:0.4
-                          delay:0.2
+                          delay:0.8
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          ratingButtonsViewController.view.frame = newRatingButtonsControllerFrame;
@@ -252,29 +275,32 @@
     
 }
 
--(void)showOrHideRatingButtonsControllerWithYOrigin:(float)newYOrigin {
+
+- (void)fadeOutRatingButtonsController {
     
+    float newAlpha = 0.0;
+    
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         ratingButtonsViewController.view.alpha = newAlpha;
+                     }
+                     completion:^(BOOL finished){
+                    if(finished){
+                    [self returnRatingsButtinsControllerToTheDefaultPosition];}
+                     }];
+    
+}
+
+- (void)returnRatingsButtinsControllerToTheDefaultPosition {
+    
+     ratingButtonsViewController.view.alpha = 1.0;
     CGRect newRatingButtonsControllerFrame = ratingButtonsViewController.view.frame;
-    
-    if (ratingButtonsViewController.controllerIsDisplayed == NO) {
-    newRatingButtonsControllerFrame.size.height = newYOrigin;
-    }
-    else {
-    newRatingButtonsControllerFrame.size.height = 0;
-    }
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.2
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         ratingButtonsViewController.view.frame = newRatingButtonsControllerFrame;
-                     }
-                     completion:nil];
-    
-    
+    newRatingButtonsControllerFrame.origin.y = -ratingButtonsViewController.soFunnyButton.frame.size.height *2;
+    ratingButtonsViewController.view.frame = newRatingButtonsControllerFrame;
     
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath  *)indexPath {
     self.tabBarView.filterButton.backgroundColor = [tableView cellForRowAtIndexPath:indexPath].backgroundColor;

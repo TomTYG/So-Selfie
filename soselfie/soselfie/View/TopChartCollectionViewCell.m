@@ -14,6 +14,7 @@
     
     UIImageView *facebookProfileBackground;
     UIImageView *shadowOverImagesView;
+    BOOL scoreViewIsVisible;
     
 }
 
@@ -27,6 +28,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+       
+        
         self.selfieImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
         [self addSubview:self.selfieImageView];
         
@@ -63,6 +67,13 @@
         [self.facebookNameLabel setFont:[UIFont fontWithName:@"MyriadPro-Bold" size:14]];
         [self addSubview:self.facebookNameLabel];
         
+        UIView *containerViewForScoreView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height/4, 160, 95)];
+        containerViewForScoreView.clipsToBounds = YES;
+        [self addSubview:containerViewForScoreView];
+        
+        self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.frame.size.height/4, 160, 95)];
+        [containerViewForScoreView addSubview:self.scoreViewForTopImages];
+    
     }
     return self;
 }
@@ -91,6 +102,26 @@
     }];
 }
 
+-(void)displayScoreViewOnTap {
+    CGRect newScoreViewFrame = self.scoreViewForTopImages.frame;
+    
+    if (scoreViewIsVisible == YES){
+    newScoreViewFrame.origin.x = 0;
+    scoreViewIsVisible = NO;
+    }
+    else {
+    newScoreViewFrame.origin.x = - 160;
+    scoreViewIsVisible = YES; 
+    }
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.scoreViewForTopImages.frame = newScoreViewFrame; 
+                     }
+                     completion:nil];
+}
 
 -(void)prepareForReuse {
     self.imageData = nil;

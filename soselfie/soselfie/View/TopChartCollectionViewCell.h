@@ -7,15 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RatingButtonsViewController.h"
+#import "RatingButtonsViewController.h" 
+#import "ScoreViewForTopImages.h"
 
 @interface TopChartCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *selfieImageView;
 @property (strong, nonatomic) UILabel *rankingPlace;
 @property (strong, nonatomic) UIImageView *facebookProfilePicture;
-@property (strong, nonatomic) UILabel *facebookNameLabel; 
+@property (strong, nonatomic) UILabel *facebookNameLabel;
+@property (strong, nonatomic) ScoreViewForTopImages *scoreViewForTopImages;
+
 
 -(void)startWithImageData:(NSDictionary*)imageData;
+-(void) displayScoreViewOnTap;
+
 
 @end

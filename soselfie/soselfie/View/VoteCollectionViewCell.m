@@ -37,7 +37,7 @@
     self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
     self.photoImageView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.photoImageView];
-    
+
     
     shadowOverImagesView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"universalselfiepreview_shadow.png"]];
     shadowOverImagesView.contentMode = UIViewContentModeScaleAspectFit;
@@ -85,14 +85,14 @@
     self.facebookNameLabel.alpha = 0;
     [self addSubview:self.facebookNameLabel];
     
-    int buttonWidth = 36;
-    int buttonHeight = 36;
+    int buttonWidth = 30;
+    int buttonHeight = 30;
     
     innapropriateImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     innapropriateImageButton.frame = CGRectMake(self.frame.size.width - buttonWidth - 10, facebookInfoY + 3,buttonWidth, buttonHeight);
-    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadface"] forState:UIControlStateNormal];
-    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadFACEHOVER"] forState:UIControlStateHighlighted];
-    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"sadFACEHOVER"] forState:UIControlStateSelected];
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate"] forState:UIControlStateNormal];
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate_red"] forState:UIControlStateHighlighted];
+    [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate_red"] forState:UIControlStateSelected];
     [self addSubview:innapropriateImageButton];
     
     [innapropriateImageButton addTarget:self action:@selector(markAsInnapropriate:) forControlEvents:UIControlEventTouchUpInside];

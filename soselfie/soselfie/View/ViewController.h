@@ -21,6 +21,7 @@
 @property (strong, nonatomic) RatingButtonsViewController *ratingButtonsController;
 @property (strong, nonatomic) DropDownMenu *dropDownMenu;
 @property (strong, nonatomic) TabBarView *tabBarView;
+@property (strong, nonatomic) ScoreViewForTopImages *scoreViewForTopImages;
 
 
 -(void)becameVisible;
