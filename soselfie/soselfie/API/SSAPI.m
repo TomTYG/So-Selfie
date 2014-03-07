@@ -25,11 +25,11 @@
         
         
         UIImage *image = [UIImage imageWithData:data[@"data"]];
-        onComplete(image, nil);
+        if (onComplete) onComplete(image, nil);
         
     } onFail:^(NSDictionary *data) {
         
-        onComplete(nil, [NSError errorWithDomain:@"Image Load Error" code:[data[@"error"] code] userInfo:@{@"message": [NSString stringWithFormat:@"Could not load image url %@", imageURL]}]);
+        if (onComplete) onComplete(nil, [NSError errorWithDomain:@"Image Load Error" code:[data[@"error"] code] userInfo:@{@"message": [NSString stringWithFormat:@"Could not load image url %@", imageURL]}]);
         
     }];
 }
@@ -155,6 +155,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
     
     [FBSession openActiveSessionWithReadPermissions:permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
         
+        NSLog(@"active state %i", state);
         //this block is called every time the session changes a state, including when it gets closed. Since this block should really only happen to a FBSession that is still alive (= not closed), we check for it here.
         if (state & FB_SESSIONSTATETERMINALBIT) return;
         
@@ -246,7 +247,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
         
-        NSLog(@"load result %@", result);
+        //NSLog(@"load result %@", result);
         
         if (result == nil) {
             onComplete(false, [NSError errorWithDomain:@"DataBaseError" code:0 userInfo:@{@"message": @"There was an unknown error."}]);
@@ -315,7 +316,8 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         if (d[@"error"] != nil) {
             onComplete(nil, [NSError errorWithDomain:d[@"error"][@"type"] code:[d[@"error"][@"code"] intValue] userInfo:@{@"message" : d[@"error"][@"message"]}]);
         } else {
-            onComplete(d[@"name"], nil);
+            //onComplete(d[@"name"], nil);
+            onComplete(d[@"first_name"], nil);
         }
         
     } onFail:nil];
@@ -555,21 +557,28 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
     if (excludes.count > 0) exclude1 = excludes[0];
     NSString *exclude2 = nil;
     if (excludes.count > 1) exclude2 = excludes[1];
+    NSString *exclude3 = nil;
+    if (excludes.count > 2) exclude3 = excludes[2];
+    NSString *exclude4 = nil;
+    if (excludes.count > 3) exclude4 = excludes[3];
     
     
     NSString *url = [NSString stringWithFormat:@"%@/image_random.php?fbid=%@&accesstoken=%@&gender=%i&agemin=%i&agemax=%i", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken, genders, minimumAge, maximumAge];
     
     if (exclude1 != nil) url = [url stringByAppendingFormat:@"&exclude1=%@", exclude1];
     if (exclude2 != nil) url = [url stringByAppendingFormat:@"&exclude2=%@", exclude2];
+    if (exclude2 != nil) url = [url stringByAppendingFormat:@"&exclude3=%@", exclude3];
+    if (exclude2 != nil) url = [url stringByAppendingFormat:@"&exclude4=%@", exclude4];
     
     NSDictionary *options = @{@"forcereload": @YES};
     
-    NSLog(@"sending url %@", url);
+    //NSLog(@"RANDOM %@ %@ %@ %@", exclude1, exclude2, exclude3, exclude4);
     
     [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
         
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
         
+        //NSLog(@"     RANDOM %@ %@ %@ %@ %@", exclude1, exclude2, exclude3, exclude4, result[@"data"][@"image"][@"id"]);
         
         if (result == nil) {
             onComplete(nil, [NSError errorWithDomain:@"DataBaseError" code:0 userInfo:@{@"message": @"There was an unknown error."}]);
@@ -588,12 +597,8 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         }
         
         NSDictionary *d = result[@"data"][@"image"];
-        /*
-        NSDictionary *votes = @{@"funny" : d[@"votes_funny"],
-                                @"hot" : d[@"votes_hot"],
-                                @"lame" : d[@"votes_lame"],
-                                @"weird" : d[@"votes_weird"],};
-        */
+        
+        
         
         onComplete(d, nil);
         
@@ -619,15 +624,16 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
     
     NSString *url = [NSString stringWithFormat:@"%@/image_vote.php?fbid=%@&accesstoken=%@&image=%@&imageaccesstoken=%@&vote=%i", SSAPI_BASEURL, FBID, [FBSession activeSession].accessTokenData.accessToken, selfieID, imageAccessToken, vote];
     
-    NSDictionary *options = @{@"forcereload": @YES};
+    NSDictionary *options = @{@"forcereload": @YES,
+                              @"priority" : @(TYGURLPriorityHighFront)};
     
-    NSLog(@"sending url %@", url);
+    //NSLog(@"         VOTE %@", selfieID);
     
     
     [TYGURLLoader handleURL:url method:TYGURLMethodGet options:options onComplete:^(NSDictionary *data) {
         
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data[@"data"] options:0 error:nil];
-        
+        //NSLog(@"             VOTE %@", selfieID);
         
         if (result == nil) {
             onComplete(false, [NSError errorWithDomain:@"DataBaseError" code:0 userInfo:@{@"message": @"There was an unknown error."}]);

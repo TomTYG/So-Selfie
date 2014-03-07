@@ -14,6 +14,8 @@
     BOOL firstView;
     
     NSArray *currentImageDatas;
+    NSArray *votesNotDoneArray;
+
     
 }
 
@@ -26,6 +28,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     firstView = true;
     
+    [self view];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     VoteCollectionViewFlowLayout *layout = [[VoteCollectionViewFlowLayout alloc] init];
     //[layout setSectionInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     layout.minimumInteritemSpacing = 0;
@@ -33,6 +38,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.mainVoteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake
                                    (0, 60, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
+    self.mainVoteCollectionView.backgroundColor = [UIColor clearColor];
     self.mainVoteCollectionView.delegate = self;
     self.mainVoteCollectionView.dataSource = self;
     [self.mainVoteCollectionView registerClass:[VoteCollectionViewCell class] forCellWithReuseIdentifier:@"MyCell"];
@@ -52,6 +58,7 @@
     [self.view bringSubviewToFront:self.tabBarView];
     
     currentImageDatas = @[];
+    votesNotDoneArray = @[];
     
     return self;
 }
@@ -68,6 +75,8 @@
 }
 
 -(void)ageOrGenderChanged {
+    
+    if (currentImageDatas.count == 0) [self becameVisible];
     if (currentImageDatas.count <= 1) return;
     
     
@@ -88,6 +97,9 @@
     for (int i = 0; i < currentImageDatas.count; i++) {
         [a addObject:currentImageDatas[i][@"id"]];
     }
+    for (int i = 0; i < votesNotDoneArray.count; i++) {
+        [a addObject:votesNotDoneArray[i]];
+    }
     
     [SSAPI getRandomSelfieForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] excludeIDs:a onComplete:^(NSDictionary* imageData, NSError *error){
         
@@ -99,9 +111,19 @@
             return;
         }
         
+        for (int i = 0; i < currentImageDatas.count; i++) {
+            NSString *s = currentImageDatas[i][@"id"];
+            if ([s isEqualToString:imageData[@"id"]]) {
+                return;
+            }
+        }
         currentImageDatas = [currentImageDatas arrayByAddingObject:imageData];
         
-        [self.mainVoteCollectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:currentImageDatas.count - 1 inSection:0]]];
+        //caching image, hence a completion handler that is nil.
+        [SSAPI getImageWithImageURL:imageData[@"url_small"] onComplete:nil];
+        
+        [self.mainVoteCollectionView reloadData];
+        //[self.mainVoteCollectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:currentImageDatas.count - 1 inSection:0]]];
         
         if (currentImageDatas.count < 3) [self addACell];
         
@@ -141,10 +163,26 @@ static CGSize indexSize;
 
 -(void)voteCollectionViewCell:(VoteCollectionViewCell *)cell clickedVote:(SSVoteType)vote {
     
+   
+    NSString *imageid = currentImageDatas[0][@"id"];
     
-    [SSAPI voteForSelfieID:currentImageDatas[0][@"id"] andImageAccessToken:currentImageDatas[0][@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
+    votesNotDoneArray = [votesNotDoneArray arrayByAddingObject:imageid];
+    
+    
+    [SSAPI voteForSelfieID:imageid andImageAccessToken:currentImageDatas[0][@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
         
-        NSLog(@"vote complete %i", vote);
+        NSMutableArray *a = [votesNotDoneArray mutableCopy];
+        for (int i = 0; i < votesNotDoneArray.count; i++) {
+            
+            NSString *s = votesNotDoneArray[i];
+            if ([s isEqualToString:imageid] == true) {
+                
+                [a removeObjectAtIndex:i];
+            }
+        }
+        votesNotDoneArray = a;
+        //NSLog(@"vote complete %@ %i", imageid, vote);
+        [self addACell];
         
     }];
     
@@ -173,7 +211,7 @@ static CGSize indexSize;
     [self.mainVoteCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:0 inSection:0]]];
     */
     
-    [self addACell];
+    
     
     
 }

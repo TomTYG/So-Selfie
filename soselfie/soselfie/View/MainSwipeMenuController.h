@@ -18,6 +18,8 @@
 
 @required
 -(void)mainSwipeMenuControllerEraseClicked:(MainSwipeMenuController*)swipecontroller;
+-(void)mainSwipeMenuControllerChangedAge:(MainSwipeMenuController *)swipecontroller;
+-(void)mainSwipeMenuControllerChangedGender:(MainSwipeMenuController *)swipecontroller;
 
 @end
 

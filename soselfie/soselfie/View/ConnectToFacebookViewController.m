@@ -8,11 +8,15 @@
 
 #import "ConnectToFacebookViewController.h"
 #import "SSAPI.h"
+#import <FacebookSDK/FacebookSDK.h>
+
 @interface ConnectToFacebookViewController () {
     RankingButtonWithSubtitle *connectToFacebookButton;
     PopUpSelectGenderAgeController *popUpSelectGenderAgeController;
     
     UIImageView *splashScreenOverlay;
+    
+    UIView *subviewForMainItems;
 }
 
 @end
@@ -45,9 +49,13 @@
         labeYOrigin = 64;
     }
     
+    subviewForMainItems = [[UIView alloc] initWithFrame:self.view.frame];
+    subviewForMainItems.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:subviewForMainItems];
+    
     self.view.backgroundColor = [UIColor colorWithRed:232/255.0 green:232/255.0 blue:232/255.0 alpha:1.0];
     
-    connectToFacebookButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen]bounds].size.height - buttonHeight, 320, buttonHeight)];
+    connectToFacebookButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - buttonHeight, 320, buttonHeight)];
     connectToFacebookButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
     connectToFacebookButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [connectToFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -56,7 +64,7 @@
     [connectToFacebookButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, bottomInset, 0)];
     [connectToFacebookButton addTarget:self action:@selector(loginButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [connectToFacebookButton setBackgroundImage:[RankingButtonWithSubtitle imageWithColor:[UIColor colorWithRed:(103/255.0) green:(140/255.0) blue:(198/255.0) alpha:1]] forState:UIControlStateHighlighted];
-    [self.view addSubview:connectToFacebookButton];
+    [subviewForMainItems addSubview:connectToFacebookButton];
     
     UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(83, logoYOrigin, 154, 167)];
     logoImageView.image = [UIImage imageNamed:@"logo"];
@@ -68,15 +76,16 @@
     weNeedYouLabel.textColor = [UIColor colorWithRed:88/255.0 green:89/255.0 blue:91/255.0 alpha:1.0];
     weNeedYouLabel.text = @"We need you to Sign Up";
     weNeedYouLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:weNeedYouLabel];
+    [subviewForMainItems addSubview:weNeedYouLabel];
+    
     
     if ([SSAPI canLoginToFacebookWithoutPromptingUser] == true) {
-        splashScreenOverlay = [[UIImageView alloc] initWithFrame:self.view.bounds];
-        splashScreenOverlay.backgroundColor = [UIColor clearColor];
-        //todo: set the image to the splash screen image.
-        splashScreenOverlay.backgroundColor = [UIColor greenColor];
-        [self.view addSubview:splashScreenOverlay];
-        [self loginUserInitiated:false];
+        double delayInSeconds = 0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self loginUserInitiated:false];
+        });
+        
     }
     
     return self;
@@ -89,10 +98,25 @@
 -(void)loginUserInitiated:(BOOL)userInitiated {
     connectToFacebookButton.enabled = NO;
     
+    
+    if (userInitiated == false) {
+        splashScreenOverlay = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        splashScreenOverlay.backgroundColor = [UIColor clearColor];
+        BOOL b = GET_DEVICE_TYPE == SSDeviceTypeiPhone5;
+        UIImage *img = [UIImage imageNamed:b == true ? @"Default-568h" : @"Default" ];
+        splashScreenOverlay.contentMode = UIViewContentModeScaleAspectFit;
+        splashScreenOverlay.image = img;
+        //todo: set the image to the splash screen image.
+        //splashScreenOverlay.backgroundColor = [UIColor greenColor];
+        [self.view addSubview:splashScreenOverlay];
+    }
+    
+    NSLog(@"logging in");
+    
     [SSAPI logInToFacebookOnComplete:^(NSString *fbid, NSString *accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error){
         
         
-        //NSLog(@"logged in %@", error);
+        NSLog(@"logged in %@", error);
         connectToFacebookButton.enabled = YES;
         
         if (error != nil) {
@@ -122,7 +146,7 @@
             popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] init];
             popUpSelectGenderAgeController.delegate = self;
             
-            [self.view addSubview:popUpSelectGenderAgeController.view];
+            [subviewForMainItems addSubview:popUpSelectGenderAgeController.view];
             
             
         } else {
@@ -150,14 +174,19 @@
             return;
         }
         
+        
+        //NSLog(@"popup view %@", splashScreenOverlay.view);
+        if (splashScreenOverlay != nil) subviewForMainItems.alpha = 0;
+        
+        
         double delayInSeconds = 1.0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [popUpSelectGenderAgeController.view removeFromSuperview];
             popUpSelectGenderAgeController = nil;
             
-            //[splashScreenOverlay removeFromSuperview];
-            //splashScreenOverlay = nil;
+            [splashScreenOverlay removeFromSuperview];
+            splashScreenOverlay = nil;
         });
         
         

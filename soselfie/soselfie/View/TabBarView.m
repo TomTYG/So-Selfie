@@ -60,7 +60,7 @@
         
         //add main slidebutton
         
-        self.mainMenuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.mainMenuButton = [SSButton buttonWithType:UIButtonTypeCustom];
         [self.mainMenuButton setFrame:CGRectMake (5, 20, 32, 32)];
         [self.mainMenuButton setBackgroundImage:[UIImage imageNamed:@"slidebutton"] forState:UIControlStateNormal];
         [self.mainMenuButton setBackgroundImage:[UIImage imageNamed:@"slidebutton"] forState:UIControlStateHighlighted | UIControlStateSelected];

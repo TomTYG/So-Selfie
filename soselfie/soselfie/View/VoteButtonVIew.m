@@ -209,10 +209,10 @@
 }
 
 -(void)startWithVotesDictionary:(NSDictionary *)dictionary {
-    [self.soFunnyButton setNumberOfVotes:[dictionary[@"votes_funny"] integerValue]];
-    [self.soHotButton setNumberOfVotes:[dictionary[@"votes_hot"] integerValue]];
-    [self.soLameButton setNumberOfVotes:[dictionary[@"votes_lame"] integerValue]];
-    [self.tryAgain setNumberOfVotes:[dictionary[@"votes_weird"] integerValue]];
+    [self.soFunnyButton setNumberOfVotes:[dictionary[@"votes_funny"][@"count"] integerValue]];
+    [self.soHotButton setNumberOfVotes:[dictionary[@"votes_hot"][@"count"] integerValue]];
+    [self.soLameButton setNumberOfVotes:[dictionary[@"votes_lame"][@"count"] integerValue]];
+    [self.tryAgain setNumberOfVotes:[dictionary[@"votes_weird"][@"count"] integerValue]];
 }
 //this is called from the parent view cell just before reusing it and repopulating it with new votes.
 -(void)prepareForReuse {

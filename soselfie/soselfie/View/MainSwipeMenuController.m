@@ -193,7 +193,7 @@
     
     //Erase account Button
     
-    GenericSoSelfieButtonWithOptionalSubtitle *eraseAccountButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(15,settingsBlockView.frame.origin.y + secondGap,245,35) withBackgroundColor:[UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(96/255.0) green:(96/255.0) blue:(96/255.0) alpha:1] titleLabel:@"Erase account" withFontSize:17];
+    GenericSoSelfieButtonWithOptionalSubtitle *eraseAccountButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(15,settingsBlockView.frame.origin.y + secondGap,245,35) withBackgroundColor:[UIColor colorWithRed:(76/255.0) green:(76/255.0) blue:(76/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(96/255.0) green:(96/255.0) blue:(96/255.0) alpha:1] titleLabel:@"Log out" withFontSize:17];
     [eraseAccountButton addTarget:self action:@selector(eraseAccountButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:eraseAccountButton];
     
@@ -224,6 +224,8 @@
     
     self.ageSlider.upperLabel.center = upperCenter;
     self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.upperValue];
+    
+    [self.delegate mainSwipeMenuControllerChangedAge:self];
     //NSLog (@"UPPER VALUE IS %f",self.ageSlider.upperValue);
 }
 
@@ -268,6 +270,8 @@
     if (self.boysButtonIsPressed == YES) s = s | SSUserGenderMale;
     [SSAPI setGenders:s];
     
+    [self.delegate mainSwipeMenuControllerChangedGender:self];
+    
 }
 
 - (void) showOnlyGirlsSelfies:(UIButton *)button {
@@ -289,14 +293,19 @@
     if (self.girlsButtonIsPressed == YES) s = s | SSUserGenderFemale;
     if (self.boysButtonIsPressed == YES) s = s | SSUserGenderMale;
     [SSAPI setGenders:s];
+    
+    [self.delegate mainSwipeMenuControllerChangedGender:self];
 }
 
 
 
 
 -(void)eraseAccountButtonPressed:(id)sender {
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Really erase account?" message:@"This will delete all your pictures. Continue?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    //[self.delegate mainSwipeMenuControllerEraseClicked:self];
+    
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Logout?" message:@"Really log out?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [v show];
+    
 }
 
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {

@@ -126,6 +126,8 @@
     
     if (currentImageData == imageData) return;
     
+    NSLog(@"starting with image data %@", imageData[@"id"]);
+    
     self.facebookProfilePicture.image = nil;
     self.photoImageView.image = nil;
     self.facebookNameLabel.text = @"";

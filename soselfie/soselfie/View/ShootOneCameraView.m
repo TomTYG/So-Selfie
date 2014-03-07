@@ -263,7 +263,12 @@
 
 -(void)pictureReceived:(UIImage*)img { //this needs to be called on the main thread.
     self.takingphoto = false;
+    
+    //img = [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:(img.imageOrientation + 4) % 8];
+    
     cameraImageView.image = img;
+    
+    
     
     [self.delegate cameraView:self hasPreparedImage:img];
     

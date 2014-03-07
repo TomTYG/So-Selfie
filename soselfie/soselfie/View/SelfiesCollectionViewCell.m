@@ -160,10 +160,15 @@
         
         self.imageThumbView.image = image;
         
-        self.soFunnyVotesLabel.text = self.imageData[@"votes_funny"];
-        self.soHotVotesLabel.text = self.imageData[@"votes_hot"];
-        self.soLameVotesLabel.text = self.imageData[@"votes_lame"];
-        self.tryAgainVotesLabel.text = self.imageData[@"votes_weird"];
+        self.soFunnyRankLabel.text = self.imageData[@"votes_funny"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_funny"][@"rank"];
+        self.soHotRankLabel.text = self.imageData[@"votes_hot"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_hot"][@"rank"];
+        self.soLameRankLabel.text = self.imageData[@"votes_lame"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_lame"][@"rank"];
+        self.tryAgainRankLabel.text = self.imageData[@"votes_weird"][@"rank"] == [NSNull null] ? @"" : self.imageData[@"votes_weird"][@"rank"];
+        
+        self.soFunnyVotesLabel.text = self.imageData[@"votes_funny"][@"count"];
+        self.soHotVotesLabel.text = self.imageData[@"votes_hot"][@"count"];
+        self.soLameVotesLabel.text = self.imageData[@"votes_lame"][@"count"];
+        self.tryAgainVotesLabel.text = self.imageData[@"votes_weird"][@"count"];
     }];
     
 }
@@ -185,6 +190,11 @@
     self.soHotVotesLabel.text = @"";
     self.soLameVotesLabel.text = @"";
     self.tryAgainVotesLabel.text = @"";
+    
+    self.soFunnyRankLabel.text = @"";
+    self.soHotRankLabel.text = @"";
+    self.soLameRankLabel.text = @"";
+    self.tryAgainRankLabel.text = @"";
 }
 
 

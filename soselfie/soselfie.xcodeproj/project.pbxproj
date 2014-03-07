@@ -92,6 +92,7 @@
 		890E1DA318B618D400F2CFAE /* TYGURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890E1DA118B618D400F2CFAE /* TYGURLManager.m */; };
 		89200EEB18B7985F00EB75E5 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89200EEA18B7985F00EB75E5 /* Base64.m */; };
 		894FDDB318C635B900C2AD26 /* ShootOneCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 894FDDB218C635B900C2AD26 /* ShootOneCameraView.m */; };
+		8956132118C9EE3E0073D2C2 /* SSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8956132018C9EE3E0073D2C2 /* SSButton.m */; };
 		8956F80C18C5E74300322D6C /* VoteButtonVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 8956F80B18C5E74300322D6C /* VoteButtonVIew.m */; };
 		8968798B18B36E4400C48085 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798A18B36E4400C48085 /* RootViewController.m */; };
 		8968798F18B3B7B400C48085 /* SSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8968798E18B3B7B400C48085 /* SSAPI.m */; };
@@ -230,6 +231,8 @@
 		89200EEA18B7985F00EB75E5 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = API/Base64.m; sourceTree = "<group>"; };
 		894FDDB118C635B900C2AD26 /* ShootOneCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShootOneCameraView.h; path = View/ShootOneCameraView.h; sourceTree = "<group>"; };
 		894FDDB218C635B900C2AD26 /* ShootOneCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShootOneCameraView.m; path = View/ShootOneCameraView.m; sourceTree = "<group>"; };
+		8956131F18C9EE3E0073D2C2 /* SSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSButton.h; path = View/SSButton.h; sourceTree = "<group>"; };
+		8956132018C9EE3E0073D2C2 /* SSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSButton.m; path = View/SSButton.m; sourceTree = "<group>"; };
 		8956F80A18C5E74300322D6C /* VoteButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoteButtonView.h; path = View/VoteButtonView.h; sourceTree = "<group>"; };
 		8956F80B18C5E74300322D6C /* VoteButtonVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoteButtonVIew.m; path = View/VoteButtonVIew.m; sourceTree = "<group>"; };
 		8968798918B36E4400C48085 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = View/RootViewController.h; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 		8968798C18B36E4900C48085 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8956131F18C9EE3E0073D2C2 /* SSButton.h */,
+				8956132018C9EE3E0073D2C2 /* SSButton.m */,
 				08ECE32518C5D22700650753 /* MasterViewController.h */,
 				08ECE32618C5D22700650753 /* MasterViewController.m */,
 				08ECE31D18C5D22700650753 /* ConnectToFacebookViewController.h */,
@@ -663,6 +668,7 @@
 				890CC65618C0EE0200F0072F /* UIImageExtras.m in Sources */,
 				894FDDB318C635B900C2AD26 /* ShootOneCameraView.m in Sources */,
 				08ECE3A118C607CF00650753 /* SSMacros.m in Sources */,
+				8956132118C9EE3E0073D2C2 /* SSButton.m in Sources */,
 				8968798F18B3B7B400C48085 /* SSAPI.m in Sources */,
 				08683E6018C764860088B665 /* GenericSoSelfieButtonWithOptionalSubtitle.m in Sources */,
 				8909BDA118BCE7CD00A08963 /* RootOwnSelfiesView.m in Sources */,

@@ -96,11 +96,12 @@
 }
 
 -(void)becameVisible {
+    self.topChartCollectionView.scrollEnabled = NO;
+    
     imageDatas = @[];
     previoustotalloading = 0;
     
     [self loadNextImagesBatch];
-    
     
 }
 
@@ -113,6 +114,8 @@
     previoustotalloading = imageDatas.count + 1;
     
     [SSAPI getTopSelfiesForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] andVoteCategory:currentVoteType startingFromIndex:imageDatas.count onComplete:^(int totalSelfies, NSArray *images, NSError *error){
+        
+        self.topChartCollectionView.scrollEnabled = YES;
         
         if (error != nil) return;
         
@@ -127,6 +130,8 @@
         if (prevCount == 0) {
             [self.topChartCollectionView reloadData];
             [self.topChartCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+            
+            
             return;
         }
         
@@ -180,13 +185,15 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.item == imageDatas.count - 3) [self loadNextImagesBatch];
+    
+    
     
     TopChartCollectionViewCell *cell= [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
     
     cell.rankingPlace.text = [NSString stringWithFormat:@"#%ld",(long)indexPath.item + 1];
     [cell startWithImageData:imageDatas[indexPath.item]];
+
     
     return cell;
 }

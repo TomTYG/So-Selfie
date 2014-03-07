@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SSMacros.h"
 
-@interface GenericSoSelfieButtonWithOptionalSubtitle : UIButton
+@interface GenericSoSelfieButtonWithOptionalSubtitle : SSButton
 
 @property (strong, nonatomic) UILabel *subtitleLabel;
 -(void)setNumberOfVotes:(int)numberOfVotes;

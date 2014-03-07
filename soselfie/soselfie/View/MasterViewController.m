@@ -40,6 +40,7 @@
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(showMainMenuOnSwipe:)];
     [self.panRecognizer setMinimumNumberOfTouches:1];
     [self.panRecognizer setMaximumNumberOfTouches:1];
+    self.panRecognizer.delegate = self;
   
 
     self.genericCentralView = [[UIView alloc] init];
@@ -318,6 +319,15 @@
 }
 
 
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    CGPoint p = [gestureRecognizer locationInView:self.genericCentralView];
+    //NSLog(@"point p %@", NSStringFromCGPoint(p));
+    
+    //adjusting this value can make the hit radius of where the gesgture is recognized greater.
+    if (p.x > 70) return NO;
+    return YES;
+}
+
 - (void)showMainMenuOnSwipe:(id)sender {
     
     //the menu should not be active while the connect to facebook button is still showing.
@@ -329,6 +339,7 @@
     
     //finger position
     CGPoint translatedPoint = [(UIPanGestureRecognizer*)sender translationInView:self.genericCentralView];
+    
     //NSLog(@"translated point %@", NSStringFromCGPoint(translatedPoint));
     CGRect newSwipedViewFrame = self.genericCentralView.frame;
     
@@ -505,6 +516,15 @@
 
 -(void)mainSwipeMenuControllerEraseClicked:(MainSwipeMenuController *)swipecontroller {
     
+    [SSAPI logOutCurrentUser];
+    
+    [self.voteViewController userloggedout];
+    [self.yourSelfiesViewController userloggedout];
+    [self.mainSwipeViewController userloggedout];
+    
+    [self gotoNewViewController:self.connectToFacebookContoller animated:YES];
+    
+    /*
     [SSAPI eraseCurrentUserOnComplete:^(BOOL success, NSError *possibleError) {
         
         //NSLog(@"%@ %@", @(success), possibleError);
@@ -516,7 +536,16 @@
         [self gotoNewViewController:self.connectToFacebookContoller animated:YES];
         
     }];
+    */
     
+    
+}
+
+-(void)mainSwipeMenuControllerChangedAge:(MainSwipeMenuController *)swipecontroller {
+    [self.voteViewController ageOrGenderChanged];
+}
+-(void)mainSwipeMenuControllerChangedGender:(MainSwipeMenuController *)swipecontroller {
+    [self.voteViewController ageOrGenderChanged];
 }
 
 

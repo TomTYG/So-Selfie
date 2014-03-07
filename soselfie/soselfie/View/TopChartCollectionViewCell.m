@@ -91,6 +91,7 @@
     }];
 }
 
+
 -(void)prepareForReuse {
     self.imageData = nil;
     self.selfieImageView.image = nil;
