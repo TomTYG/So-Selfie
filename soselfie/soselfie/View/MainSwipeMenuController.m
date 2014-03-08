@@ -81,13 +81,13 @@
     //Shoot one! button
     
     self.shootOne = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.topSelfies.frame.origin.y,200,buttonHeight)];
-    [self.shootOne setTitle:@"Shoot one!" forState:UIControlStateNormal];
+    [self.shootOne setTitle:@"Shoot a Selfie!" forState:UIControlStateNormal];
     [self.view addSubview:self.shootOne];
     
     //Your selfies
     
     self.yourSelfiesButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.shootOne.frame.origin.y,200,buttonHeight)];
-    [self.yourSelfiesButton setTitle:@"Your selfies" forState:UIControlStateNormal];
+    [self.yourSelfiesButton setTitle:@"Your Selfies" forState:UIControlStateNormal];
     [self.view addSubview:self.yourSelfiesButton];
     
     //NSLog (@"ORIGIN Y IS %f",self.yourSelfiesButton.frame.origin.y);
@@ -101,8 +101,8 @@
     [self.view addSubview:settingsBlockView];
     
     
-    SwipeMenuButton *settingHeader = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5,0,200,30)];
-    [settingHeader setTitle:@"Selfie filter" forState:UIControlStateNormal];
+    SwipeMenuButton *settingHeader = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5,0,240,30)];
+    [settingHeader setTitle:@"What do you wanna see?" forState:UIControlStateNormal];
     settingHeader.userInteractionEnabled = NO;
     [settingsBlockView addSubview:settingHeader];
     
@@ -130,7 +130,7 @@
     [self.boysFilterButton setTitleEdgeInsets:UIEdgeInsetsMake(3, 0, 0, 0)];
     self.boysFilterButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:17];
     //[self.boysFilterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.boysFilterButton setTitleColor:[UIColor colorWithWhite:0.8 alpha:1] forState:UIControlStateNormal];
+    [self.boysFilterButton setTitleColor:[UIColor colorWithWhite:1 alpha:1] forState:UIControlStateNormal];
     self.boysFilterButton.frame = CGRectMake(15, 56,122.5,35);
     [self.boysFilterButton addTarget:self
                          action:@selector(showOnlyBoysSelfies:)
@@ -173,6 +173,7 @@
     self.ageSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(15, ageHeader.frame.origin.y + ageHeader.frame.size.height, 245, 35)];
     [self.ageSlider addTarget:self action:@selector(updateSliderLabels:) forControlEvents:UIControlEventValueChanged];
     [settingsBlockView addSubview:self.ageSlider];
+    [self.ageSlider setNeedsDisplay];
     
     self.ageSlider.lowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ageSlider.lowerCenter.x + 8, self.ageSlider.center.y + 10, 50, 50)];
     self.ageSlider.lowerLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:14];
@@ -201,18 +202,25 @@
 
 - (void)updateSliderLabels:(NMRangeSlider *)ageslider
 {
-    // You get get the center point of the slider handles and use this to arrange other subviews
     
-    //LOWER LABEL
     
+    self.ageSlider.lowerLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.lowerValue];
+    [SSAPI setAgemin:(int)self.ageSlider.lowerValue];
+    
+    self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.upperValue];
+    [SSAPI setAgemax:(int)self.ageSlider.upperValue];
+    
+    [self.delegate mainSwipeMenuControllerChangedAge:self];
+    
+    return;
+    
+    /*
     CGPoint lowerCenter;
     lowerCenter.x = (self.ageSlider.lowerCenter.x + self.ageSlider.frame.origin.x);
     lowerCenter.y = (self.ageSlider.center.y + 35);
    
     self.ageSlider.lowerLabel.center = lowerCenter;
-    self.ageSlider.lowerLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.lowerValue];
-    //NSLog (@"LOWER VALUE IS %f",self.ageSlider.lowerValue);
-    [SSAPI setAgemin:(int)self.ageSlider.lowerValue];
+    
     
     //UPPER LABEL
     
@@ -220,13 +228,9 @@
     upperCenter.x = (self.ageSlider.upperCenter.x + self.ageSlider.frame.origin.x + 30);
     upperCenter.y = (self.ageSlider.center.y + 35);
     
-    [SSAPI setAgemax:(int)self.ageSlider.upperValue];
-    
     self.ageSlider.upperLabel.center = upperCenter;
-    self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.upperValue];
+    */
     
-    [self.delegate mainSwipeMenuControllerChangedAge:self];
-    //NSLog (@"UPPER VALUE IS %f",self.ageSlider.upperValue);
 }
 
 -(void)userloggedin {
@@ -242,9 +246,6 @@
     self.fbprofilepictureview.image = nil;
 }
 
-- (void)swipeMenuFromTheLeftSide:(id)sender{
-    NSLog (@"It is getting called");
-}
 
 - (void) showOnlyBoysSelfies:(UIButton *)button  {
     if (self.boysButtonIsPressed == NO){

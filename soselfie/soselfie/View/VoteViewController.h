@@ -12,7 +12,19 @@
 #import "TabBarView.h"
 
 
+@class VoteViewController;
+
+@protocol VoteViewControllerDelegate <NSObject>
+
+@required
+-(void)voteViewControllerClickedShootButton:(VoteViewController*)viewcontroller;
+
+@end
+
+
 @interface VoteViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, VoteCollectionViewCellDelegate>
+
+@property (weak) id<VoteViewControllerDelegate>delegate;
 
 @property (strong, nonatomic) UICollectionView *mainVoteCollectionView;
 //@property (strong , nonatomic) NSArray *testArray;

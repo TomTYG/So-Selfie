@@ -135,7 +135,7 @@
         [self addSubview:bottomBorderLine];
         
     
-        self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(223, 88, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"erase selfie" withFontSize:15];
+        self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(223, 88, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"Erase Selfie" withFontSize:15];
         [self.eraseSelfieButton addTarget:self action:@selector(eraseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.eraseSelfieButton];
         
@@ -188,7 +188,7 @@
 }
 
 -(void)eraseButtonClicked:(id)sender {
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Erase selfie?" message:@"Really erase this selfie?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Erase Selfie?" message:@"Are you sure you wanna erase this Selfie?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [v show];
 }
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {

@@ -27,7 +27,7 @@
         [self setTitleEdgeInsets:UIEdgeInsetsMake(5, 2, 0, 0)];
     }
     
-    self.backgroundColor = backgroundColor;
+    //self.backgroundColor = backgroundColor;
     [self setTitle:title forState:UIControlStateNormal];
     
     [self.subtitleLabel setBackgroundColor:[UIColor clearColor]];
@@ -37,7 +37,8 @@
     [self.subtitleLabel setTextColor:[UIColor blackColor]];
     [self addSubview:self.subtitleLabel];
     
-    [self setBackgroundImage:[self imageWithColor:highlightColor] forState:UIControlStateHighlighted];
+    [self setbackgroundColorNormal:backgroundColor];
+    [self setbackgroundColorHighlighted:highlightColor];
     
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
@@ -48,6 +49,14 @@
 
 -(void)setNumberOfVotes:(int)numberOfVotes {
     self.subtitleLabel.text = [NSString stringWithFormat:@"%i voted this",numberOfVotes];
+}
+
+
+-(void)setbackgroundColorNormal:(UIColor*)color {
+    [self setBackgroundImage:[self imageWithColor:color] forState:UIControlStateNormal];
+}
+-(void)setbackgroundColorHighlighted:(UIColor*)color {
+    [self setBackgroundImage:[self imageWithColor:color] forState:UIControlStateHighlighted];
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color {
@@ -65,13 +74,6 @@
     return image;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
 
 @end

@@ -9,14 +9,21 @@
 #import "VoteViewController.h"
 #import "VoteCollectionViewFlowLayout.h"
 #import "SSAPI.h"
+#import "SSMacros.h"
 
 @interface VoteViewController () {
     BOOL firstView;
     
     NSArray *currentImageDatas;
     NSArray *votesNotDoneArray;
-
     
+    UIView *novotesview;
+    UIImageView *badsmileyview;
+    GenericSoSelfieButtonWithOptionalSubtitle *refreshSelfiesButton;
+    GenericSoSelfieButtonWithOptionalSubtitle *shootSelfiesButton;
+    
+    UIView *loadingView;
+    UILabel *gettingNewSelfies;
 }
 
 @end
@@ -27,7 +34,14 @@
 -(void)start {
     firstView = true;
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    //self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
+    
+    
+    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+    loadingView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:loadingView];
     
     VoteCollectionViewFlowLayout *layout = [[VoteCollectionViewFlowLayout alloc] init];
     //[layout setSectionInset:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -46,14 +60,51 @@
     
     
     
+    
+    novotesview = [[UIView alloc] initWithFrame:self.view.bounds];
+    novotesview.backgroundColor = [UIColor clearColor];
+    novotesview.alpha = 0;
+    [self.view addSubview:novotesview];
+    badsmileyview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"errorFACE"]];
+    CGRect cr = badsmileyview.frame;
+    cr.size.width *= 0.5;
+    cr.size.height *= 0.5;
+    cr.origin.x = 0.5 * novotesview.frame.size.width - 0.5 * cr.size.width;
+    cr.origin.y = 0.5 * novotesview.frame.size.height - 0.5 * cr.size.width;
+    badsmileyview.frame = cr;
+    [novotesview addSubview:badsmileyview];
+    
+    float width = 250;
+    float fontsize = 17;
+    UILabel *novoteslabel = [[UILabel alloc] initWithFrame:CGRectMake(0.5 * novotesview.frame.size.width - 0.5 * width, cr.origin.y + cr.size.height + 24, width, (fontsize + 4) * 4)];
+    novoteslabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
+    novoteslabel.text = @"Mweeh! No more Selfies.. \nCheck back later for new ones! \n\nFor now:";
+    novoteslabel.numberOfLines = 4;
+    novoteslabel.backgroundColor = [UIColor clearColor];
+    novoteslabel.textColor = [UIColor whiteColor];
+    novoteslabel.textAlignment = NSTextAlignmentCenter;
+    [novotesview addSubview:novoteslabel];
+    
+    width = 150;
+    float height = 40;
+    fontsize = 18;
+    
+    shootSelfiesButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0.5 * novotesview.frame.size.width - 0.5 * width, novoteslabel.frame.origin.y + novoteslabel.frame.size.height + 18, width, height) withBackgroundColor:[UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"SHOOT ONE!" withFontSize:fontsize];
+    shootSelfiesButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
+    [shootSelfiesButton addTarget:self action:@selector(shootSelfieButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [novotesview addSubview:shootSelfiesButton];
+    
+    
+    
+    
     //setting up the tabbarview
     self.tabBarView = [[TabBarView alloc] init];
     self.tabBarView.frame = CGRectMake(0, 0, 320, 60);
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    self.tabBarView.headerLabel.text = @"vote";
+    self.tabBarView.headerLabel.text = @"Vote!";
     self.tabBarView.shootButton.hidden = NO;
     [self.view addSubview:self.tabBarView];
-    [self.view bringSubviewToFront:self.tabBarView];
+    //[self.view bringSubviewToFront:self.tabBarView];
     
     currentImageDatas = @[];
     votesNotDoneArray = @[];
@@ -101,11 +152,20 @@
         
         if (error != nil) {
             if ([error.domain isEqualToString:@"No more images"]) {
-                //todo: spawn a "no images screen";
-                NSLog(@"no more images!");
+                
+                if (currentImageDatas.count == 0) {
+                    [UIView animateWithDuration:0.2 delay:0.3 options:0 animations:^(){
+                        novotesview.alpha = 1;
+                    } completion:nil];
+                }
+                
             }
             return;
         }
+        
+        [UIView animateWithDuration:0.1 animations:^() {
+            novotesview.alpha = 0;
+        }];
         
         for (int i = 0; i < currentImageDatas.count; i++) {
             NSString *s = currentImageDatas[i][@"id"];
@@ -180,6 +240,8 @@ static CGSize indexSize;
         //NSLog(@"vote complete %@ %i", imageid, vote);
         [self addACell];
         
+        
+        
     }];
     
     
@@ -196,6 +258,8 @@ static CGSize indexSize;
         [a removeObjectAtIndex:0];
         currentImageDatas = a;
         
+        
+        
         self.mainVoteCollectionView.contentOffset = CGPointMake(0, self.mainVoteCollectionView.contentOffset.y);
         [self.mainVoteCollectionView reloadData];
         /*
@@ -210,6 +274,13 @@ static CGSize indexSize;
     
     
     
+}
+
+-(void)refreshSelfieButtonClicked:(id)sender {
+    
+}
+-(void)shootSelfieButtonClicked:(id)sender {
+    [self.delegate voteViewControllerClickedShootButton:self];
 }
 
 -(void)voteCollectionViewCellDoneVoting:(VoteCollectionViewCell *)cell {

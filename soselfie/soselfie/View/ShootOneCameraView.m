@@ -295,6 +295,8 @@
 }
 
 -(void)removePicture {
+    
+    
     self.videolayer.connection.enabled = true;
     cameraImageView.image = nil;
 }

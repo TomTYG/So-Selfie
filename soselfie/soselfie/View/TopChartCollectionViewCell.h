@@ -16,11 +16,13 @@
 @property (strong, nonatomic) UILabel *rankingPlace;
 @property (strong, nonatomic) UIImageView *facebookProfilePicture;
 @property (strong, nonatomic) UILabel *facebookNameLabel;
+@property BOOL scoreViewIsVisible;
 @property (strong, nonatomic) ScoreViewForTopImages *scoreViewForTopImages;
 
 
 -(void)startWithImageData:(NSDictionary*)imageData;
--(void) displayScoreViewOnTap;
+//-(void)displayScoreViewOnTap;
+-(void)setScoreViewStatus:(BOOL)visible instant:(BOOL)instant;
 
 
 @end

@@ -199,6 +199,11 @@
     self.soLameButton.enabled = NO;
     self.tryAgain.enabled = NO;
     
+    self.soFunnyButton.selected = NO;
+    self.soHotButton.selected = NO;
+    self.soLameButton.selected = NO;
+    self.tryAgain.selected = NO;
+    
 }
 
 -(void)enableButtons {
@@ -206,6 +211,11 @@
     self.soHotButton.enabled = YES;
     self.soLameButton.enabled = YES;
     self.tryAgain.enabled = YES;
+    
+    self.soFunnyButton.selected = NO;
+    self.soHotButton.selected = NO;
+    self.soLameButton.selected = NO;
+    self.tryAgain.selected = NO;
 }
 
 -(void)startWithVotesDictionary:(NSDictionary *)dictionary {

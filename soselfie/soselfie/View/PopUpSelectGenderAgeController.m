@@ -105,7 +105,7 @@
     [genderLabelAndButtonsView addSubview:youAreLabel];
     
     maleGenderButton = [[UIButton alloc] initWithFrame:CGRectMake(47, youAreLabel.frame.origin.y + 25 , 113, 35)];
-    [maleGenderButton setTitle:@"MALE" forState:UIControlStateNormal];
+    [maleGenderButton setTitle:@"BOY" forState:UIControlStateNormal];
     [maleGenderButton setTitleEdgeInsets:UIEdgeInsetsMake(3, 0, 0, 0)];
     maleGenderButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:18];
     [maleGenderButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -116,7 +116,7 @@
     [genderLabelAndButtonsView addSubview:maleGenderButton];
     
     femaleGednerButton = [[UIButton alloc] initWithFrame:CGRectMake(160, youAreLabel.frame.origin.y + 25, 113, 35)];
-    [femaleGednerButton setTitle:@"FEMALE" forState:UIControlStateNormal];
+    [femaleGednerButton setTitle:@"GIRL" forState:UIControlStateNormal];
     [femaleGednerButton setTitleEdgeInsets:UIEdgeInsetsMake(3, 0, 0, 0)];
     femaleGednerButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:18];
     [femaleGednerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -162,15 +162,10 @@
 
 - (void)updateSliderLabel:(NMRangeSlider *)ageslider
 {
-    //LOWER LABEL
-    
-    CGPoint lowerCenter;
-    lowerCenter.x = (yourAgeIsSlider.lowerCenter.x +  yourAgeIsSlider.frame.origin.x);
-    lowerCenter.y = (yourAgeIsSlider.center.y + 30.0f);
     
     int age = (int)yourAgeIsSlider.lowerValue;
     
-    yourAgeIsSlider.lowerLabel.center = lowerCenter;
+    
     yourAgeIsSlider.lowerLabel.text = [NSString stringWithFormat:@"%d", age];
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -179,6 +174,12 @@
     
     [SSAPI setUserBirthday:[NSString stringWithFormat:@"%i", components.day] month:[NSString stringWithFormat:@"%i", components.month] year:[NSString stringWithFormat:@"%i", components.year - age]];
     
+    /*
+    CGPoint lowerCenter;
+    lowerCenter.x = (yourAgeIsSlider.lowerCenter.x +  yourAgeIsSlider.frame.origin.x);
+    lowerCenter.y = (yourAgeIsSlider.center.y + 30.0f);
+     yourAgeIsSlider.lowerLabel.center = lowerCenter;
+    */
 }
 
 
@@ -244,13 +245,13 @@
         return;
     }
     
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Missing login info" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"We need some details" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     NSString *s = a[0];
     if ([s isEqualToString:@"birthday"]) {
-        v.message = @"Please enter your age.";
+        v.message = @"What's your age?";
     } else if ([s isEqualToString:@"gender"]) {
-        v.message = @"Please enter your gender.";
+        v.message = @"Are you a boy or a girl?";
     }
     
     [v show];

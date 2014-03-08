@@ -14,7 +14,7 @@
 @interface TabBarView : UIView
 
 @property (strong,nonatomic) UILabel *headerLabel;
-@property (strong, nonatomic) UIButton *filterButton;
+@property (strong, nonatomic) GenericSoSelfieButtonWithOptionalSubtitle *filterButton;
 @property (strong, nonatomic) UIButton *mainMenuButton;
 @property (strong ,nonatomic) UIButton *shootButton;
 @property (strong, nonatomic) UIButton *voteButton;

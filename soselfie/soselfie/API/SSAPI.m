@@ -230,6 +230,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
 }
 
 
+
 +(void)sendProfileInfoToServerWithonComplete:(void(^)(BOOL success, NSError *possibleError))onComplete {
     
     if ([self isProfileInfoReadyToBeSentToServer].count != 0) {
@@ -394,13 +395,13 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
     [Base64 initialize];
     
     NSMutableString *imageDataString = [@"" mutableCopy];
-    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.7);
     [imageDataString appendString:[Base64 encode:imageData]];
     
     [imageDataString appendString:@"****"];
     
     UIImage *thumb = [self create320x320thumbOfImage:image];
-    imageData = UIImageJPEGRepresentation(thumb, 1);
+    imageData = UIImageJPEGRepresentation(thumb, 0.7);
     [imageDataString appendString:[Base64 encode:imageData]];
     
     //NSLog(@"post data %@", imageDataString);

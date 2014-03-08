@@ -17,7 +17,7 @@
 #import "PopUpSelectGenderAgeController.h"
 
 
-@interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate, ShootOneViewControllerDelegate, MainSwipeMenuControllerDelegate, UIGestureRecognizerDelegate>
+@interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate, ShootOneViewControllerDelegate, MainSwipeMenuControllerDelegate, VoteViewControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) ViewController *topChartViewController;
 @property (strong, nonatomic) MainSwipeMenuController *mainSwipeViewController;

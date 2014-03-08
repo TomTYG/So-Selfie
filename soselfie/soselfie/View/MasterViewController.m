@@ -7,6 +7,7 @@
 //
 
 #import "MasterViewController.h"
+#import "SSLoadingView.h"
 //#import <QuartzCore/QuartzCore.h>
 
 @interface MasterViewController () {
@@ -14,6 +15,8 @@
     float swipeMenuMax;
     UIViewController *activeViewController;
     UIButton *previouslySelectedButton;
+    
+    UIView *blockingContentView;
 }
 
 @end
@@ -35,6 +38,7 @@
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenuBack)];
     self.tapRecognizer.numberOfTapsRequired = 1;
+    self.tapRecognizer.delegate = self;
     
     
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(showMainMenuOnSwipe:)];
@@ -96,6 +100,7 @@
     //main vote view controller
     self.voteViewController = [[VoteViewController alloc] init];
     self.voteViewController.view.alpha = 0;
+    self.voteViewController.delegate = self;
     self.voteViewController.view.frame = self.genericCentralView.bounds;
     [self.voteViewController start];
     [self.genericCentralView addSubview:self.voteViewController.view];
@@ -118,7 +123,15 @@
     
     
     
+    /*
+    SSLoadingView *v = [[SSLoadingView alloc] initWithFrame:CGRectZero];
+    CGRect cr = v.frame;
+    cr.origin.x = 0.5 * self.genericCentralView.frame.size.width - 0.5 * cr.size.width;
+    cr.origin.y = 0.5 * self.genericCentralView.frame.size.height - 0.5 * cr.size.height;
+    v.frame = cr;
     
+    [self.genericCentralView addSubview:v];
+    */
     
     
     
@@ -174,6 +187,9 @@
     } else {
         
     }*/
+    
+    blockingContentView = [[UIView alloc] initWithFrame:self.view.bounds];
+    blockingContentView.backgroundColor = [UIColor clearColor];
     
     [self gotoNewViewController:self.connectToFacebookContoller animated:NO];
     
@@ -284,7 +300,9 @@
 - (void)swipeMenuBack {
     
     
-    self.swipeMenuIsVisible = NO; 
+    self.swipeMenuIsVisible = NO;
+    
+    self.mainSwipeViewController.view.alpha = 1.0;
  
     CGRect newCurrentViewControllerFrame = self.genericCentralView.frame;
     newCurrentViewControllerFrame.origin.x = 0;
@@ -337,6 +355,7 @@
 
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer != self.panRecognizer) return YES;
     CGPoint p = [gestureRecognizer locationInView:self.genericCentralView];
     //NSLog(@"point p %@", NSStringFromCGPoint(p));
     
@@ -495,12 +514,20 @@
 
 
 -(void)changeStatusBarColor {
-    if (IS_IOS7 == false) return;
+    
+    
+    [blockingContentView removeFromSuperview];
+    
+    
     if (self.swipeMenuIsVisible == YES){
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        
+        [activeViewController.view addSubview:blockingContentView];
+        
+        
+        if (IS_IOS7 == true) [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
     else {
-         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+         if (IS_IOS7 == true) [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }
     
 }
@@ -564,6 +591,16 @@
 -(void)mainSwipeMenuControllerChangedGender:(MainSwipeMenuController *)swipecontroller {
     [self.voteViewController ageOrGenderChanged];
 }
+
+
+
+
+#pragma mark - VOTE MENU CONTROLLER DELEGATE
+
+-(void)voteViewControllerClickedShootButton:(VoteViewController *)viewcontroller {
+    [self gotoNewViewController:self.shootOneViewController animated:YES];
+}
+
 
 
 @end

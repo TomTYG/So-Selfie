@@ -14,7 +14,6 @@
     NSDictionary *currentImageData;
     int voteStatus;
     
-    
     UIImageView *facebookProfileBackground;
     UIImageView *shadowOverImagesView;
     UIButton *innapropriateImageButton;
@@ -66,10 +65,12 @@
 
     facebookProfileBackground = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
     facebookProfileBackground.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
+    facebookProfileBackground.contentMode = UIViewContentModeScaleAspectFit;
+    facebookProfileBackground.image = [UIImage imageNamed:@"iphone4_shootbutton"];
     [self addSubview:facebookProfileBackground];
     
     
-    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, facebookInfoY, 38, 38)];
+    self.facebookProfilePicture = [[UIImageView alloc] initWithFrame:facebookProfileBackground.frame];
     self.facebookProfilePicture.backgroundColor = [UIColor clearColor];
     self.facebookProfilePicture.alpha = 0;
     [self addSubview:self.facebookProfilePicture];
@@ -89,6 +90,7 @@
     int buttonHeight = 35;
     
     innapropriateImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    innapropriateImageButton.alpha = 0.8;
     innapropriateImageButton.frame = CGRectMake(self.frame.size.width - buttonWidth - 10, facebookInfoY + 3,buttonWidth, buttonHeight);
     
     [innapropriateImageButton setBackgroundImage:[UIImage imageNamed:@"inappropriate"] forState:UIControlStateNormal];
@@ -107,7 +109,7 @@
     button.highlighted = YES;
     button.selected = YES;
     
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Innapropriate selfie?" message:@"Do you find this selfie innapropriate?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"This Selfie is not ok" message:@"Report as inappropriate?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [v show];
 
 }
@@ -232,8 +234,6 @@
 -(void)voteButtonView:(VoteButtonView *)voteButtonView pressedButton:(UIButton *)button vote:(SSVoteType)vote {
     
     
-    button.enabled = YES;
-    button.highlighted = YES;
     button.selected = YES;
     
     [self.delegate voteCollectionViewCell:self clickedVote:vote];
@@ -260,6 +260,10 @@
     self.facebookNameLabel.alpha = 0;
     self.delegate = nil;
     */
+    
+    innapropriateImageButton.selected = NO;
+    innapropriateImageButton.highlighted = NO;
+    innapropriateImageButton.enabled = YES;
     [ratingButtonsController prepareForReuse];
     
     [super prepareForReuse];

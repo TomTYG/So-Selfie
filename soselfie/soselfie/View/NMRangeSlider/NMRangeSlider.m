@@ -296,12 +296,14 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _lowerHandleImageNormal = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _lowerHandleImageNormal = image;
         }
 
@@ -316,12 +318,14 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _lowerHandleImageHighlighted = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _lowerHandleImageNormal = image;
         }
     }
@@ -335,12 +339,14 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _upperHandleImageNormal = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _upperHandleImageNormal = image;
         }
     }
@@ -354,12 +360,14 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _upperHandleImageHighlighted = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider_square"];
+            UIImage* image = [UIImage imageNamed:@"AppIcon29x29"];
+            //image = nil;
             _upperHandleImageNormal = image;
         }
     }
@@ -415,14 +423,14 @@ NSUInteger DeviceSystemMajorVersion() {
     
     float lowerHandleWidth = _lowerHandleHidden ? 2.0f : _lowerHandle.frame.size.width;
     float upperHandleWidth = _upperHandleHidden ? 2.0f : _upperHandle.frame.size.width;
-    float xLowerValue = ((self.bounds.size.width - lowerHandleWidth)  * (_lowerValue - _minimumValue) / (_maximumValue - _minimumValue))+(lowerHandleWidth/2.0f);
-    float xUpperValue = ((self.bounds.size.width - upperHandleWidth) * (_upperValue - _minimumValue) / (_maximumValue - _minimumValue))+(upperHandleWidth/2.0f);
+    float xLowerValue = ((self.bounds.size.width - lowerHandleWidth)  * (_lowerValue - _minimumValue) / (_maximumValue - _minimumValue));//+(lowerHandleWidth/2.0f);
+    float xUpperValue = ((self.bounds.size.width - upperHandleWidth) * (_upperValue - _minimumValue) / (_maximumValue - _minimumValue));//+(upperHandleWidth/2.0f);
     
     //float xLowerValue = (self.bounds.size.width  * (_lowerValue - _minimumValue) / (_maximumValue - _minimumValue));
     //float xUpperValue = (self.bounds.size.width * (_upperValue - _minimumValue) / (_maximumValue - _minimumValue));
     
     retValue.origin = CGPointMake(xLowerValue, (self.bounds.size.height/2.0f) - (retValue.size.height/2.0f));
-    retValue.size.width = xUpperValue-xLowerValue;
+    retValue.size.width = xUpperValue-xLowerValue + upperHandleWidth;
 
     return retValue;
 }
@@ -444,7 +452,9 @@ NSUInteger DeviceSystemMajorVersion() {
 {
     CGRect trackBackgroundRect;
     
-    trackBackgroundRect.size = CGSizeMake(_trackBackgroundImage.size.width-4, _trackBackgroundImage.size.height);
+    
+    // trackBackgroundRect.size = CGSizeMake(_trackBackgroundImage.size.width-4, _trackBackgroundImage.size.height);
+    trackBackgroundRect.size = CGSizeMake(_trackBackgroundImage.size.width - 4, _trackBackgroundImage.size.height);
     
     if(_trackBackgroundImage.capInsets.top || _trackBackgroundImage.capInsets.bottom)
     {
@@ -454,6 +464,7 @@ NSUInteger DeviceSystemMajorVersion() {
     if(_trackBackgroundImage.capInsets.left || _trackBackgroundImage.capInsets.right)
     {
         trackBackgroundRect.size.width=self.bounds.size.width-4;
+        //trackBackgroundRect.size.width=self.bounds.size.width;
     }
     
     trackBackgroundRect.origin = CGPointMake(2, (self.bounds.size.height/2.0f) - (trackBackgroundRect.size.height/2.0f));
@@ -497,7 +508,7 @@ NSUInteger DeviceSystemMajorVersion() {
     //------------------------------
     // Track
     self.track = [[UIImageView alloc] initWithImage:[self trackImageForCurrentValues]];
-    self.track.frame = [self trackRect];
+    //self.track.frame = [self trackRect];
     
     //------------------------------
     // Lower Handle Handle
@@ -523,6 +534,12 @@ NSUInteger DeviceSystemMajorVersion() {
     [self addSubview:self.lowerHandle];
     [self addSubview:self.upperHandle];
     
+    //float newValue = [self lowerValueForCenterX:(0 - _lowerTouchOffset)];
+    //[self setLowerValue:newValue animated:_stepValueContinuously ? YES : NO];
+    
+    
+    //[self setLowerValue:self.lowerValue upperValue:self.upperValue animated:NO];
+    
     //adding labels
     
 }
@@ -530,6 +547,8 @@ NSUInteger DeviceSystemMajorVersion() {
 
 -(void)layoutSubviews
 {
+    
+    
     if(_haveAddedSubviews==NO)
     {
         _haveAddedSubviews=YES;
@@ -548,13 +567,14 @@ NSUInteger DeviceSystemMajorVersion() {
 
     self.trackBackground.frame = [self trackBackgroundRect];
     self.track.frame = [self trackRect];
+    //NSLog(@"track frame %@", NSStringFromCGRect(self.track.frame));
     self.track.image = [self trackImageForCurrentValues];
 
     // Layout the lower handle
     self.lowerHandle.frame = [self thumbRectForValue:_lowerValue image:self.lowerHandleImageNormal];
     
     CGRect newLowerHandleFrame = self.lowerHandle.frame;
-    newLowerHandleFrame.size = CGSizeMake(35, 35);
+    newLowerHandleFrame.size = CGSizeZero;// CGSizeMake(35, 35);
     newLowerHandleFrame.origin.y = self.lowerHandle.frame.origin.y;
     self.lowerHandle.frame = newLowerHandleFrame;
     self.lowerHandle.contentMode = UIViewContentModeScaleAspectFit;
@@ -567,7 +587,7 @@ NSUInteger DeviceSystemMajorVersion() {
     self.upperHandle.frame = [self thumbRectForValue:_upperValue image:self.upperHandleImageNormal];
     
     CGRect newUpperHandleFrame = self.upperHandle.frame;
-    newUpperHandleFrame.size = CGSizeMake(35, 35);
+    newUpperHandleFrame.size = CGSizeZero;// CGSizeMake(35, 35);
     newUpperHandleFrame.origin.y = self.upperHandle.frame.origin.y;
     self.upperHandle.frame =newUpperHandleFrame;
     self.upperHandle.contentMode = UIViewContentModeScaleAspectFit;
@@ -576,8 +596,12 @@ NSUInteger DeviceSystemMajorVersion() {
     self.upperHandle.highlightedImage = self.upperHandleImageHighlighted;
     self.upperHandle.hidden= self.upperHandleHidden;
     
-    
-
+    /*
+    self.lowerHandleHidden = NO;
+    self.upperHandleHidden = NO;
+    self.lowerHandle.backgroundColor = [UIColor redColor];
+    self.upperHandle.backgroundColor = [UIColor redColor];
+     */
 }
 
 - (CGSize)intrinsicContentSize
@@ -594,8 +618,8 @@ NSUInteger DeviceSystemMajorVersion() {
 // TODO: Do it the correct way. I think wwdc 2012 had a video on it...
 - (CGRect) touchRectForHandle:(UIImageView*) handleImageView
 {
-    float xPadding = 5;
-    float yPadding = 5; //(self.bounds.size.height-touchRect.size.height)/2.0f
+    float xPadding = 50;
+    float yPadding = 50; //(self.bounds.size.height-touchRect.size.height)/2.0f
 
     // expands rect by xPadding in both x-directions, and by yPadding in both y-directions
     CGRect touchRect = CGRectInset(handleImageView.frame, -xPadding, -yPadding);;
@@ -630,6 +654,12 @@ NSUInteger DeviceSystemMajorVersion() {
     [[NSNotificationCenter defaultCenter] postNotificationName:sliderHasBeenTouched object:self];
     
     return YES;
+}
+
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    CGFloat margin = 30.0;
+    CGRect area = CGRectInset(self.bounds, -margin, -margin);
+    return CGRectContainsPoint(area, point);
 }
 
 

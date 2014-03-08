@@ -17,4 +17,6 @@
 - (UIImage *)imageWithColor:(UIColor *)color;
 - (id)initWithFrame:(CGRect)frame withBackgroundColor:(UIColor *)backgroundColor highlightColor:(UIColor *)highlightColor titleLabel:(NSString *)title withFontSize: (float) fontsize;
 
+-(void)setbackgroundColorNormal:(UIColor*)color;
+-(void)setbackgroundColorHighlighted:(UIColor*)color;
 @end

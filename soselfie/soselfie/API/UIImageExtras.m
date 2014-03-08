@@ -36,6 +36,7 @@
 	return resImage;
 }
 
+
 - (UIImage *)cropImageToRect:(CGRect)cropRect {
 	// Begin the drawing (again)
 	UIGraphicsBeginImageContext(cropRect.size);
@@ -46,7 +47,8 @@
 	CGContextScaleCTM(ctx, 1.0, -1.0);
 	
 	// Draw view into context
-	CGRect drawRect = CGRectMake(-cropRect.origin.x, cropRect.origin.y - (self.size.height - cropRect.size.height) , self.size.width, self.size.height);
+    //this is increased by one on each edge, because on iphone 5, a white line would appear on the left side. Todo: find out exactly why this is, and then remove this hack.
+	CGRect drawRect = CGRectMake(-cropRect.origin.x - 1, cropRect.origin.y - 1 - (self.size.height - cropRect.size.height) , self.size.width + 2, self.size.height + 2);
 	CGContextDrawImage(ctx, drawRect, self.CGImage);
 	
 	// Create the new UIImage from the context
@@ -74,7 +76,9 @@
 
 - (UIImage *)cropCenterAndScaleImageToSize:(CGSize)cropSize {
 	UIImage *scaledImage = [self rescaleImageToSize:[self calculateNewSizeForCroppingBox:cropSize]];
-	return [scaledImage cropImageToRect:CGRectMake((scaledImage.size.width-cropSize.width)/2, (scaledImage.size.height-cropSize.height)/2, cropSize.width, cropSize.height)];
+    //NSLog(@"scaled image %@", NSStringFromCGSize(scaledImage.size));
+    scaledImage = [scaledImage cropImageToRect:CGRectMake((scaledImage.size.width-cropSize.width)/2, (scaledImage.size.height-cropSize.height)/2, cropSize.width, cropSize.height)];
+	return scaledImage;
 }
 
 @end

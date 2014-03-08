@@ -64,15 +64,15 @@
     
     self.tabBarView = [[TabBarView alloc] init];
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    self.tabBarView.headerLabel.text = @"top selfies";
+    self.tabBarView.headerLabel.text = @"Top Selfies";
     self.tabBarView.filterButton.hidden = NO;
     [self.tabBarView.filterButton addTarget:self
                                      action:@selector(showOrHideDropDownMenu:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.tabBarView];
     //[self.view bringSubviewToFront:self.tabBarView];
     
-    self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.view.frame.size.height/4, 160, 95)];
-    [self.view addSubview:self.scoreViewForTopImages];
+    //self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.view.frame.size.height/4, 160, 95)];
+    //[self.view addSubview:self.scoreViewForTopImages];
     
     
     
@@ -215,6 +215,10 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     currentindex = -1;
     
+    for (int i = 0; i < [self.topChartCollectionView visibleCells].count; i++) {
+        TopChartCollectionViewCell* cell = self.topChartCollectionView.visibleCells[i];
+        [cell setScoreViewStatus:NO instant:NO];
+    }
     //[self.ratingButtonsController slideDownWithDuration:0.4];
     
     if(self.dropDownMenu.menuIsHidden == NO){
@@ -241,10 +245,11 @@
     currentCell.scoreViewForTopImages.soLameVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_lame"] valueForKey:@"count"];
     currentCell.scoreViewForTopImages.tryAgainVotesLabel.text = [[imageDatas[indexPath.item] valueForKey:@"votes_weird"] valueForKey:@"count"];
     
-     
-    [currentCell displayScoreViewOnTap];
     
-    NSLog (@"data is %@",imageDatas[indexPath.item]);
+    [currentCell setScoreViewStatus:!currentCell.scoreViewIsVisible instant:NO];
+    //[currentCell displayScoreViewOnTap];
+    
+    //NSLog (@"data is %@",imageDatas[indexPath.item]);
     
     /*
     [UIView animateWithDuration:0.4 animations:^() {
@@ -302,20 +307,37 @@
     
 }
 
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath  *)indexPath {
-    self.tabBarView.filterButton.backgroundColor = [tableView cellForRowAtIndexPath:indexPath].backgroundColor;
+    
+    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //NSLog(@"cell %@ %@", cell, cell.backgroundColor);
+    
+    //self.tabBarView.filterButton.backgroundColor = newColor;
+    
+    UIColor *newColor;
+    
+    newColor = [self.dropDownMenu getBackgroundColorForIndex:indexPath.row];
+    [self.tabBarView.filterButton setbackgroundColorNormal:newColor];
+    
+    newColor = [self.dropDownMenu getHighlightColorForIndex:indexPath.row];
+    [self.tabBarView.filterButton setbackgroundColorHighlighted:newColor];
     
     [self.tabBarView.filterButton setTitle:[tableView cellForRowAtIndexPath:indexPath].textLabel.text forState:UIControlStateNormal];
     self.tabBarView.filterButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     
     currentVoteType = indexPath.row + 1;
+    
     [self becameVisible];
+    
+    
     
     [UIView animateWithDuration:0.6
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.topChartCollectionView.backgroundColor =  [tableView cellForRowAtIndexPath:indexPath].backgroundColor;
+                         self.topChartCollectionView.backgroundColor = newColor;
                      }
                      completion:nil];
     

@@ -87,6 +87,7 @@
     [subviewForMainItems addSubview:weNeedYouLabel];
     
     
+    
     if ([SSAPI canLoginToFacebookWithoutPromptingUser] == true) {
         double delayInSeconds = 0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -129,7 +130,7 @@
         connectToFacebookButton.enabled = YES;
         
         if (error != nil) {
-            UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Please try logging in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Oops, login failed" message:@"Try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             if (userInitiated == true) [v show];
             if (userInitiated == false) {
                 [splashScreenOverlay removeFromSuperview];
@@ -199,8 +200,10 @@
             [popUpSelectGenderAgeController.view removeFromSuperview];
             popUpSelectGenderAgeController = nil;
             
-            //[splashScreenOverlay removeFromSuperview];
-            //splashScreenOverlay = nil;
+            [splashScreenOverlay removeFromSuperview];
+            splashScreenOverlay = nil;
+            
+            subviewForMainItems.alpha = 1;
         });
         
         

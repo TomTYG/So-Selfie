@@ -12,4 +12,6 @@
 
 @property BOOL menuIsHidden;
 
+-(UIColor*)getBackgroundColorForIndex:(int)index;
+-(UIColor*)getHighlightColorForIndex:(int)index;
 @end
