@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UICollectionView *yourSelfiesCollectionView;
 @property (strong, nonatomic) TabBarView *tabBarView;
 
-
+-(void)start;
 -(void)becameVisible;
 -(void)userloggedout;
 

@@ -63,7 +63,7 @@ static SSUserGender GENDER = SSUserGenderUnknown;
 
 
 static int AGEMIN = 13;
-static int AGEMAX = 34;
+static int AGEMAX = 45;
 static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
 
 +(int)agemin {
@@ -135,7 +135,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
             }
             
             
-            BOOL exists = [result[@"result"] boolValue];
+            BOOL exists = [result[@"data"][@"result"] boolValue];
             
             onComplete(exists, nil);
             
@@ -165,7 +165,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         }
         
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError* error) {
-            //NSLog(@"result %@", result);
+            NSLog(@"fb requestfor me complete error %@", error);
             
             if (error != nil) {
                 onComplete(nil, nil, false, false, error);
@@ -658,7 +658,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
 
 #pragma mark - TOP SELFIES
 
-+(void)getTopSelfiesForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders andVoteCategory:(SSVoteType)category startingFromIndex:(int)index onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete {
++(void)getTopSelfiesForMinimumAge:(int)minimumAge andMaximumAge:(int)maximumAge andGenders:(SSUserGender)genders andVoteCategory:(SSVoteType)category andDateType:(SSDateType)dateType startingFromIndex:(int)index onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete {
     
     if ([self hasFBCredentials] == false) {
         NSError *error = [NSError errorWithDomain:@"FB Login error" code:0 userInfo:@{@"message": @"You are not currently logged in."}];
@@ -666,7 +666,7 @@ static SSUserGender GENDERS = (SSUserGenderFemale | SSUserGenderMale);
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:@"%@/image_top.php?startindex=%i&votetype=%i&gender=%i&agemin=%i&agemax=%i&fbid=%@&accesstoken=%@", SSAPI_BASEURL, index, category,genders, minimumAge, maximumAge, FBID, [FBSession activeSession].accessTokenData.accessToken];
+    NSString *url = [NSString stringWithFormat:@"%@/image_top.php?startindex=%i&votetype=%i&gender=%i&agemin=%i&agemax=%i&datetype=%i&fbid=%@&accesstoken=%@", SSAPI_BASEURL, index, category,genders, minimumAge, maximumAge, dateType, FBID, [FBSession activeSession].accessTokenData.accessToken];
     
     NSDictionary *options = @{@"forcereload": @YES};
     

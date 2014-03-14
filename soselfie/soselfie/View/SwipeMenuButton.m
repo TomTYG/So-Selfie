@@ -19,13 +19,11 @@
     
     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
     
-    fonstSize = 18;
+        fonstSize = 18;
     
-    }
-    
-    else {
+    } else {
         
-    fonstSize = 16;
+        fonstSize = 16;
         
     }
     
@@ -38,8 +36,6 @@
         [self setTitleColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1] forState:UIControlStateSelected];
         
-         //[self performSelector:@selector(flipButton) withObject:nil afterDelay:0.0];
-  
         self.layer.borderWidth = 0.0;
     }
     return self;

@@ -26,6 +26,13 @@ typedef NS_ENUM(int, SSVoteType) {
     SSVoteTypeInappropriate
 };
 
+typedef NS_ENUM(int, SSDateType) {
+    SSDateTypeAll = 0,
+    SSDateTypeLastMonth,
+    SSDateTypeLastWeek,
+    SSDateTypeLastDay
+};
+
 
 @interface SSAPI : NSObject
 
@@ -53,7 +60,7 @@ typedef NS_ENUM(int, SSVoteType) {
 
 +(NSString*)fbid;
 +(BOOL)canLoginToFacebookWithoutPromptingUser;
-//you can call this function even when logged in. It will just return immediately in that case.
+//you can call this function even when logged in. It will just return (almost) immediately in that case.
 +(void)doesUserAlreadyExistInDatabase:(NSString*)fbid onComplete:(void(^)(BOOL userExists, NSError *possibleError))onComplete;
 
 +(void)logInToFacebookOnComplete:(void(^)(NSString *fbid, NSString* accessToken, BOOL couldRetrieveGender, BOOL couldRetrieveBirthday, NSError *error))onComplete;
@@ -126,6 +133,7 @@ typedef NS_ENUM(int, SSVoteType) {
                     andMaximumAge:(int)maximumAge
                        andGenders:(SSUserGender)genders
                   andVoteCategory:(SSVoteType)category
+                      andDateType:(SSDateType)dateType
                 startingFromIndex:(int)index
                        onComplete:(void(^)(int totalSelfies, NSArray *images, NSError *error))onComplete;
 

@@ -47,4 +47,7 @@
 -(void)userloggedin;
 -(void)userloggedout;
 
+-(void)setButtonSelected:(UIButton*)button;
+
+
 @end

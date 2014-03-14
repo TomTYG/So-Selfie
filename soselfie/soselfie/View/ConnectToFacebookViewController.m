@@ -63,7 +63,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:232/255.0 green:232/255.0 blue:232/255.0 alpha:1.0];
     
     
-    connectToFacebookButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - buttonHeight, 320, buttonHeight)];
+    connectToFacebookButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - buttonHeight, self.view.frame.size.width, buttonHeight)];
     connectToFacebookButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
     connectToFacebookButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [connectToFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -78,7 +78,7 @@
     logoImageView.image = [UIImage imageNamed:@"logo"];
     [subviewForMainItems addSubview:logoImageView];
     
-    UILabel *weNeedYouLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, labeYOrigin, 320, 21)];
+    UILabel *weNeedYouLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, labeYOrigin, self.view.frame.size.width, 21)];
     weNeedYouLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:20];
     weNeedYouLabel.backgroundColor = [UIColor clearColor];
     weNeedYouLabel.textColor = [UIColor colorWithRed:88/255.0 green:89/255.0 blue:91/255.0 alpha:1.0];
@@ -111,9 +111,10 @@
     if (userInitiated == false) {
         splashScreenOverlay = [[UIImageView alloc] initWithFrame:self.view.bounds];
         splashScreenOverlay.backgroundColor = [UIColor clearColor];
+        
         BOOL b = GET_DEVICE_TYPE == SSDeviceTypeiPhone5;
         UIImage *img = [UIImage imageNamed:b == true ? @"Default-568h" : @"Default" ];
-        splashScreenOverlay.contentMode = UIViewContentModeScaleAspectFit;
+        splashScreenOverlay.contentMode = UIViewContentModeScaleAspectFill;
         splashScreenOverlay.image = img;
         //todo: set the image to the splash screen image.
         //splashScreenOverlay.backgroundColor = [UIColor greenColor];
@@ -140,30 +141,60 @@
             return;
         }
         
+        //TEMP code. remove before release.
         //couldRetrieveBirthday = false;
         
         
         
         if(couldRetrieveBirthday == false || couldRetrieveGender == false){
-            
             //if the user did not initiate this login, then we don't want him to suddenly see this popup out of the blue. let him click the button again and find out.
-            if (userInitiated == false) {
-                [splashScreenOverlay removeFromSuperview];
-                splashScreenOverlay = nil;
-                [self.delegate connectToFacebookControllerAutoLoginFailed:self];
-            }
             
-            popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] initWithNibName:nil bundle:nil];
-            popUpSelectGenderAgeController.delegate = self;
-            popUpSelectGenderAgeController.view.frame = self.view.bounds;
-            [popUpSelectGenderAgeController start];
+            [SSAPI doesUserAlreadyExistInDatabase:fbid onComplete:^(BOOL userExists, NSError *possibleError) {
+                //TEMP code. remove before release.
+                // userExists = false;
+                
+                if (userExists == false) {
+                    if (userInitiated == false) {
+                        [splashScreenOverlay removeFromSuperview];
+                        splashScreenOverlay = nil;
+                        [self.delegate connectToFacebookControllerAutoLoginFailed:self];
+                    }
+                    
+                    popUpSelectGenderAgeController = [[PopUpSelectGenderAgeController alloc] initWithNibName:nil bundle:nil];
+                    popUpSelectGenderAgeController.delegate = self;
+                    popUpSelectGenderAgeController.view.frame = self.view.bounds;
+                    [popUpSelectGenderAgeController start];
+                    
+                    [subviewForMainItems addSubview:popUpSelectGenderAgeController.view];
+                } else {
+                    
+                    [self gotoNextScreenUserInitiated:userInitiated];
+                    
+                }
+                
+                
+                
+                
+            }];
             
-            [subviewForMainItems addSubview:popUpSelectGenderAgeController.view];
+            
+            
+            
             
             
         } else {
             
-            [self sendInfoToServerUserInitiated:userInitiated];
+            [SSAPI doesUserAlreadyExistInDatabase:[SSAPI fbid] onComplete:^(BOOL userExists, NSError *possibleError) {
+                
+                if (userExists == true) {
+                    [self gotoNextScreenUserInitiated:userInitiated];
+                } else {
+                    [self sendInfoToServerUserInitiated:userInitiated];
+                }
+                
+            }];
+            
+            
             
             
         }
@@ -179,8 +210,6 @@
 
 -(void)sendInfoToServerUserInitiated:(BOOL)userInitiated {
     
-    
-    
     [SSAPI sendProfileInfoToServerWithonComplete:^(BOOL success, NSError *possibleError){
         if (possibleError != nil) {
             UIAlertView *v = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Please try logging in again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -189,26 +218,35 @@
         }
         
         
-        //NSLog(@"popup view %@", splashScreenOverlay);
-        if (splashScreenOverlay != nil) subviewForMainItems.alpha = 0;
-        
-        [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
-        
-        double delayInSeconds = 1.0;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [popUpSelectGenderAgeController.view removeFromSuperview];
-            popUpSelectGenderAgeController = nil;
-            
-            [splashScreenOverlay removeFromSuperview];
-            splashScreenOverlay = nil;
-            
-            subviewForMainItems.alpha = 1;
-        });
+        [self gotoNextScreenUserInitiated:userInitiated];
         
         
         
     }];
+    
+    
+    
 }
+
+
+-(void)gotoNextScreenUserInitiated:(BOOL)userInitiated {
+    //NSLog(@"popup view %@", splashScreenOverlay);
+    if (splashScreenOverlay != nil) subviewForMainItems.alpha = 0;
+    
+    [self.delegate connectToFacebookControllerLoginSuccessful:self wasUserInitiated:userInitiated];
+    
+    double delayInSeconds = 1.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [popUpSelectGenderAgeController.view removeFromSuperview];
+        popUpSelectGenderAgeController = nil;
+        
+        [splashScreenOverlay removeFromSuperview];
+        splashScreenOverlay = nil;
+        
+        subviewForMainItems.alpha = 1;
+    });
+}
+
 
 @end

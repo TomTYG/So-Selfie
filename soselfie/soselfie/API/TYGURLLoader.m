@@ -279,7 +279,7 @@
     
     d[@"urlloader"] = self;
     d[@"bytesloaded"] = [NSNumber numberWithLong:urldata.length];
-    d[@"bytestotal"] = [NSNumber numberWithLong:expectedContentLength];
+    d[@"bytestotal"] = [NSNumber numberWithLongLong:expectedContentLength];
     d[@"percentage"] = [NSNumber numberWithFloat:(double)urldata.length / (double)expectedContentLength];
     
     BOOL runBlock = [[TYGURLManager instance] loaderShouldExecuteBlockImmediately:self];

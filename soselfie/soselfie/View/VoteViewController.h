@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "RatingButtonsViewController.h"
-#import "VoteCollectionViewCell.h"
 #import "TabBarView.h"
+#import "VoteViewSingle.h"
 
 
 @class VoteViewController;
@@ -22,12 +22,11 @@
 @end
 
 
-@interface VoteViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, VoteCollectionViewCellDelegate>
+@interface VoteViewController : UIViewController < UIScrollViewDelegate, VoteViewSingleDelegate>
 
 @property (weak) id<VoteViewControllerDelegate>delegate;
 
-@property (strong, nonatomic) UICollectionView *mainVoteCollectionView;
-//@property (strong , nonatomic) NSArray *testArray;
+
 @property (strong, nonatomic) TabBarView *tabBarView;
 
 //this method is called by the MasterViewController when it becomes visible. Since viewcontrollers are always on, this is a good way of checking what should happen when a view controller becomes visible.
@@ -35,7 +34,7 @@
 //this method is called by the MasterViewController when the user logs out or erases his account.
 -(void)userloggedout;
 
-//this method whenever either change. This can potentially be called very often very quickly (if a user is sliding the age slider or spamming the buttons for example), so don't do too heavy calculations here.
+//this method is called whenever either change. This can potentially be called very often very quickly (if a user is sliding the age slider or spamming the buttons for example), so don't do too heavy calculations here.
 -(void)ageOrGenderChanged;
 
 -(void)start;

@@ -25,9 +25,9 @@
     if (self) {
         // Initialization code
         
-       
-        
-        self.imageThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 4, 118, 118)];
+        float MARGIN = 4;
+        float width = self.frame.size.height - 2 * MARGIN;
+        self.imageThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(MARGIN, MARGIN, width, width)];
         [self addSubview:self.imageThumbView];
         
         
@@ -39,7 +39,7 @@
         
         //soFunnyLine
         
-        int y1 = 14;
+        int y1 = 8;
         
         UILabel *soFunnyLabel = [[UILabel alloc] initWithFrame:CGRectMake(130,y1,100,labelheight)];
         soFunnyLabel.text = @"SO funny!";
@@ -62,7 +62,7 @@
         
         //soHotLine
         
-        int y2 = 30;
+        int y2 = y1 + labelheight;
         
         UILabel *soHotLabel = [[UILabel alloc] initWithFrame:CGRectMake(130,y2,100,labelheight)];
         soHotLabel.text = @"SO hot!";
@@ -84,7 +84,7 @@
         
         //soLameLine
         
-        int y3 = 46;
+        int y3 = y2 + labelheight;
         
         UILabel *soLameLabel = [[UILabel alloc] initWithFrame:CGRectMake(130,y3,100,labelheight)];
         soLameLabel.text = @"SO lame!";
@@ -107,7 +107,7 @@
         
         //tryAgainLine
         
-        int y4 = 62;
+        int y4 = y3 + labelheight;
         
         UILabel *tryAgainLabel = [[UILabel alloc] initWithFrame:CGRectMake(130,y4,100,labelheight)];
         tryAgainLabel.text = @"SO weird!";
@@ -129,21 +129,16 @@
         
         //border bottom
         
-        UIView *bottomBorderLine = [[UIView alloc] initWithFrame: CGRectMake(0,125,self.frame.size.width,1)];
+        UIView *bottomBorderLine = [[UIView alloc] initWithFrame: CGRectMake(0,self.frame.size.height - 0.5 ,self.frame.size.width,1)];
         [self addSubview:bottomBorderLine];
         bottomBorderLine.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
         [self addSubview:bottomBorderLine];
         
     
-        self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(223, 88, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"Erase Selfie" withFontSize:15];
+        self.eraseSelfieButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame: CGRectMake(self.frame.size.width - 93 - MARGIN, self.frame.size.height - 32 - MARGIN, 93, 32) withBackgroundColor:[UIColor colorWithRed:(186/255.0) green:(188/255.0) blue:(190/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(207/255.0) green:(208/255.0) blue:(209/255.0) alpha:1] titleLabel:@"Erase Selfie" withFontSize:15];
         [self.eraseSelfieButton addTarget:self action:@selector(eraseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.eraseSelfieButton];
         
-        //setting soHotLine
-        
-        //setting soLameLine
-        
-        //setting tryAgainLine
         
     }
     return self;

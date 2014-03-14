@@ -76,7 +76,7 @@
 
 @property(retain, nonatomic) UIImage* trackBackgroundImage;
 
-
+@property UITouchPhase touchPhase;
 
 
 //Setting the lower/upper values with an animation :-)

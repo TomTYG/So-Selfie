@@ -24,6 +24,7 @@
 @property (weak) id<KeepItOrTryAgainViewControllerDelegate>delegate;
 
 -(void)slideUp;
--(void)slideDown;
+-(void)slideDownInstant:(BOOL)instant;
+-(void)start;
 
 @end

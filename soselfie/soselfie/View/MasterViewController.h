@@ -19,14 +19,15 @@
 
 @interface MasterViewController : UIViewController <ConnectoToFacebookViewControllerDelegate, ShootOneViewControllerDelegate, MainSwipeMenuControllerDelegate, VoteViewControllerDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) ViewController *topChartViewController;
+
 @property (strong, nonatomic) MainSwipeMenuController *mainSwipeViewController;
 @property (strong , nonatomic) UIView *genericCentralView;
 @property (strong, nonatomic) VoteViewController *voteViewController;
-@property (strong, nonatomic) TabBarView *tabBarView;
-@property (strong, nonatomic) DropDownMenu *dropDownMenu;
+//@property (strong, nonatomic) TabBarView *tabBarView;
+//@property (strong, nonatomic) DropDownMenu *dropDownMenu;
 @property (strong, nonatomic) YourSelfiesController *yourSelfiesViewController;
 @property (strong, nonatomic) ShootOneViewController *shootOneViewController;
+@property (strong, nonatomic) ViewController *topChartViewController;
 @property (strong, nonatomic) ConnectToFacebookViewController *connectToFacebookContoller;
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (strong, nonatomic) UIPanGestureRecognizer *panRecognizer; 

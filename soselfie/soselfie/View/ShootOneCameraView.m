@@ -101,6 +101,8 @@
             
             [cameraView.layer addSublayer:[self videolayer]];
             
+            
+            
             self.shutterAnimation = [CATransition animation];
             [self.shutterAnimation setDelegate:self];
             [self.shutterAnimation setDuration:0.6];
@@ -272,26 +274,6 @@
     
     [self.delegate cameraView:self hasPreparedImage:img];
     
-    
-    /*
-    [SSAPI uploadSelfieWith768x768Image:img onComplete:^(NSString *newSelfieID, NSString *newSelfieURL, NSString *newSelfieThumbURL, NSError *error) {
-        
-        self.videolayer.connection.enabled = true;
-        cameraImageView.image = nil;
-        takepicturebutton.enabled = YES;
-        
-        if (error != nil) {
-            NSLog(@"image upload error %@", error);
-            
-            UIAlertView *v = [[UIAlertView alloc] initWithTitle:error.domain message:error.userInfo[@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [v show];
-        }
-        
-        
-        
-        [self.delegate pictureTakenViewSuccessfullyTookPicture:self];
-    }];
-    */
 }
 
 -(void)removePicture {

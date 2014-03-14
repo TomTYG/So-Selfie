@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RankingButtonWithSubtitle.h"
+#import "GenericSoSelfieButtonWithOptionalSubtitle.h"
 #import "SSAPI.h"
 
 @class VoteButtonView;
@@ -20,10 +21,10 @@
 
 @interface VoteButtonView : UIView
 
-@property (strong, nonatomic) RankingButtonWithSubtitle *soFunnyButton;
-@property (strong, nonatomic) RankingButtonWithSubtitle *soHotButton;
-@property (strong, nonatomic) RankingButtonWithSubtitle *soLameButton;
-@property (strong, nonatomic) RankingButtonWithSubtitle *tryAgain;
+@property GenericSoSelfieButtonWithOptionalSubtitle *soFunnyButton;
+@property GenericSoSelfieButtonWithOptionalSubtitle *soHotButton;
+@property GenericSoSelfieButtonWithOptionalSubtitle *soLameButton;
+@property GenericSoSelfieButtonWithOptionalSubtitle *tryAgain;
 
 @property (weak) id<VoteButtonViewDelegate>delegate;
 

@@ -9,20 +9,14 @@
 #import "MainSwipeMenuController.h"
 #import "SSAPI.h"
 
-@interface MainSwipeMenuController ()
+@interface MainSwipeMenuController () {
+    
+}
+@property NSArray *buttons;
 
 @end
 
 @implementation MainSwipeMenuController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.view.backgroundColor = [UIColor colorWithRed:(48/255.0) green:(48/255.0) blue:(48/255.0) alpha:1];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -35,6 +29,7 @@
     float initialElementHeight;
     
     // iphone 4 or 5
+    initialElementHeight = (IS_IOS7 == true) ? 32 : 12;
     
     if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
         
@@ -42,11 +37,8 @@
         buttonHeight = 30;
         firstGap = 66;
         secondGap = 218;
-        initialElementHeight = 32;
         
     } else {
-        
-        initialElementHeight = 12;
         
         spaceBetweenButtons = 12;
         buttonHeight = 25;
@@ -54,6 +46,9 @@
         secondGap = 192;
         
     }
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:(48/255.0) green:(48/255.0) blue:(48/255.0) alpha:1];
     
     BOOL b = [SSMacros deviceType] == SSDeviceTypeiPhone5;
     
@@ -71,24 +66,27 @@
     self.voteButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, self.fbprofilepictureview.frame.origin.y + self.fbprofilepictureview.frame.size.height + 12, 200,buttonHeight)];
     [self.voteButton setTitle:@"Vote!" forState:UIControlStateNormal];
     [self.view addSubview:self.voteButton];
+    [buttons addObject:self.voteButton];
     
     //Top selfies button
     
     self.topSelfies= [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.voteButton.frame.origin.y, 200,buttonHeight)];
     [self.topSelfies setTitle:@"Top Selfies" forState:UIControlStateNormal];
     [self.view addSubview:self.topSelfies];
+    [buttons addObject:self.topSelfies];
     
     //Shoot one! button
     
     self.shootOne = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.topSelfies.frame.origin.y,200,buttonHeight)];
     [self.shootOne setTitle:@"Shoot a Selfie!" forState:UIControlStateNormal];
     [self.view addSubview:self.shootOne];
-    
+    [buttons addObject:self.shootOne];
     //Your selfies
     
     self.yourSelfiesButton = [[SwipeMenuButton alloc] initWithFrame:CGRectMake(5, buttonHeight + spaceBetweenButtons + self.shootOne.frame.origin.y,200,buttonHeight)];
     [self.yourSelfiesButton setTitle:@"Your Selfies" forState:UIControlStateNormal];
     [self.view addSubview:self.yourSelfiesButton];
+    [buttons addObject:self.yourSelfiesButton];
     
     //NSLog (@"ORIGIN Y IS %f",self.yourSelfiesButton.frame.origin.y);
     
@@ -198,6 +196,8 @@
     [eraseAccountButton addTarget:self action:@selector(eraseAccountButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:eraseAccountButton];
     
+    self.buttons = buttons;
+    
 }
 
 - (void)updateSliderLabels:(NMRangeSlider *)ageslider
@@ -210,7 +210,7 @@
     self.ageSlider.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.ageSlider.upperValue];
     [SSAPI setAgemax:(int)self.ageSlider.upperValue];
     
-    [self.delegate mainSwipeMenuControllerChangedAge:self];
+    if (ageslider.touchPhase == UITouchPhaseEnded) [self.delegate mainSwipeMenuControllerChangedAge:self];
     
     return;
     
@@ -247,7 +247,7 @@
 }
 
 
-- (void) showOnlyBoysSelfies:(UIButton *)button  {
+-(void)showOnlyBoysSelfies:(UIButton *)button  {
     if (self.boysButtonIsPressed == NO){
         button.backgroundColor = [UIColor colorWithRed:(0/255.0) green:(173/255.0) blue:(238/255.0) alpha:1];
         self.boysButtonIsPressed = YES;
@@ -266,7 +266,7 @@
         
     }
     
-    SSUserGender s = 0;
+    SSUserGender s = SSUserGenderUnknown;
     if (self.girlsButtonIsPressed == YES) s = s | SSUserGenderFemale;
     if (self.boysButtonIsPressed == YES) s = s | SSUserGenderMale;
     [SSAPI setGenders:s];
@@ -275,7 +275,7 @@
     
 }
 
-- (void) showOnlyGirlsSelfies:(UIButton *)button {
+- (void)showOnlyGirlsSelfies:(UIButton *)button {
     if (self.girlsButtonIsPressed == NO){
         button.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
         self.girlsButtonIsPressed = YES;
@@ -315,6 +315,21 @@
     [self.delegate mainSwipeMenuControllerEraseClicked:self];
 }
 
+
+
+
+-(void)setButtonSelected:(UIButton *)button {
+    UIButton *b;
+    for (int i = 0; i < self.buttons.count; i++) {
+        b = self.buttons[i];
+        if (b != button) {
+            b.selected = NO;
+        }
+        
+    }
+    
+    button.selected = YES;
+}
 
 
 

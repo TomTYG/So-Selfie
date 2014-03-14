@@ -79,7 +79,7 @@
     weCanNotDetectLabel.numberOfLines = 3;
     [self.view addSubview:weCanNotDetectLabel];
     
-    selectionIsDoneButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomButtonHeight, 320, bottomButtonHeight)];
+    selectionIsDoneButton = [[RankingButtonWithSubtitle alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomButtonHeight, self.view.frame.size.width, bottomButtonHeight)];
     selectionIsDoneButton.titleLabel.font =  [UIFont fontWithName:@"Tondu-Beta" size:25];
     selectionIsDoneButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [selectionIsDoneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

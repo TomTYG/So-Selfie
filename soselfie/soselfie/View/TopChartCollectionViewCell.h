@@ -19,6 +19,8 @@
 @property BOOL scoreViewIsVisible;
 @property (strong, nonatomic) ScoreViewForTopImages *scoreViewForTopImages;
 
+@property UIView *extraView;
+@property BOOL open;
 
 -(void)startWithImageData:(NSDictionary*)imageData;
 //-(void)displayScoreViewOnTap;

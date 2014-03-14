@@ -629,6 +629,8 @@ NSUInteger DeviceSystemMajorVersion() {
 
 -(BOOL) beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    self.touchPhase = UITouchPhaseBegan;
+    
     CGPoint touchPoint = [touch locationInView:self];
     
     
@@ -649,9 +651,11 @@ NSUInteger DeviceSystemMajorVersion() {
     
     _stepValueInternal= _stepValueContinuously ? _stepValue : 0.0f;
     
+    
     static NSString *const sliderHasBeenTouched = @"sliderHasBeenTouched";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:sliderHasBeenTouched object:self];
+    
     
     return YES;
 }
@@ -665,6 +669,9 @@ NSUInteger DeviceSystemMajorVersion() {
 
 -(BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    
+    self.touchPhase = UITouchPhaseMoved;
+    
     if(!_lowerHandle.highlighted && !_upperHandle.highlighted ){
         return YES;
     }
@@ -727,6 +734,9 @@ NSUInteger DeviceSystemMajorVersion() {
 
 -(void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    //NSLog(@"touchphase %i", touch.phase)
+    self.touchPhase = UITouchPhaseEnded;
+    
     _lowerHandle.highlighted = NO;
     _upperHandle.highlighted = NO;
     
@@ -740,9 +750,11 @@ NSUInteger DeviceSystemMajorVersion() {
     
     [self sendActionsForControlEvents:UIControlEventValueChanged];
     
+    
     static NSString *const sliderHasStoppedBeingTouched = @"sliderHasStoppedBeingTouched";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:sliderHasStoppedBeingTouched object:self];
+    
 }
 
 @end

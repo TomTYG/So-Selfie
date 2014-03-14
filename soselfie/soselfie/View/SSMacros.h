@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SSAPI.h"
 
 @interface SSMacros : NSObject
 
@@ -23,5 +24,7 @@ typedef NS_ENUM(NSInteger, SSDeviceType) {
 #define GET_DEVICE_TYPE ([UIScreen mainScreen].bounds.size.height == 480 ? SSDeviceTypeiPhone : [UIScreen mainScreen].bounds.size.height == 568 ? SSDeviceTypeiPhone5 : [UIScreen mainScreen].bounds.size.height == 1024 ? SSDeviceTypeiPad : SSDeviceTypeUnknown)
 
 +(SSDeviceType)deviceType;
++(UIColor*)colorNormalForVoteType:(SSVoteType)voteType;
++(UIColor*)colorHighlightedForVoteType:(SSVoteType)voteType;
 
 @end

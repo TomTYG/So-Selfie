@@ -356,6 +356,7 @@
 }
 
 -(void)getTopSelfiesButtonClicked:(id)sender {
+    /*
     [SSAPI getTopSelfiesForMinimumAge:[agesview getminimumage] andMaximumAge:[agesview getmaximumage] andGenders:genders andVoteCategory:SSVoteTypeFunny startingFromIndex:0 onComplete:^(int totalSelfies, NSArray *images, NSError *error){
         
         if (error != nil) {
@@ -369,6 +370,7 @@
         //NSLog(@"total %i images %@", totalSelfies, images);
         
     }];
+     */
 }
 
 

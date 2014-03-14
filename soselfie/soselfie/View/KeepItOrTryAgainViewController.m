@@ -12,62 +12,36 @@
 @interface KeepItOrTryAgainViewController () {
     GenericSoSelfieButtonWithOptionalSubtitle *wowKeepItButton;
     GenericSoSelfieButtonWithOptionalSubtitle *tryAgainButton;
-    int newFrameY;
+    
+    float startframepos;
 }
 
 @end
 
 @implementation KeepItOrTryAgainViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-        int buttonHieght;
-        int fontSize;
-        
-         if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
-             
-             buttonHieght = 92;
-             fontSize = 28;
-             newFrameY = [[UIScreen mainScreen] bounds].size.height - buttonHieght*2;
-             
-             
-         }
-         else {
-             
-             buttonHieght = 60;
-             fontSize = 24;
-             newFrameY = [[UIScreen mainScreen] bounds].size.height - buttonHieght*2 - [UIApplication sharedApplication].statusBarFrame.size.height ;
-             
-         }
-        
-        wowKeepItButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0, 0, 320, buttonHieght) withBackgroundColor:[UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"Wow! Let's keep it" withFontSize:fontSize];
-        //wowKeepItButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //wowKeepItButton.frame = CGRectMake(0, 0, 320, buttonHieght);
-        [wowKeepItButton setTitle:@"Wow! Let's keep it" forState:UIControlStateNormal];
-        wowKeepItButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontSize];
-        //wowKeepItButton.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
-        //[wowKeepItButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        [wowKeepItButton addTarget:self action:@selector(takePhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:wowKeepItButton];
-        
-        
-        //tryAgainButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //tryAgainButton.frame = CGRectMake(0, buttonHieght, 320, buttonHieght);
-        tryAgainButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0, buttonHieght, 320, buttonHieght) withBackgroundColor:[UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1] highlightColor:[UIColor colorWithRed:(111/255.0) green:(58/255.0) blue:(173/255.0) alpha:1] titleLabel:@"Hmm... try again" withFontSize:fontSize];
-        //[tryAgainButton setTitle:@"Hmm... try again" forState:UIControlStateNormal];
-        tryAgainButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontSize];
-        //tryAgainButton.backgroundColor = [UIColor colorWithRed:(96/255.0) green:(45/255.0) blue:(144/255.0) alpha:1];
-        //[tryAgainButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        [self.view addSubview:tryAgainButton];
-        
-        [tryAgainButton addTarget:self action:@selector(tryAgainButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return self;
+
+-(void)start {
+    float fontsize = 24;
+    
+    wowKeepItButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.5 * self.view.frame.size.height) withBackgroundColor:[SSMacros colorNormalForVoteType:SSVoteTypeFunny] highlightColor:[SSMacros colorHighlightedForVoteType:SSVoteTypeFunny] titleLabel:@"Wow! Let's keep it" withFontSize:fontsize];
+    [wowKeepItButton setTitle:@"Wow! Let's keep it" forState:UIControlStateNormal];
+    wowKeepItButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
+    
+    [wowKeepItButton addTarget:self action:@selector(takePhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:wowKeepItButton];
+    
+    
+    tryAgainButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0, 0.5 * self.view.frame.size.height, self.view.frame.size.width, 0.5 * self.view.frame.size.height) withBackgroundColor:[SSMacros colorNormalForVoteType:SSVoteTypeTryAgain] highlightColor:[SSMacros colorHighlightedForVoteType:SSVoteTypeTryAgain] titleLabel:@"Hmm... try again" withFontSize:fontsize];
+    tryAgainButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
+    
+    [self.view addSubview:tryAgainButton];
+    
+    startframepos = self.view.frame.origin.y;
+    
+    [self slideDownInstant:YES];
+    
+    [tryAgainButton addTarget:self action:@selector(tryAgainButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)takePhotoButtonClicked:(id)sender {
@@ -76,35 +50,35 @@
     [self.delegate keepItOrTryAgainViewControllerClickedYes:self];
 }
 -(void)tryAgainButtonClicked:(id)sender {
-    [self slideDown];
+    [self slideDownInstant:NO];
     [self.delegate keepItOrTryAgainViewControllerClickedNo:self];
 }
 
 -(void) slideUp {
     CGRect newFrame = self.view.frame;
-    newFrame.origin.y =newFrameY ;
+    newFrame.origin.y = startframepos;
     
     [UIView animateWithDuration:0.25
                           delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
+                        options:0
                      animations:^{
                          self.view.frame = newFrame;
                      }
                      completion:nil];
 }
 
-- (void) slideDown {
+- (void) slideDownInstant:(BOOL)instant {
     //tryAgainButton.enabled = YES;
     //wowKeepItButton.enabled = YES;
     
     CGRect newFrame = self.view.frame;
-    newFrame.origin.y = 584;//self.view.frame.size.height;
+    newFrame.origin.y = startframepos + self.view.frame.size.height;
     
+    NSTimeInterval duration = instant ? 0 : 0.4;
     
-    
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:duration
                           delay:0.0
-                        options:UIViewAnimationOptionCurveEaseOut
+                        options:0
                      animations:^{
                          self.view.frame = newFrame;
                      }

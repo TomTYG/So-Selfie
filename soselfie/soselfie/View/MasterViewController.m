@@ -14,7 +14,7 @@
     CGPoint positionAtStartOfGesture;
     float swipeMenuMax;
     UIViewController *activeViewController;
-    UIButton *previouslySelectedButton;
+    //UIButton *previouslySelectedButton;
     
     UIView *blockingContentView;
 }
@@ -62,16 +62,6 @@
     self.genericCentralView.frame = c;
     
     NSLog(@"generic frame %@", NSStringFromCGRect(c));
-    if ([SSMacros deviceType] == SSDeviceTypeiPhone5) {
-        
-        //self.genericCentralView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        
-    }
-    else {
-        
-        //self.genericCentralView.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-        
-    }
     
     self.genericCentralView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.genericCentralView];
@@ -82,6 +72,7 @@
     self.yourSelfiesViewController = [[YourSelfiesController alloc] init];
     self.yourSelfiesViewController.view.alpha = 0;
     self.yourSelfiesViewController.view.frame = self.genericCentralView.bounds;
+    [self.yourSelfiesViewController start];
     [self.genericCentralView addSubview:self.yourSelfiesViewController.view];
     
     //shoot view controller
@@ -222,6 +213,13 @@
         [newViewController performSelector:@selector(becameVisible)];
     }
     
+    //this sets the highlight of the correct button in the swipe menu.
+    UIButton *b = nil;
+    if (newViewController == self.voteViewController) b = self.mainSwipeViewController.voteButton;
+    if (newViewController == self.shootOneViewController) b = self.mainSwipeViewController.shootOne;
+    if (newViewController == self.topChartViewController) b = self.mainSwipeViewController.topSelfies;
+    if (newViewController == self.yourSelfiesViewController) b = self.mainSwipeViewController.yourSelfiesButton;
+    [self.mainSwipeViewController setButtonSelected:b];
     
     
     [activeViewController.view.superview bringSubviewToFront:activeViewController.view];
@@ -252,47 +250,26 @@
 
 -(void)showVoteViewController:(id)sender {
     
-    [self flipButton:self.mainSwipeViewController.voteButton];
     [self gotoNewViewController:self.voteViewController animated:YES];
-    return;
+    
 }
 
 -(void)showTopChartViewController:(id)sender {
     
-    [self flipButton:self.mainSwipeViewController.topSelfies];
     [self gotoNewViewController:self.topChartViewController animated:YES];
-    return;
+    
 }
 
 -(void)showYourSelfiesViewController:(id)sender {
     
-    [self flipButton:self.mainSwipeViewController.yourSelfiesButton];
     [self gotoNewViewController:self.yourSelfiesViewController animated:YES];
-    return;
+    
 }
 
 -(void)showShootOneViewController:(id)sender {
     
-    [self flipButton:self.mainSwipeViewController.shootOne];
     [self gotoNewViewController:self.shootOneViewController animated:YES];
-    return;
-}
-
-- (void)flipButton:(UIButton *)button{
     
-   
-    
-    if ( button.selected ) {
-        button.highlighted = NO;
-        button.selected = NO;
-    } else {
-        button.highlighted = YES;
-        button.selected = YES;
-        previouslySelectedButton.highlighted = NO;
-        previouslySelectedButton.selected = NO;
-    }
-    
-    previouslySelectedButton = button;
 }
 
 

@@ -27,8 +27,8 @@
 @property (weak) id<ShootOneViewControllerDelegate>delegate;
 
 @property (strong, nonatomic) TabBarView *tabBarView;
-@property (strong, nonatomic) GenericSoSelfieButtonWithOptionalSubtitle *pressShootButton;
-@property (strong, nonatomic) UIButton *shootYourSelfieBottomButton;
+@property (strong, nonatomic) UIButton *pressShootButton;
+@property (strong, nonatomic) GenericSoSelfieButtonWithOptionalSubtitle *shootYourSelfieBottomButton;
 @property (strong, nonatomic) KeepItOrTryAgainViewController *keepOrTryAgainViewController;
 
 @end

@@ -19,33 +19,21 @@
 
 
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	
-    //setting up collectionView
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
-    self.yourSelfiesCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, self.view.frame.size.height - 80) collectionViewLayout:layout];
-    self.yourSelfiesCollectionView .backgroundColor = [UIColor whiteColor];
-    [self.yourSelfiesCollectionView setShowsVerticalScrollIndicator:NO];
-    self.yourSelfiesCollectionView .dataSource = self;
-    self.yourSelfiesCollectionView.delegate = self;
-    [self.view addSubview:self.yourSelfiesCollectionView];
-    
-    [self.yourSelfiesCollectionView registerClass:[SelfiesCollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier" ];
+- (void)start {
     
     //setting up the tabbarview
-    
     self.tabBarView = [[TabBarView alloc] init];
     self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    //self.tabBarView.headerLabel.frame = CGRectMake(50, 10, 140, 60);
     self.tabBarView.headerLabel.text = @"Your Selfies";
     self.tabBarView.shootButton.hidden = NO;
     [self.view addSubview:self.tabBarView];
     
-    UIView *topPinkHeader = [[UIView alloc] initWithFrame:CGRectMake(0,60,320,20)];
+    
+    float height = self.tabBarView.frame.origin.y + self.tabBarView.frame.size.height;
+    
+    
+    
+    UIView *topPinkHeader = [[UIView alloc] initWithFrame:CGRectMake(0,height,320,20)];
     topPinkHeader.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     [self.view addSubview:topPinkHeader];
     
@@ -62,6 +50,32 @@
     rankHeaderLabel.backgroundColor = [UIColor clearColor];
     rankHeaderLabel.font = [UIFont fontWithName:@"MyriadPro-Bold" size:12];
     [topPinkHeader addSubview:rankHeaderLabel];
+    
+    
+    
+    
+    height = topPinkHeader.frame.origin.y + topPinkHeader.frame.size.height;
+    
+    //setting up collectionView
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    
+    self.yourSelfiesCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, height, self.view.frame.size.width, self.view.frame.size.height - height) collectionViewLayout:layout];
+    self.yourSelfiesCollectionView.backgroundColor = [UIColor whiteColor];
+    [self.yourSelfiesCollectionView setShowsVerticalScrollIndicator:NO];
+    self.yourSelfiesCollectionView.dataSource = self;
+    self.yourSelfiesCollectionView.delegate = self;
+    [self.view addSubview:self.yourSelfiesCollectionView];
+    
+    [self.yourSelfiesCollectionView registerClass:[SelfiesCollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier" ];
+    
+    
+    
+    
+    
+    [self.tabBarView.superview bringSubviewToFront:self.tabBarView];
     
     imageDatas = @[];
     

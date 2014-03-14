@@ -7,12 +7,12 @@
 //
 
 #import "VoteViewController.h"
-#import "VoteCollectionViewFlowLayout.h"
 #import "SSAPI.h"
 #import "SSMacros.h"
+#import "SSLoadingView.h"
 
 @interface VoteViewController () {
-    BOOL firstView;
+    //BOOL firstView;
     
     NSArray *currentImageDatas;
     NSArray *votesNotDoneArray;
@@ -24,6 +24,9 @@
     
     UIView *loadingView;
     UILabel *gettingNewSelfies;
+    
+    UIScrollView *votecontainer;
+    NSMutableArray *voteviews;
 }
 
 @end
@@ -32,31 +35,19 @@
 
 
 -(void)start {
-    firstView = true;
-    
-    //self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.view.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(59/255.0) blue:(119/255.0) alpha:1];
     
     
-    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
-    loadingView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:loadingView];
+    self.view.backgroundColor = [SSMacros colorNormalForVoteType:SSVoteTypeHot];
     
-    VoteCollectionViewFlowLayout *layout = [[VoteCollectionViewFlowLayout alloc] init];
-    //[layout setSectionInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.mainVoteCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake
-                                   (0, 60, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
-    self.mainVoteCollectionView.backgroundColor = [UIColor clearColor];
-    self.mainVoteCollectionView.delegate = self;
-    self.mainVoteCollectionView.dataSource = self;
-    [self.mainVoteCollectionView registerClass:[VoteCollectionViewCell class] forCellWithReuseIdentifier:@"MyCell"];
-    //self.mainVoteCollectionView.pagingEnabled = NO;
-    self.mainVoteCollectionView.scrollEnabled = NO;
-    [self.view addSubview:self.mainVoteCollectionView];
+    //setting up the tabbarview
+    self.tabBarView = [[TabBarView alloc] init];
+    self.tabBarView.headerLabel.text = @"Vote!";
+    self.tabBarView.shootButton.hidden = NO;
+    [self.view addSubview:self.tabBarView];
+    
+    
+    
+    
     
     
     
@@ -70,7 +61,7 @@
     cr.size.width *= 0.5;
     cr.size.height *= 0.5;
     cr.origin.x = 0.5 * novotesview.frame.size.width - 0.5 * cr.size.width;
-    cr.origin.y = 0.5 * novotesview.frame.size.height - 0.5 * cr.size.width;
+    cr.origin.y = 0.5 * novotesview.frame.size.height - 0.5 * cr.size.width - 60;
     badsmileyview.frame = cr;
     [novotesview addSubview:badsmileyview];
     
@@ -89,22 +80,46 @@
     float height = 40;
     fontsize = 18;
     
-    shootSelfiesButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0.5 * novotesview.frame.size.width - 0.5 * width, novoteslabel.frame.origin.y + novoteslabel.frame.size.height + 18, width, height) withBackgroundColor:[UIColor colorWithRed:176/255.0 green:208/255.0 blue:53/255.0 alpha:1.0] highlightColor:[UIColor colorWithRed:(197/255.0) green:(229/255.0) blue:(62/255.0) alpha:1] titleLabel:@"SHOOT ONE!" withFontSize:fontsize];
+    shootSelfiesButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(0.5 * novotesview.frame.size.width - 0.5 * width, novoteslabel.frame.origin.y + novoteslabel.frame.size.height + 18, width, height) withBackgroundColor:[SSMacros colorNormalForVoteType:SSVoteTypeFunny] highlightColor:[SSMacros colorHighlightedForVoteType:SSVoteTypeFunny] titleLabel:@"SHOOT ONE!" withFontSize:fontsize];
     shootSelfiesButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
     [shootSelfiesButton addTarget:self action:@selector(shootSelfieButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [novotesview addSubview:shootSelfiesButton];
     
+    refreshSelfiesButton = [[GenericSoSelfieButtonWithOptionalSubtitle alloc] initWithFrame:CGRectMake(shootSelfiesButton.frame.origin.x, shootSelfiesButton.frame.origin.y + shootSelfiesButton.frame.size.height + 18, width, height) withBackgroundColor:[SSMacros colorNormalForVoteType:SSVoteTypeFunny] highlightColor:[SSMacros colorHighlightedForVoteType:SSVoteTypeFunny] titleLabel:@"REFRESH" withFontSize:fontsize];
+    refreshSelfiesButton.titleLabel.font = [UIFont fontWithName:@"Tondu-Beta" size:fontsize];
+    [refreshSelfiesButton addTarget:self action:@selector(refreshSelfieButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [novotesview addSubview:refreshSelfiesButton];
+    
+    loadingView = [[UIView alloc] initWithFrame:novotesview.bounds];
+    loadingView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:loadingView];
+    loadingView.alpha = 0;
+    SSLoadingView *s = [[SSLoadingView alloc] initWithFrame:CGRectZero];
+    cr = s.frame;
+    cr.origin.x = 0.5 * loadingView.frame.size.width - 0.5 * cr.size.width;
+    cr.origin.y = 0.5 * loadingView.frame.size.height - 0.5 * cr.size.height;
+    s.frame = cr;
+    [loadingView addSubview:s];
+    
+    
+    height = self.tabBarView.frame.size.height + self.tabBarView.frame.origin.y;
+    
+    votecontainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, height, self.view.frame.size.width, self.view.frame.size.height - height)];
+    votecontainer.backgroundColor = [UIColor clearColor];
+    votecontainer.delegate = self;
+    votecontainer.clipsToBounds = YES;
+    votecontainer.showsHorizontalScrollIndicator = NO;
+    votecontainer.scrollEnabled = NO;
+    [self.view addSubview:votecontainer];
+    
+    voteviews = [[NSMutableArray alloc] init];
     
     
     
-    //setting up the tabbarview
-    self.tabBarView = [[TabBarView alloc] init];
-    self.tabBarView.frame = CGRectMake(0, 0, 320, 60);
-    self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    self.tabBarView.headerLabel.text = @"Vote!";
-    self.tabBarView.shootButton.hidden = NO;
-    [self.view addSubview:self.tabBarView];
-    //[self.view bringSubviewToFront:self.tabBarView];
+    
+    
+    [self.tabBarView.superview bringSubviewToFront:self.tabBarView];
+    
     
     currentImageDatas = @[];
     votesNotDoneArray = @[];
@@ -112,33 +127,21 @@
 
 
 -(void)becameVisible {
-    if (firstView == true) [self.mainVoteCollectionView reloadData];
-    firstView = false;
     
     [self addACell];
 }
 -(void)userloggedout {    
-    firstView = true;
+    //firstView = true;
 }
 
 -(void)ageOrGenderChanged {
     
-    if (currentImageDatas.count == 0) [self becameVisible];
-    if (currentImageDatas.count <= 1) return;
+    [self removeAllCellsExceptTheFirstOne];
     
-    
-    NSMutableArray *a = [[NSMutableArray alloc] init];
-    for (int i = 1; i < currentImageDatas.count; i++) {
-        NSIndexPath *p = [NSIndexPath indexPathForItem:i inSection:0];
-        [a addObject:p];
-    }
-    
-    currentImageDatas = [NSArray arrayWithObject:currentImageDatas[0]];
-    
-    [self.mainVoteCollectionView deleteItemsAtIndexPaths:a];
 }
 
 -(void)addACell {
+    
     
     NSMutableArray *a = [[NSMutableArray alloc] init];
     for (int i = 0; i < currentImageDatas.count; i++) {
@@ -148,13 +151,21 @@
         [a addObject:votesNotDoneArray[i]];
     }
     
+    loadingView.alpha = 1;
+    novotesview.alpha = 0;
+    
+    
     [SSAPI getRandomSelfieForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] excludeIDs:a onComplete:^(NSDictionary* imageData, NSError *error){
+        
+        loadingView.alpha = 0;
         
         if (error != nil) {
             if ([error.domain isEqualToString:@"No more images"]) {
                 
                 if (currentImageDatas.count == 0) {
-                    [UIView animateWithDuration:0.2 delay:0.3 options:0 animations:^(){
+                    
+                    votecontainer.alpha = 0;
+                    [UIView animateWithDuration:0.2 delay:0.1 options:0 animations:^(){
                         novotesview.alpha = 1;
                     } completion:nil];
                 }
@@ -163,8 +174,10 @@
             return;
         }
         
+        
         [UIView animateWithDuration:0.1 animations:^() {
             novotesview.alpha = 0;
+            votecontainer.alpha = 1;
         }];
         
         for (int i = 0; i < currentImageDatas.count; i++) {
@@ -175,57 +188,78 @@
         }
         currentImageDatas = [currentImageDatas arrayByAddingObject:imageData];
         
-        //caching image, hence a completion handler that is nil.
-        [SSAPI getImageWithImageURL:imageData[@"url_small"] onComplete:nil];
+        float x = voteviews.count * self.view.frame.size.width;
         
-        [self.mainVoteCollectionView reloadData];
-        //[self.mainVoteCollectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:currentImageDatas.count - 1 inSection:0]]];
+        VoteViewSingle *v = [[VoteViewSingle alloc] initWithFrame:CGRectMake(x, 0, votecontainer.frame.size.width, votecontainer.frame.size.height)];
+        NSLog(@"newframe %@", NSStringFromCGRect(v.frame));
+        [v startWithImageData:imageData];
+        v.delegate = self;
+        [voteviews addObject:v];
+        [votecontainer addSubview:v];
+        
+        
+        votecontainer.contentSize = CGSizeMake(x + v.frame.size.width, votecontainer.contentSize.height);
+        
         
         if (currentImageDatas.count < 3) [self addACell];
         
     }];
 }
 
-
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return currentImageDatas.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)removeAllCellsExceptTheFirstOne {
     
-
-    VoteCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyCell" forIndexPath:indexPath];
-    cell.delegate = self;
-    [cell startWithImageData:currentImageDatas[indexPath.item]];
-    //this class is created at the start of everything, and then moved into view / out of view, so the first time this function is called, you are probably not logged in and then the getRandomImage will throw an error. To prevent this, we check for an existing fbid.
+    if (currentImageDatas.count == 0) [self becameVisible];
+    if (currentImageDatas.count <= 1) return;
     
+    //note the i = 1 initial condition.
+    for (int i = 1; i < voteviews.count; i++) {
+        UIView *v = voteviews[i];
+        [v removeFromSuperview];
+        [voteviews removeObjectAtIndex:i];
+        i--;
+    }
     
-    //if ([SSAPI fbid] != nil) [cell getRandomImage];
-    
-    return cell;
+    currentImageDatas = [NSArray arrayWithObject:currentImageDatas[0]];
     
 }
 
-static CGSize indexSize;
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexSize.width == 0 || indexSize.height == 0) indexSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-    
-    return indexSize;
-}
 
--(void)voteCollectionViewCell:(VoteCollectionViewCell *)cell clickedVote:(SSVoteType)vote {
+
+-(void)voteViewSingle:(VoteViewSingle *)voteview clickedVote:(SSVoteType)voteType {
     
-   
-    NSString *imageid = currentImageDatas[0][@"id"];
+    
+    NSDictionary *imageData = currentImageDatas[0];
+    NSString *imageid = imageData[@"id"];
+    
+    
+    //NSLog(@"voted %@ %i", imageid, voteType);
     
     votesNotDoneArray = [votesNotDoneArray arrayByAddingObject:imageid];
+    NSMutableArray *a = [currentImageDatas mutableCopy];
+    [a removeObjectAtIndex:0];
+    currentImageDatas = a;
     
     
-    [SSAPI voteForSelfieID:imageid andImageAccessToken:currentImageDatas[0][@"accesstoken"] andVote:vote onComplete:^(BOOL success, NSError *possibleError){
+    [UIView animateWithDuration:0.3 animations:^() {
+        for (int i = 0; i < voteviews.count; i++) {
+            UIView *v = voteviews[i];
+            CGRect cr = v.frame;
+            cr.origin.x -= votecontainer.frame.size.width;
+            
+            v.frame = cr;
+        }
+    } completion:^(BOOL finished) {
+        for (int i = 0; i < voteviews.count; i++) {
+            UIView *v = voteviews[i];
+            if (v.frame.origin.x >= 0) continue;
+            
+            [v removeFromSuperview];
+            [voteviews removeObjectAtIndex:i];
+            i--;
+        }
+    }];
+    
+    [SSAPI voteForSelfieID:imageid andImageAccessToken:imageData[@"accesstoken"] andVote:voteType onComplete:^(BOOL success, NSError *possibleError){
         
         NSMutableArray *a = [votesNotDoneArray mutableCopy];
         for (int i = 0; i < votesNotDoneArray.count; i++) {
@@ -246,62 +280,18 @@ static CGSize indexSize;
     
     
     
-    
-    float offset = 0;
-    [UIView animateWithDuration:0.5 animations:^() {
-        
-        self.mainVoteCollectionView.contentOffset = CGPointMake(offset + indexSize.width - 1, self.mainVoteCollectionView.contentOffset.y);
-        
-    } completion:^(BOOL finished){
-        
-        NSMutableArray *a = [currentImageDatas mutableCopy];
-        [a removeObjectAtIndex:0];
-        currentImageDatas = a;
-        
-        
-        
-        self.mainVoteCollectionView.contentOffset = CGPointMake(0, self.mainVoteCollectionView.contentOffset.y);
-        [self.mainVoteCollectionView reloadData];
-        /*
-        [self.mainVoteCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:0 inSection:0]]];
-        [self.mainVoteCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-         */
-    }];
-    /*
-    [self.mainVoteCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:0 inSection:0]]];
-    */
-    
-    
-    
-    
 }
 
+
+
 -(void)refreshSelfieButtonClicked:(id)sender {
-    
+    [self becameVisible];
 }
 -(void)shootSelfieButtonClicked:(id)sender {
     [self.delegate voteViewControllerClickedShootButton:self];
 }
 
--(void)voteCollectionViewCellDoneVoting:(VoteCollectionViewCell *)cell {
-    
-    
-    
-    /*
-    [self.mainVoteCollectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:1 inSection:0]]];
-    
-    
-    [UIView animateWithDuration:0.25 delay:0 options:0 animations:^() {
-        //this is -1 because if it's exactly the length of the other cell, the collectionview will already remove the cell's content (it will treat it as invisible), even though it is still visibly being animated.
-        self.mainVoteCollectionView.contentOffset = CGPointMake(self.view.frame.size.width - 1, 0);
-    } completion:^(BOOL finished) {
-        //collectioncellcounter = 1;
-        self.mainVoteCollectionView.contentOffset = CGPointMake(0, 0);
-        [self.mainVoteCollectionView reloadData];
-    }];
-    */
-    
-}
+
 
 
 @end

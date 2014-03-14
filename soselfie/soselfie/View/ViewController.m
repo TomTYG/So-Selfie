@@ -8,16 +8,23 @@
 
 #import "ViewController.h"
 #import "SSAPI.h"
+#import "TopChartCollectionViewFlowLayout.h"
+#import "SSLoadingView.h"
+
+#define CELLWIDTH 320
 
 @interface ViewController () {
     NSArray *imageDatas;
     SSVoteType currentVoteType;
+    SSDateType currentDateType;
     int previoustotalloading;
     int currentindex;
     RatingButtonsViewController *ratingButtonsViewController;
     UIView *containerViewForRatingButtonsController;
-    int cellHeight;
-    int cellWidth;
+    
+    SSLoadingView *loadingView;
+    
+    NSMutableArray *cellSizes;
 }
 
 @end
@@ -28,13 +35,25 @@
 {
     [super viewDidLoad];
     
+    currentDateType = SSDateTypeAll;
     currentVoteType = SSVoteTypeFunny;
     
+    //setting up tabBarView
+    self.tabBarView = [[TabBarView alloc] init];
+    self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
+    self.tabBarView.headerLabel.hidden = YES;
+    self.tabBarView.dropDownViewDateType.hidden = NO;
+    self.tabBarView.dropDownViewDateType.delegate = self;
+    self.tabBarView.dropDownViewVoteType.hidden = NO;
+    self.tabBarView.dropDownViewVoteType.delegate = self;
+    [self.view addSubview:self.tabBarView];
+    
     //setting up collectionView
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    TopChartCollectionViewFlowLayout *layout = [[TopChartCollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    self.topChartCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height - 60) collectionViewLayout:layout];
+    float height = self.tabBarView.frame.origin.y + self.tabBarView.frame.size.height;
+    self.topChartCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, height, self.view.frame.size.width, self.view.frame.size.height - height) collectionViewLayout:layout];
     self.topChartCollectionView.backgroundColor = [UIColor colorWithRed:(176/255.0) green:(208/255.0) blue:(53/255.0) alpha:1];
     [self.topChartCollectionView setShowsVerticalScrollIndicator:NO];
     self.topChartCollectionView.dataSource = self;
@@ -42,64 +61,33 @@
     [self.topChartCollectionView registerClass:[TopChartCollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
     [self.view addSubview:self.topChartCollectionView];
     
-    cellHeight = 320;
-    cellWidth = 320;
     
     //setting dropdown menu
-    
+    /*
     self.dropDownMenu = [[DropDownMenu alloc] init];
     self.dropDownMenu.view.backgroundColor = [UIColor clearColor];
     self.dropDownMenu.view.frame = CGRectMake (180,-150,140,200);
     self.dropDownMenu.view.alpha = 1.0;
-    //[self addChildViewController:self.dropDownMenu];
-    [self.view addSubview:self.dropDownMenu.view];
-    //[self.view bringSubviewToFront:self.dropDownMenu.view];
-    
-    
-    //setting dropdown menu
-    
     self.dropDownMenu.tableView.delegate = self;
-    
-    //setting up tabBarView
-    
-    self.tabBarView = [[TabBarView alloc] init];
-    self.tabBarView.backgroundColor = [UIColor colorWithRed:(232/255.0) green:(232/255.0) blue:(232/255.0) alpha:1];
-    self.tabBarView.headerLabel.text = @"Top Selfies";
-    self.tabBarView.filterButton.hidden = NO;
-    [self.tabBarView.filterButton addTarget:self
-                                     action:@selector(showOrHideDropDownMenu:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.tabBarView];
-    //[self.view bringSubviewToFront:self.tabBarView];
-    
-    //self.scoreViewForTopImages = [[ScoreViewForTopImages alloc] initWithFrame:CGRectMake(-160, self.view.frame.size.height/4, 160, 95)];
-    //[self.view addSubview:self.scoreViewForTopImages];
-    
-    
-    
-    //setting ratingButtonsController
-    /*
-    self.ratingButtonsController = [[RatingButtonsViewController alloc] init];
-    self.ratingButtonsController.view.backgroundColor = [UIColor clearColor];
-    self.ratingButtonsController.view.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, 320, 248);
-    self.ratingButtonsController.delegate = self;
-    //[self addChildViewController:self.ratingButtonsController];
-    [self.view addSubview:self.ratingButtonsController.view];
-    //[self.view bringSubviewToFront:self.ratingButtonsController.view];
+    [self.view addSubview:self.dropDownMenu.view];
     */
-     
+    
+    
+    
+    
+    
     imageDatas = @[];
     
+    loadingView = [[SSLoadingView alloc] initWithFrame:CGRectZero];
+    loadingView.alpha = 0;
+    CGRect cr = loadingView.frame;
+    cr.origin.x = self.topChartCollectionView.frame.origin.x + 0.5 * self.topChartCollectionView.frame.size.width - 0.5 * cr.size.width;
+    cr.origin.y = self.topChartCollectionView.frame.origin.y + 0.5 * self.topChartCollectionView.frame.size.height - 0.5 * cr.size.height;
+    loadingView.frame = cr;
+    [self.view addSubview:loadingView];
     
-    /*
-    ratingButtonsViewController = [[RatingButtonsViewController alloc] init];
-    ratingButtonsViewController.view.frame = CGRectMake(0, -ratingButtonsViewController.soFunnyButton.frame.size.height *2, self.view.frame.size.width, ratingButtonsViewController.soFunnyButton.frame.size.height *2);
-    ratingButtonsViewController.controllerIsDisplayed = NO;
+    [self.tabBarView.superview bringSubviewToFront:self.tabBarView];
     
-    containerViewForRatingButtonsController = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabBarView.frame.size.height + cellHeight, self.view.frame.size.width, ratingButtonsViewController.soFunnyButton.frame.size.height *2)];
-    containerViewForRatingButtonsController.clipsToBounds = YES;
-    [self.view addSubview:containerViewForRatingButtonsController];
-    [containerViewForRatingButtonsController addSubview:ratingButtonsViewController.view];
-     */
 }
 
 -(void)becameVisible {
@@ -107,6 +95,7 @@
     
     imageDatas = @[];
     previoustotalloading = 0;
+    cellSizes = [[NSMutableArray alloc] init];
     
     [self loadNextImagesBatch];
     
@@ -114,21 +103,33 @@
 
 -(void)loadNextImagesBatch {
     
+    //todo: check the load conditions on load complete to verify that these are still valid when the load is done. Not doing this can cause a crash where images for something you clicked on forever ago are done loading when the view requirements have already changed.
+    
     if (previoustotalloading >= imageDatas.count + 1) return;
     
-    //NSLog(@"loading from %i", imageDatas.count);
+    if (previoustotalloading == 0) loadingView.alpha = 1;
     
     previoustotalloading = imageDatas.count + 1;
     
-    [SSAPI getTopSelfiesForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] andVoteCategory:currentVoteType startingFromIndex:imageDatas.count onComplete:^(int totalSelfies, NSArray *images, NSError *error){
+    [SSAPI getTopSelfiesForMinimumAge:[SSAPI agemin] andMaximumAge:[SSAPI agemax] andGenders:[SSAPI genders] andVoteCategory:currentVoteType andDateType:currentDateType startingFromIndex:imageDatas.count onComplete:^(int totalSelfies, NSArray *images, NSError *error){
         
         self.topChartCollectionView.scrollEnabled = YES;
         
+        loadingView.alpha = 0;
+        
         if (error != nil) return;
         
-        if (images.count == 0) return;
-        
         int prevCount = imageDatas.count;
+        
+        if (images.count == 0) {
+            if (prevCount == 0) {
+                [self.topChartCollectionView reloadData];
+            }
+            
+            return;
+        };
+        
+        
         
         imageDatas = [imageDatas arrayByAddingObjectsFromArray:images];
         
@@ -138,7 +139,6 @@
             [self.topChartCollectionView reloadData];
             [self.topChartCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
             
-            
             return;
         }
         
@@ -147,8 +147,6 @@
             NSIndexPath *p = [NSIndexPath indexPathForItem:prevCount + i inSection:0];
             [a addObject:p];
         }
-        
-        
         
         [self.topChartCollectionView insertItemsAtIndexPaths:a];
         
@@ -207,7 +205,13 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(cellWidth, cellHeight);
+    
+    while (indexPath.item >= cellSizes.count) {
+        CGSize cs = CGSizeMake(CELLWIDTH, CELLWIDTH);
+        [cellSizes addObject:[NSValue valueWithCGSize:cs]];
+    }
+    //NSLog(@"size for item %i %@", indexPath.item, cellSizes[indexPath.item]);
+    return [cellSizes[indexPath.item] CGSizeValue];
     
 }
 
@@ -220,6 +224,7 @@
         [cell setScoreViewStatus:NO instant:NO];
     }
     //[self.ratingButtonsController slideDownWithDuration:0.4];
+    [self.tabBarView closeAllDropDownMenus];
     
     if(self.dropDownMenu.menuIsHidden == NO){
         [self showOrHideDropDownMenu:nil];
@@ -235,7 +240,29 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     currentindex = indexPath.item;
     
+    [self.tabBarView closeAllDropDownMenus];
+    
+    
+    
+    [self closeAllCellsExcept:indexPath.item];
+    
+    TopChartCollectionViewCell *cell = (TopChartCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    [self setCellAtIndex:indexPath.item openStatus:!cell.open];
+    
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+    
+    /*
+    [UIView transitionWithView:collectionView duration:2 options:UIViewAnimationOptionAllowAnimatedContent animations:^() {
+        cell.frame = cr;
+    } completion:^(BOOL finished){
+        
+    }];
+    */
+    
+    return;
+    
+    
+    
     
     TopChartCollectionViewCell *currentCell = (TopChartCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
@@ -247,6 +274,7 @@
     
     
     [currentCell setScoreViewStatus:!currentCell.scoreViewIsVisible instant:NO];
+    
     //[currentCell displayScoreViewOnTap];
     
     //NSLog (@"data is %@",imageDatas[indexPath.item]);
@@ -262,6 +290,53 @@
     }];
     */
 
+}
+
+-(void)setCellAtIndex:(int)index openStatus:(BOOL)open {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    
+    TopChartCollectionViewCell *cell = (TopChartCollectionViewCell*)[self.topChartCollectionView cellForItemAtIndexPath:indexPath];
+    cell.open = open;
+    CGRect cr = cell.frame;
+    CGSize cs = [cellSizes[indexPath.item] CGSizeValue];
+    float largeValue = cell.extraView.frame.origin.y + cell.extraView.frame.size.height;
+    cs.height = open ? largeValue : 320;
+    cr.size = cs;
+    
+    [self.topChartCollectionView performBatchUpdates:^() {
+        
+        [self.topChartCollectionView.collectionViewLayout invalidateLayout];
+        
+        cellSizes[indexPath.item] = [NSValue valueWithCGSize:cs];
+        
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+-(void)closeAllCellsExcept:(int)index {
+    
+    [self.topChartCollectionView performBatchUpdates:^() {
+        
+        [self.topChartCollectionView.collectionViewLayout invalidateLayout];
+        
+        for (int i = 0; i < cellSizes.count; i++) {
+            if (i == index) continue;
+            
+            CGSize cs = [cellSizes[i] CGSizeValue];
+            if (cs.height == 320) continue;
+            cs.height = 320;
+            
+            cellSizes[i] = [NSValue valueWithCGSize:cs];
+        }
+        
+        //cellSizes[indexPath.item] = [NSValue valueWithCGSize:cs];
+        
+    } completion:^(BOOL finished){
+        
+    }];
+    
+    
 }
 
 - (void)displayRatingButtonsController {
@@ -308,31 +383,15 @@
 }
 
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath  *)indexPath {
+-(void)dropDownView:(SSDropDownView *)dropDownView clickedIndex:(int)index {
     
-    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    //NSLog(@"cell %@ %@", cell, cell.backgroundColor);
+    [self.tabBarView closeAllDropDownMenus];
     
-    //self.tabBarView.filterButton.backgroundColor = newColor;
+    NSDictionary *item = dropDownView.items[index];
+    if (item[@"datetype"] != nil) currentDateType = [item[@"datetype"] integerValue];
+    if (item[@"votetype"] != nil) currentVoteType = [item[@"votetype"] integerValue];
     
-    UIColor *newColor;
-    
-    newColor = [self.dropDownMenu getBackgroundColorForIndex:indexPath.row];
-    [self.tabBarView.filterButton setbackgroundColorNormal:newColor];
-    
-    newColor = [self.dropDownMenu getHighlightColorForIndex:indexPath.row];
-    [self.tabBarView.filterButton setbackgroundColorHighlighted:newColor];
-    
-    [self.tabBarView.filterButton setTitle:[tableView cellForRowAtIndexPath:indexPath].textLabel.text forState:UIControlStateNormal];
-    self.tabBarView.filterButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    
-    currentVoteType = indexPath.row + 1;
-    
-    [self becameVisible];
-    
-    
-    
+    UIColor *newColor = item[@"color"];
     [UIView animateWithDuration:0.6
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
@@ -341,10 +400,9 @@
                      }
                      completion:nil];
     
-    [self showOrHideDropDownMenu:nil];
-    
-    
+    [self becameVisible];
 }
+
 
 
 

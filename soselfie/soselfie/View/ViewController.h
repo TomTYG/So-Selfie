@@ -15,7 +15,7 @@
 #import "SSMacros.h"
 #import "VoteButtonView.h"
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate, RatingButtonsViewControllerDelegate>
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDelegate, RatingButtonsViewControllerDelegate, SSDropDownViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *topChartCollectionView;
 @property (strong, nonatomic) RatingButtonsViewController *ratingButtonsController;
